@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="body">
-        <?php require('template/content/content-admin-user-manager.php'); ?>
+        <?php require('template/content/content-admin-tax-manager.php'); ?>
     </div>
 </body>
 </html>

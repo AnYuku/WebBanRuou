@@ -49,7 +49,7 @@
                     <div class="content_admin_form_1_item">
                         <a class="content_admin_form_1_item_text content_admin_form_text_style">Tiền của bạn:</a>
                         <div class="content_admin_form_1_item_input">
-                            <input type="text" class="content_admin_form_input_style" style="width: 50%;">
+                            <input type="text" class="content_admin_form_input_style" style="width: 50%;" readonly>
                         </div>
                     </div>
                     <div class="content_admin_form_1_item">
@@ -171,7 +171,7 @@
     $(document).ready(function() {
         $.ajax({
             url: "./template/dbconnection_GET.php",
-            type: "POST",
+            type: "GET",
             data: { table_name: "useraccount" },
             dataType: "json",
             success: function(result) {
