@@ -1,0 +1,922 @@
+<!-- HTML cho cửa sổ thêm sản phẩm -->
+<div id="add-product-window" class="product-window" style="display:none;">
+    <button id="close-add-product-button" class="close-btn" style="margin:10px">&times;</button>
+    <form method="POST" class='product-form' action="manageProduct.php">
+        <img id="previewImage" src="no_image.jpg" alt="Preview Image">
+        <div class="field">
+            <label for="">Đường dẫn ảnh</label>
+            <input type="url" id="imageInput" required onchange="addImage('previewImage','imageInput')">
+            <button type="button" id="add_image" onclick="addImage()"><i class="fa-solid fa-upload"></i></i> Tải ảnh</button>
+        </div>
+        <div class="field">
+            <label>Tên sản phẩm</label>
+            <input type="text" id="productName" name="product_name" required minlength="1">
+        </div>
+        <div class="field">
+            <label for="">Giá sản phẩm</label>
+            <input type="number" name="productPrice" class="numberInput" id="Price" required min="1000">
+        </div>
+        <div class="field tax-checkbox">
+            <label for="">Thuế 1</label>
+            <input type="checkbox" id="tax1" name="tax1" value="1">
+            <label for="">Thuế 2</label>
+            <input type="checkbox" id="tax2" name="tax2" value="1">
+            <label for="">Thuế 3</label>
+            <input type="checkbox" id="tax3" name="tax3" value="1">
+
+        </div>
+        <div class="field">
+            <label for="">Số lượng</label>
+            <input type="number" id="Quan" name="product_quanlity" class="numberInput" required min="0" value="0">
+        </div>
+        <div class="field">
+            <label for="">Loại</label>
+            <select id="category">
+                <option value="C00001">Rượu vang đỏ</option>
+                <option value="C00002">Rượu vang trắng</option>
+                <option value="C00003">Vang bịch</option>
+                <option value="C00004">Rượu vang nổ</option>
+                <option value="C00005">Vang hồng</option>
+                <option value="C00006">Vang ngọt</option>
+                <option value="C00007">Vang organic</option>
+                <option value="C00008">Champagne</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="">Mô tả</label>
+            <textarea id="Descript" name="product_description" rows="4" cols="50"></textarea>
+        </div>
+        <div class="field">
+            <button type="button" id="submit-add-product">Thêm sản phẩm</button>
+        </div>
+
+    </form>
+</div>
+
+
+<!-- HTML của form chỉnh sửa sản phẩm -->
+<div id="edit-product-window" class="product-window" style="display:none;">
+    <button id="close-edit-product-window" class="close-btn" style="margin:10px">&times;</button>
+    <form method="POST" class='product-form' action="manageProduct.php">
+        <img id="edit_previewImage" src="no_image.jpg" alt="Preview Image">
+        <div class="field">
+            <label for="">Đường dẫn ảnh</label>
+            <input type="url" id="edit_imageInput" required onchange="addImage('edit_previewImage','edit_imageInput')">
+            <button type="button" id="add_image" onclick="addImage('edit_previewImage','edit_imageInput')"><i class="fa_solid fa_upload"></i></i> Tải ảnh</button>
+        </div>
+        <div class="field">
+            <label>ID sản phẩm</label>
+            <input type="text" id="edit_ProductNum" disabled >
+        </div>
+        <div class="field">
+            <label>Tên sản phẩm</label>
+            <input type="text" id="edit_productName" name="product_name" required minlength="1">
+        </div>
+        <div class="field">
+            <label for="">Giá sản phẩm</label>
+            <input type="number" name="edit_productPrice" class="numberInput" id="edit_productPrice" required min="1000">
+        </div>
+        <div class="field tax-checkbox">
+            <label for="">Thuế 1</label>
+            <input type="checkbox" id="edit_tax1" name="tax1" value="1">
+            <label for="">Thuế 2</label>
+            <input type="checkbox" id="edit_tax2" name="tax2" value="1">
+            <label for="">Thuế 3</label>
+            <input type="checkbox" id="edit_tax3" name="tax3" value="1">
+
+        </div>
+        <div class="field">
+            <label for="">Số lượng</label>
+            <input type="number" id="edit_Quan" name="product_quanlity" class="numberInput" required min="0" value="0">
+        </div>
+        <div class="field">
+            <label for="">Loại</label>
+            <select id="edit_category">
+                <option value="C00001">Rượu vang đỏ</option>
+                <option value="C00002">Rượu vang trắng</option>
+                <option value="C00003">Vang bịch</option>
+                <option value="C00004">Rượu vang nổ</option>
+                <option value="C00005">Vang hồng</option>
+                <option value="C00006">Vang ngọt</option>
+                <option value="C00007">Vang organic</option>
+                <option value="C00008">Champagne</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="">Mô tả</label>
+            <textarea id="edit_Descript" name="product_description" rows="4" cols="50"></textarea>
+        </div>
+        <!-- <div class="field"> -->
+            <button type="button" id="submit-edit-product">Lưu</button>
+        </div>
+
+    </form>
+</div>
+<!-- HTML form xóa sản phẩm -->
+<div id="delete-product-window" style="display: none">
+    <label>Bạn có chắc chắc muốn xóa sản phẩm <span id="delete-product-name"> </span></label>
+    <div class="button-container">
+        <button id="delete-product-confirm">Có</button>
+        <button id="delete-product-cancel">Hủy</button>
+    </div>
+</div>
+
+<!----------------------------- Table sản phẩm -->
+<div class="container">
+    <div class='top-bar'>
+        <div class="search-container">
+            <form action="manageProduct.php">
+                <input type="text" placeholder="Search" name="search">
+                <button type="button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="add-product">
+            <form menthod="POST">
+                <button type="button" id='add-product-button'>Thêm sản phẩm</button>
+            </form>
+        </div>
+    </div>
+    <div class="table-manager">
+        <table id="content_admin_product_table">
+            <tr>
+                <th>Product Number</th>
+                <th>Product Name</th>
+                <!-- <th>Description</th> -->
+                <th>Price</th>
+                <th>Active</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Action</th>
+            </tr>
+            <tbody>
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+
+<style>
+    /* CSS để ẩn cửa sổ thêm sản phẩm */
+    .product-window {
+        position: fixed;
+        width: 80%;
+        height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 30px;
+        z-index: 9999;
+    }
+
+    /* Ẩn mũi tên ở input type number */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    /* CSS cho nút đóng */
+    .close-btn {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        font-size: 30px;
+        color: #aaa;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    img {
+        width: 20%;
+        height: auto;
+        float: right;
+        margin-right: 10%;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #961313;
+        border-radius: 10px;
+    }
+
+    .category-field {
+        float: right
+    }
+
+    .container {
+        background-color: rgba(217, 217, 217, 0.5);
+        max-width: 90%;
+        /* height: 90%; */
+        margin: 10px auto;
+        padding: 1rem;
+    }
+
+    .product-form .field {
+        margin: 15px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .product-form .field {
+        display: flex;
+        /* align-items: center; */
+        /* margin-bottom: 10px; */
+    }
+
+    .product-form .field label {
+        width: 150px;
+        text-align: left;
+        margin-right: 10px;
+    }
+
+    .product-form .field.tax-checkbox label {
+        width: 60px;
+    }
+
+    .product-form input[type=text],
+    input[type=number],
+    input[type=url] {
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        outline: none;
+        /* width: 40%; */
+        border: solid 1px #ccc;
+    }
+
+    .product-form input[type=checkbox] {
+        margin-right: 70px;
+        transform: scale(1.5);
+    }
+
+    .product-form select {
+        font-size: 15px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .product-form #submit-add-product {
+        /* align-items: center; */
+        padding: 10px;
+        display: block;
+        margin: 0 auto;
+        background-color: #961313;
+        color: white;
+        border-radius: 5px;
+        font-size: 20px;
+        border: none;
+    }
+
+    .search-container {
+        float: left;
+        width: 60%;
+        /* position: absolute; */
+    }
+
+    .add-product {
+        float: right;
+    }
+
+    .search-container input[type=text] {
+        padding: 6px;
+        /* padding-right: 90%; */
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+        background-color: #D9D9D9;
+        width: 60%;
+    }
+
+    .search-container button {
+        /* float: right; */
+        position: absolute;
+        padding: 6px 10px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: solid 2px #D9D9D9;
+        margin-right: 25px;
+        cursor: pointer;
+    }
+
+    .search-container button:hover {
+        background: #ccc;
+
+    }
+
+    .add-product button {
+        background-color: #961313;
+        padding: 6px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+    .add-product button:hover {
+        cursor: pointer;
+
+    }
+
+    #submit-edit-product{
+        background-color: #961313;
+        padding: 6px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: -8px;
+        font-size: 17px;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        float:right
+    }
+    #submit-edit-product:hover{
+        cursor: pointer;
+    }
+    
+    #delete-product-window{
+        display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+    }
+    #delete-product-window label{
+        /* margin-bottom: 20px; */
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    #delete-product-cancel{
+        background-color: lightgray;
+        color: black;
+        padding: 5px 10px;
+        border: none;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    #delete-product-confirm{
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        margin-right: 30%;
+    }
+
+    .topnav input[type=text] {
+        border: 1px solid #ccc;
+    }
+
+    .table-manager {
+        /* display: flex; */
+        flex-direction: column;
+    }
+
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        resize: horizontal;
+        overflow: auto;
+        /* table-layout: fixed; */
+        /* height: 100%; */
+        /* cursor: ew-resize; */
+        /* outline: none; */
+
+    }
+    table input[type=checkbox] {
+        transform: scale(1.5);
+    }
+
+    td:nth-child(1) {
+        /* text-align: center; */
+        width: 130px;
+    }
+
+
+    td:nth-child(4) {
+        text-align: center;
+        width: 35px;
+        
+    }
+
+    td:nth-child(6) {
+        text-align: center;
+        width: 40px;
+    }
+
+    td:nth-child(7) {
+        text-align: center;
+        width: 108px;
+    }
+
+    th,
+    td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+        resize: horizontal;
+        overflow: auto;
+        word-wrap: break-word;
+    }
+
+    th {
+        background-color: #961313;
+        color: white;
+        resize: horizontal;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .fa-toggle-on {
+        color: green;
+    }
+
+    .fa-toggle-off {
+        color: red;
+    }
+
+
+    /* CSS */
+    .btn-edit {
+        /* background-color: yellow; */
+        border-style: none;
+        padding: 5px;
+    }
+
+    .btn-edit:hover {
+        cursor: pointer;
+        text-decoration: underline;
+
+    }
+
+    .btn-del {
+        /* background-color: yellow; */
+        border-style: none;
+        padding: 5px;
+    }
+
+    .btn-del:hover {
+        cursor: pointer;
+        text-decoration: underline;
+
+    }
+
+
+
+    /* CSS cho hộp thoại edit */
+    .edit-form {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .edit-form-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+    }
+
+    .edit-form input[type=text],
+    .edit-form input[type=number],
+    .edit-form input[type=date] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .edit-form button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .edit-form button:hover {
+        background-color: #45a049;
+    }
+</style>
+<script src="https://kit.fontawesome.com/44c01e1bca.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script>
+    //------------- THÊM SẢN PHẨM--------------
+    // Lấy đối tượng nút thêm sản phẩm
+    var addProductButton = document.getElementById('add-product-button');
+
+    // Thêm sự kiện click cho nút
+    addProductButton.addEventListener('click', function() {
+        // Hiển thị cửa sổ thêm sản phẩm
+        var addProductWindow = document.getElementById('add-product-window');
+        addProductWindow.style.display = 'block';
+    });
+    // Lấy đối tượng nút đóng cửa sổ
+    var closeAddProductButton = document.getElementById('close-add-product-button');
+
+    // Thêm sự kiện click cho nút đóng cửa sổ
+    closeAddProductButton.addEventListener('click', function() {
+        // Ẩn cửa sổ thêm sản phẩm
+        var addProductWindow = document.getElementById('add-product-window');
+        addProductWindow.style.display = 'none';
+    });
+
+
+    //-------------------THÊM ẢNH--------------
+    function addImage() {
+        const imageUrl = document.getElementById('imageInput').value;
+        if (imageUrl) {
+            document.getElementById("previewImage").innerHTML = "";
+            document.getElementById("previewImage").src = imageUrl;
+        }
+        if (imageUrl == "") {
+            document.getElementById("previewImage").innerHTML = "";
+            document.getElementById("previewImage").src = "no_image.jpg";
+        }
+    }
+
+    function addImage(imageLocation, imageSrc) {
+        const imageUrl = document.getElementById(imageSrc).value;
+        if (imageUrl) {
+            document.getElementById(imageLocation).innerHTML = "";
+            document.getElementById(imageLocation).src = imageUrl;
+        }
+        if (imageUrl == "") {
+            document.getElementById(imageLocation).innerHTML = "";
+            document.getElementById(imageLocation).src = "no_image.jpg";
+        }
+    }
+
+
+
+
+    // <!----------------- CHỈNH SỬA SẢN PHẨM---------------------- -->
+    // Thêm sự kiện click cho nút chỉnh sửa
+    function openEditForm(button) {
+        var editForm = document.getElementById('edit-product-window');
+        // Nếu form chỉnh sửa đang ẩn, hiển thị nó
+        if (editForm.style.display === 'none') {
+            editForm.style.display = 'block';
+        }
+        // Nếu form chỉnh sửa đang hiển thị, ẩn nó
+        else {
+            editForm.style.display = 'none';
+        }
+
+        // Ẩn cửa sổ sửa sản phẩm
+        var closeEditProductButton = document.getElementById('close-edit-product-window');
+        closeEditProductButton.addEventListener('click', function() {
+            var editProductWindow = document.getElementById('edit-product-window');
+            editProductWindow.style.display = 'none';
+        });
+        // Lấy id sản phẩm cần edit
+        var id = button.getAttribute('data-id');
+        var productId = button.getAttribute('data-id'); // Lấy ID của sản phẩm từ thuộc tính data-id của nút chỉnh sửa
+        // console.log(productId);
+
+        // Gửi yêu cầu AJAX để truy vấn thông tin sản phẩm từ server
+        $.ajax({
+            url: 'edit_product.php',
+            type: 'GET',
+            data: {
+                table_name: "product",
+                productId: productId
+            },
+            success: function(response) {
+                // Giải mã dữ liệu JSON trả về từ server
+                var productInfo = JSON.parse(response);
+                // Cập nhật giá trị các trường trong form với thông tin của sản phẩm
+                document.getElementById('edit_ProductNum').value = productInfo[0].ProductNum;
+                document.getElementById('edit_productName').value = productInfo[0].ProductName;
+                document.getElementById('edit_productPrice').value = productInfo[0].Price;
+                document.getElementById('edit_Quan').value = productInfo[0].Quan;
+                document.getElementById('edit_Descript').value = productInfo[0].Descript;
+                $('#edit_category').val(productInfo[0].CatId);
+                $('#edit_imageInput').val(productInfo[0].ImageSource);
+                $('#edit_previewImage').attr('src', productInfo[0].ImageSource);
+
+                // Cập nhật trạng thái của các checkbox thuế
+                $('#edit_tax1').prop('checked', productInfo[0].Tax1 === '1');
+                $('#edit_tax2').prop('checked', productInfo[0].Tax2 === '1');
+                $('#edit_tax3').prop('checked', productInfo[0].Tax3 === '1');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                console.log(productId);
+            }
+
+
+        });
+    }
+    // --------------------------------------XÓA SẢN PHẨM-----------------------------
+    function openDeleteConfirm(button){
+        var deleteForm = document.getElementById('delete-product-window');
+        var closeDeleteProductButton = document.getElementById('delete-product-cancel')
+        // Nếu form chỉnh sửa đang ẩn, hiển thị nó
+        if (deleteForm.style.display === 'none') {
+            deleteForm.style.display = 'block';
+        }
+        // Nếu form chỉnh sửa đang hiển thị, ẩn nó
+        else {
+            deleteForm.style.display = 'none';
+        }
+        closeDeleteProductButton.addEventListener('click', function() {
+            var DeleteProductWindow = document.getElementById('delete-product-window');
+            DeleteProductWindow.style.display = 'none';
+        });
+        var id = button.getAttribute('data-id');
+        var productId = button.getAttribute('data-id');
+        $("#delete-product-confirm").on("click", function() {
+        $.ajax({
+            url: 'dbconnection_DELETE.php',
+            type: 'POST',
+            data: {
+                table_name: "product",
+                id_object: productId
+            },
+            success: function(response) {
+                console.log(response);
+                if (response) {
+                    alert('Xóa sản phẩm thành công!');
+                    location.reload();
+                } else {
+                    alert('Có lỗi khi xóa sản phẩm.');
+                }
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                console.log(productId);
+            }
+
+        })
+        });
+
+    }
+
+    // -------------------Ajax hiển thị sản phẩm vào table---------------------------------
+    var index = 0;
+    $(document).ready(function() {
+        var pro = [];
+        var cat = [];
+
+        $.ajax({
+            url: "dbconnection_GET.php",
+            type: "GET",
+            data: {
+                table_name: "product"
+            },
+            dataType: "json",
+            success: function(result) {
+                pro = result;
+            }
+        }).then(function() {
+            $.ajax({
+                url: "dbconnection_GET.php",
+                type: "GET",
+                data: {
+                    table_name: "category"
+                },
+                dataType: "json",
+                success: function(result) {
+                    cat = result;
+                    const proByCat = [];
+                    const newPro = pro.map((itemPro) => {
+                        const filteredCat = cat.filter(_ => _.CatId + '' === itemPro.CatId + '');
+                        const catName = filteredCat.length > 0 ? filteredCat[0].CatName : '';
+                        return {
+                            ...itemPro,
+                            CatName: catName
+                        }
+                    });
+                    // console.log(newPro);
+                    $.each(newPro, function(i, item) {
+                        // var activeIcon = item.IsActive == 1 ? '<input type="checkbox" name="IsActive" id="IsActive" value="1" checked>' :
+                        //     '<input type="checkbox" name="IsActive" id="IsActive" value="0">';
+                        var activeIcon = item.IsActive == 1 ? '<button id="IconActive" value=1><i class="fas fa-toggle-on"></i></button>' :
+                                '<button id="IconDeactive" value=0><i class="fas fa-toggle-off"></i></button>';
+                        var priceFormatted = Number(item.Price).toLocaleString("vi-VN");
+                        var id = item.ProductNum;
+                        $("#content_admin_product_table tbody").append(
+                            "<tr>" +
+                            "<td>" + item.ProductNum + "</td>" +
+                            "<td>" + item.ProductName + "</td>" +
+                            "<td>" + priceFormatted + "</td>" +
+                            "<td>" + activeIcon + "</td>" +
+                            "<td>" + item.CatName + "</td>" +
+                            "<td>" + item.Quan + "</td>" +
+                            "<td>" + '<button class="btn-edit" data-id=' + item.ProductNum + ' onclick="openEditForm(this)">Edit</button> | <button class="btn-del" data-id=' + item.ProductNum + ' onclick="openDeleteConfirm(this)">Delete</button>' + "</td>" +
+                            "</tr>"
+                        );
+                        index++;
+                    });
+                    console.log("Số lượng sản phẩm đã thêm: " + index);
+                }
+            })
+        });
+    });
+
+    // -----------------------Kiểm tra hình ảnh
+    function checkProductImage() {
+        document.getElementById("imageInput");
+        if (imageInput.validity.valueMissing) {
+            imageInput.setCustomValidity("Vui lòng nhập đường dẫn ảnh");
+            imageInput.reportValidity();
+            imageInput.style.borderColor = "red";
+            return false;
+        } else if (imageInput.validity.typeMismatch) {
+            imageInput.setCustomValidity("Vui lòng nhập đường dẫn ảnh hợp lệ");
+            imageInput.reportValidity();
+            imageInput.style.borderColor = "red";
+            return false;
+        } else {
+            imageInput.setCustomValidity("");
+            imageInput.style.borderStyle = "none";
+            return true;
+        }
+    }
+
+    // ----------------------KiếM tra tên sản phẩm
+    function checkProductName() {
+        var productName = document.getElementById("productName");
+        if (productName.validity.valueMissing) {
+            productName.setCustomValidity("Vui lòng nhập tên sản phẩm");
+            productName.reportValidity();
+            productName.style.borderColor = "red";
+            return false;
+        } else if (productName.validity.tooShort) {
+            productName.setCustomValidity("Tên sản phẩm phải có ít nhất 2 ký tự");
+            productName.reportValidity();
+            productName.style.borderColor = "red";
+            return false;
+        } else {
+            productName.setCustomValidity("");
+            productName.style.borderStyle = "none";
+            return true;
+        }
+    }
+    // -------------------------Kiểm tra giá sản phẩm
+    function checkProductPrice() {
+        var productPrice = document.getElementById("Price");
+        if (productPrice.validity.valueMissing) {
+            productPrice.setCustomValidity("Vui lòng nhập giá sản phẩm");
+            productPrice.reportValidity();
+            productPrice.style.borderColor = "red";
+            return false;
+        } else if (productPrice.value < 1000) {
+            productPrice.setCustomValidity("Giá sản phẩm không được nhỏ hơn 1000");
+            productPrice.reportValidity();
+            productPrice.style.borderColor = "red";
+            return false;
+        } else {
+            productPrice.style.borderStyle = "none";
+            return true;
+        }
+    }
+    // ------------------------Kiểm tra số lượng sản phẩm
+    function checkProductQuantity() {
+        var checkProductQuantity = document.getElementById("Quan");
+        if (checkProductQuantity.value < 0) {
+            checkProductQuantity.setCustomValidity("Số lượng sản phẩm không được nhỏ hơn 0");
+            checkProductQuantity.reportValidity();
+            checkProductQuantity.style.borderColor = "red";
+            return false;
+        } else {
+            checkProductQuantity.style.borderStyle = "none";
+            return true;
+        }
+    }
+    // ---------------------------------Ajax thêm sản phẩm-------------------------
+    $(document).ready(function() {
+        $("#submit-add-product").on("click", function() {
+            if (checkProductImage() == true && checkProductName() == true && checkProductPrice() == true &&
+                checkProductQuantity() == true) {
+                var data_insert = {
+                    ProductNum: "P" + (index + 1).toString().padStart(5, "0") + '',
+                    ProductName: $("#productName").val() + '',
+                    Descript: "" + '',
+                    Price: $("#Price").val() + '',
+                    Tax1: $('#tax1').is(':checked') ? Number('1') : Number('0') + '',
+                    Tax2: $('#tax2').is(':checked') ? Number('1') : Number('0') + '',
+                    Tax3: $('#tax3').is(':checked') ? Number('1') : Number('0') + '',
+                    Quan: $("#Quan").val() + '',
+                    IsActive: 1 + '',
+                    CatId: $("#category").val() + '',
+                    ImageSource: $("#imageInput").val() + '',
+                };
+                console.log(data_insert);
+                $.ajax({
+                    url: 'dbconnection_POST.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        table_name: 'product',
+                        data_insert: JSON.stringify(
+                            data_insert
+                        )
+                    },
+
+                    success: function(response) {
+                        // Xử lý phản hồi từ API
+                        console.log(response);
+                        if (response) {
+                            alert('Thêm sản phẩm thành công!');
+                            location.reload();
+                        } else {
+                            alert('Có lỗi khi thêm sản phẩm.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + xhr.statusText
+                        alert('Có lỗi khi gửi dữ liệu tới API. ' + errorMessage);
+                    }
+
+                })
+            }
+
+
+        })
+    });
+
+    // ------------------------Ajax lưu sản phẩm đã edit--------------------------
+
+    $("#submit-edit-product").on("click", function() {
+        var data_insert = {
+            ProductNum:$("#edit_ProductNum").val() + '',
+            ProductName: $("#edit_productName").val() + '',
+            Descript: "" + '',
+            Price: $("#edit_Price").val() + '',
+            Tax1: $('#edit_tax1').is(':checked') ? Number('1') : Number('0') + '',
+            Tax2: $('#edit_tax2').is(':checked') ? Number('1') : Number('0') + '',
+            Tax3: $('#edit_tax3').is(':checked') ? Number('1') : Number('0') + '',
+            Quan: $("#edit_Quan").val() + '',
+            IsActive: 1 + '',
+            CatId: $("#edit_category").val() + '',
+            ImageSource: $("#edit_imageInput").val() + '',
+        };
+        $.ajax({
+            url: 'edit_product.php',
+            type: 'POST',
+            data: {                
+                data_insert: JSON.stringify(
+                    data_insert
+                )
+            },
+            success: function(response) {
+                // Xử lý phản hồi từ API
+                console.log(response);
+                if (response) {
+                    alert('Lưu sản phẩm thành công!');
+                    location.reload();
+                } else {
+                    alert('Có lỗi khi lưu sản phẩm.');
+                }
+            },
+            error: function(xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText
+                alert('Có lỗi khi gửi dữ liệu tới API. ' + errorMessage);
+            }
+        })
+    })
+</script>
