@@ -1,13 +1,13 @@
 <?php
-    session_start();
+session_start();
 
-    //neu da login
-    if (isset($_SESSION['logged_in'])){
-        header("location: Personal.php");  
-        exit();
-    }
+//neu da login
+// if (isset($_SESSION['logged_in'])) {
+//     // header("location: Personal.php");
+//     exit();
+// }
 
-    if (isset($_POST['login'])) {
+if (isset($_POST['login'])) {
 
     // Create connection
     $conn = new mysqli('localhost', 'admin', 'admin', 'pubmanager');
@@ -15,23 +15,31 @@
     if ($conn->connect_errno) {
         echo "Failed to connect to MySQL: " . $mysqli->connect_error;
         // exit();
-    }
-    else{
+    } else {
         mysqli_set_charset($conn, "utf8");
     }
 
     // kiem tra thong tin dang nhap
     $username = $conn->real_escape_string($_POST['username']);
     $password = $conn->real_escape_string($_POST['password']);
-    $data = $conn->query("SELECT userid FROM useraccount WHERE UserName='$username' AND UserPassword='$password'");
-    if ($data->num_rows > 0) {     
+    $data = $conn->query("SELECT * FROM useraccount WHERE UserName='$username' AND UserPassword='$password'");
+    if ($data->num_rows > 0) {
         // dang nhap thanh cong 
         $_SESSION['logged_in'] = '1';
-        $_SESSION['username'] = $username;   
-        exit('success');
-    } else {        
-        // dang nhap that bai
-        exit('abc');
+        $_SESSION['username'] = $username;
+        $user = mysqli_fetch_assoc($data);
+        $accessLevel = $user["AccessLevel"];
+        if ($accessLevel == 100) {
+            // Người dùng là admin
+            exit('admin');
+        } else if ($accessLevel == 50) {
+            // Người dùng là khách hàng
+            exit('client');
+            // exit('success');
+        } else {
+            // dang nhap that bai
+            exit('failed');
+        }
     }
     $conn->close();
 }
@@ -40,11 +48,11 @@
 <div class="container">
     <h1>Đăng nhập</h1>
     <p id="result"></p>
-    <form method="POST" class="sign-in-form" action="Personal.php">
+    <form method="POST" class="sign-in-form">
         <div class="field">
             <label for="username">Tên đăng nhập</label>
             <input type="text" name="username" id="username" required minlength="1">
-            
+
         </div>
         <div class="field">
             <label for="password">Mật khẩu</label>
@@ -53,7 +61,7 @@
             <small></small>
         </div>
         <div class="center-button">
-            <button type="button" id="submit"  class="submit" name="login" value="login" >Đăng nhập</button>
+            <button type="button" id="submit" class="submit" name="login" value="login">Đăng nhập</button>
         </div>
     </form>
     <div>
@@ -99,7 +107,7 @@
         max-width: 300px;
         margin: 10px auto;
         padding: 1rem;
-        
+
     }
 
     h1 {
@@ -245,15 +253,22 @@
                     username: _username,
                     password: _password,
                 },
-                success: function(result) {
-                    
-                    $("#result").html(result);
-                    if(result.indexOf("success") >=0 )
-                        window.location = 'Personal.php';
-                        // console.log(result.indexOf("success"));
-                    else 
+                success: function(response) {
+
+                    // $("#result").html(result);
+                    console.log(response);
+                    if (response=='admin') {
+                            alert('Day la trang admin');
+                            location.reload();
+                    } else if(response=='client') {
+                            alert('Dang nhap khach hang thanh cong.');
+                    // if (result.indexOf("success") >= 0)
+                    //     window.location = 'Personal.php';
+                    // console.log(result.indexOf("success"));
+                    }
+                    else
                         alert("Tên đăng nhập hoặc mật khẩu không chính xác!");
-                        // console.log(result.indexOf("error"));
+                    // console.log(result.indexOf("error"));
                 },
             })
 
