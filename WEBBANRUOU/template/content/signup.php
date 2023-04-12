@@ -1,46 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['username'])) {
-    header('Location: index.php');
-    exit();
-}
-if (isset($_POST['signup'])) {
-    // $servername = "localhost";
-    // $username = "admin";
-    // $password = "admin";
-    // $dbname = "pubmanager";
-
-    // Create connection
-    $conn = new mysqli('localhost', 'admin', 'admin', 'pubmanager');
-
-    if ($conn->connect_errno) {
-        echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-    } else {
-        mysqli_set_charset($conn, "utf8");
-        // kiem tra thong tin dang ky
-        $username = $conn->real_escape_string($_POST['username']);
-        $password = $conn->real_escape_string($_POST['password']);
-        $email = $conn->real_escape_string($_POST['email']);
-
-        $data1 = $conn->query("SELECT userid FROM useraccount WHERE UserName='$username' ");
-        $data2 = $conn->query("SELECT userid FROM useraccount WHERE Email='$email'");
-        if ($data1->num_rows > 0) {
-            exit('error1');
-        } else if ($data2->num_rows > 0) {
-            exit('error2');
-        } else {
-            $UserID = hash_hmac('sha256', $username, '123654789');
-            $query = "INSERT INTO useraccount (UserID, UserName, UserPassword, Email, AccessLevel, IsActive) VALUES ('$UserID', '$username', '$password', '$email', '50', '1')";
-            if ($conn->query($query) === TRUE) {
-                exit('success');
-            } else {
-                echo "Error: " . $query . "<br>" . $conn->error;
-            }
-        }
-    }
-    $conn->close();
-}
-?>
 
 <!-- HTML -->
 <div class="content-signup-container">
@@ -393,9 +350,6 @@ if (isset($_POST['signup'])) {
         }
 
     }
-
-
-
     $(document).ready(function() {
         console.log('ready');
         $("#submit").on("click", function() {
@@ -414,23 +368,21 @@ if (isset($_POST['signup'])) {
             checkUsername();
 
             $.ajax({
-                url: 'signup.php',
+                url: '../../template/dbconnection_SIGNUP.php',
                 method: 'POST',
-                dataType: 'text',
-                data: {
-                    signup: 1,
+                dataType: 'json',
+                data: {                    
                     username: _username,
                     password: _password,
                     email: _email,
                 },
-                success: function(result) {
-                    $("#result").html(result);
-                    if (result.indexOf("success") >= 0) {
+                success: function(response) {
+                    if (response.indexOf("success") >= 0) {
                         alert("Đăng ký thành công \nChuyển sang trang đăng nhập ");
                         window.location = 'login.php';
-                    } else if (result.indexOf("error1") >= 0) {
+                    } else if (response.indexOf("error1") >= 0) {
                         alert("Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác");
-                    } else if (result.indexOf("error2") >= 0) {
+                    } else if (response.indexOf("error2") >= 0) {
                         alert("Email đã được sử dụng, vui lòng chọn Email khác");
                     }
 
