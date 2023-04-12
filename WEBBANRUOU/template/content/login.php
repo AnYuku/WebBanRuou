@@ -8,9 +8,8 @@ session_start();
 // }
 
 if (isset($_POST['login'])) {
-
     // Create connection
-    $conn = new mysqli('localhost', 'admin', 'admin', 'pubmanager');
+    $conn = new mysqli('localhost','admin', 'admin','pubmanager');
 
     if ($conn->connect_errno) {
         echo "Failed to connect to MySQL: " . $mysqli->connect_error;
@@ -44,30 +43,31 @@ if (isset($_POST['login'])) {
     $conn->close();
 }
 ?>
+<div class="content-login-container">
+    <div class="content-login-form">
+        <h1>Đăng nhập</h1>
+        <p id="result"></p>
+        <form method="POST" class="sign-in-form">
+            <div class="field">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" name="username" id="username" required minlength="1">
 
-<div class="container">
-    <h1>Đăng nhập</h1>
-    <p id="result"></p>
-    <form method="POST" class="sign-in-form">
-        <div class="field">
-            <label for="username">Tên đăng nhập</label>
-            <input type="text" name="username" id="username" required minlength="1">
-
+            </div>
+            <div class="field">
+                <label for="password">Mật khẩu</label>
+                <input type="password" name="password" id="password" required minlength="1">
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+                <small></small>
+            </div>
+            <div class="center-button">
+                <button type="button" id="submit" class="submit" name="login" value="login">Đăng nhập</button>
+            </div>
+        </form>
+        <div>
+            <small>
+                Bạn chưa có tài khoản? <a href="signup.php">Đăng ký</a>
+            </small>
         </div>
-        <div class="field">
-            <label for="password">Mật khẩu</label>
-            <input type="password" name="password" id="password" required minlength="1">
-            <i class="bi bi-eye-slash" id="togglePassword"></i>
-            <small></small>
-        </div>
-        <div class="center-button">
-            <button type="button" id="submit" class="submit" name="login" value="login">Đăng nhập</button>
-        </div>
-    </form>
-    <div>
-        <small>
-            Bạn chưa có tài khoản? <a href="signup.php">Đăng ký</a>
-        </small>
     </div>
 </div>
 
@@ -81,7 +81,7 @@ if (isset($_POST['login'])) {
     }
 
 
-    body {
+    .content-login-container{
         font-weight: bold;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
             "Helvetica Neue", sans-serif;
@@ -92,7 +92,7 @@ if (isset($_POST['login'])) {
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url('login-background.jpg') no-repeat center center fixed;
+        background: url('../../../image/login-background.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -100,17 +100,16 @@ if (isset($_POST['login'])) {
 
     }
 
-    .container {
+    .content-login-form {
         background-color: rgba(217, 217, 217, 0.5);
         border-radius: 20px;
         /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
         max-width: 300px;
         margin: 10px auto;
         padding: 1rem;
-
     }
 
-    h1 {
+    .content-login-form h1 {
         padding: 6px 0;
         /* margin-bottom: 1rem; */
         font-size: 1.2rem;
@@ -124,16 +123,16 @@ if (isset($_POST['login'])) {
 
     }
 
-    label {
+    .content-login-form label {
 
         color: #961313;
     }
 
-    .sign-in-form {
+    .content-login-form .sign-in-form {
         margin-top: 1rem;
     }
 
-    input {
+    .content-login-form input {
         padding: 10px;
         font-size: 14px;
         border-radius: 5px;
@@ -142,18 +141,18 @@ if (isset($_POST['login'])) {
         border: solid 1px #ccc;
     }
 
-    form i {
+    .content-login-form form i {
         margin-left: -30px;
         cursor: pointer;
     }
 
-    .center-button {
+    .content-login-form .center-button {
         text-align: center;
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
-    button {
+    .content-login-form button {
         box-sizing: border-box;
         width: 50%;
         padding: 3%;
@@ -165,23 +164,23 @@ if (isset($_POST['login'])) {
         font-weight: bold;
     }
 
-    button:hover {
+    .content-login-form button:hover {
         background: #7f0202;
         cursor: pointer;
     }
 
-    .submit {
+    .content-login-form .submit {
         margin-top: 10px;
     }
 
     /* input error */
-    input.error,
-    textarea.error,
-    select.error {
+    .content-login-form input.error,
+    .content-login-form textarea.error,
+    .content-login-form select.error {
         border-color: #dc3545;
     }
 
-    small {
+    .content-login-form small {
         color: #dc3545;
         display: block;
         font-weight: lighter;
@@ -257,16 +256,15 @@ if (isset($_POST['login'])) {
 
                     // $("#result").html(result);
                     console.log(response);
-                    if (response=='admin') {
-                            alert('Day la trang admin');
-                            location.reload();
-                    } else if(response=='client') {
-                            alert('Dang nhap khach hang thanh cong.');
-                    // if (result.indexOf("success") >= 0)
-                    //     window.location = 'Personal.php';
-                    // console.log(result.indexOf("success"));
-                    }
-                    else
+                    if (response == 'admin') {
+                        alert('Day la trang admin');
+                        location.reload();
+                    } else if (response == 'client') {
+                        alert('Dang nhap khach hang thanh cong.');
+                        // if (result.indexOf("success") >= 0)
+                        //     window.location = 'Personal.php';
+                        // console.log(result.indexOf("success"));
+                    } else
                         alert("Tên đăng nhập hoặc mật khẩu không chính xác!");
                     // console.log(result.indexOf("error"));
                 },

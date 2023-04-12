@@ -43,41 +43,43 @@ if (isset($_POST['signup'])) {
 ?>
 
 <!-- HTML -->
-<div class="container">
-    <form action="signup.php" method="post" id="signup">
-        <h1>Đăng ký</h1>
-        <div class="field">
-            <label for="username">Tên đăng nhập</label>
-            <input type="text" id="username" name="username" required minlength="6" />
-            <br>
-            <small></small>
-        </div>
-        <div class="field">
-            <label for="password">Mật khẩu</label>
-            <input type="password" id="password" name="password" required minlength="8" />
-            <br>
-            <small></small>
-        </div>
-        <div class="field">
-            <label for="rePassword">Nhập lại mật khẩu</label>
-            <input type="password" id="rePassword" name="rePassword" required minlength="8" />
-            <br>
-            <small></small>
-        </div>
+<div class="content-signup-container">
+    <div class="content-signup-form">
+        <form action="signup.php" method="post" id="signup">
+            <h1>Đăng ký</h1>
+            <div class="field">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" name="username" required minlength="6" />
+                <br>
+                <small></small>
+            </div>
+            <div class="field">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required minlength="8" />
+                <br>
+                <small></small>
+            </div>
+            <div class="field">
+                <label for="rePassword">Nhập lại mật khẩu</label>
+                <input type="password" id="rePassword" name="rePassword" required minlength="8" />
+                <br>
+                <small></small>
+            </div>
 
-        <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
-            <br>
-            <small></small>
-        </div>
-        <!-- <div class="field"> -->
-        <div class="center-button">
-            <button type="button" id="submit" name="submit">Đăng ký</button>
-        </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+                <br>
+                <small></small>
+            </div>
+            <!-- <div class="field"> -->
+            <div class="center-button">
+                <button type="button" id="submit" name="submit">Đăng ký</button>
+            </div>
 
-        <!-- </div> -->
-    </form>
+            <!-- </div> -->
+        </form>
+    </div>
 </div>
 <!-- STYLE      ////////////////////////////////////////////////////////////////////////// -->
 <style>
@@ -85,26 +87,27 @@ if (isset($_POST['signup'])) {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-weight: bold;
+        
     }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-            "Helvetica Neue", sans-serif;
+    .content-signup-container{
+        font-weight: bold;
+        flex-direction: column;
+        font-family: 'OpenSans-regular';
         font-size: 1rem;
         background-color: #fefefe;
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: url('login-background.jpg') no-repeat center center fixed;
+        background: url('../../../image/login-background.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
     }
 
-    .container {
+    .content-signup-form {
         background-color: rgba(217, 217, 217, 0.5);
         border-radius: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
@@ -112,13 +115,13 @@ if (isset($_POST['signup'])) {
 
     }
 
-    form {
+    .content-signup-form form {
         max-width: 400px;
         margin: 10px auto;
         padding: 0.5rem 1rem;
     }
 
-    form h1 {
+    .content-signup-form form h1 {
         padding: 15px;
         font-size: 1.4rem;
         text-align: center;
@@ -134,15 +137,15 @@ if (isset($_POST['signup'])) {
 
     /*! form.css v1.0 | MIT License | https://www.javascripttutorial.net/ */
 
-    .field {
+    .content-signup-form .field {
         margin-bottom: 0.75rem;
     }
 
-    .field small {
+    .content-signup-form .field small {
         color: #dc3545;
     }
 
-    label {
+    .content-signup-form label {
         display: inline-block;
         margin-bottom: 5px;
         vertical-align: top;
@@ -151,9 +154,9 @@ if (isset($_POST['signup'])) {
     }
 
     /* input, textarea */
-    input,
-    textarea,
-    select {
+    .content-signup-form input,
+    .content-signup-form textarea,
+    .content-signup-form select {
         border: solid 1px #ccc;
         border-radius: 3px;
         display: inline-block;
@@ -163,19 +166,19 @@ if (isset($_POST['signup'])) {
         font-size: 1rem;
     }
 
-    input::placeholder {
+    .content-signup-form input::placeholder {
         color: #c2c2c2;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    .content-signup-form input:focus,
+    .content-signup-form textarea:focus,
+    .content-signup-form select:focus {
         outline: none;
         box-shadow: 0 0 0 2pt rgb(49, 132, 253, 0.5);
     }
 
-    input[disabled],
-    textarea[disabled] {
+    .content-signup-form input[disabled],
+    .content-signup-form textarea[disabled] {
         background-color: #f5f5f5;
         box-shadow: none;
         color: #7a7a7a;
@@ -183,32 +186,32 @@ if (isset($_POST['signup'])) {
     }
 
     /* input error */
-    input.error,
-    textarea.error,
-    select.error {
+    .content-signup-form input.error,
+    .content-signup-form textarea.error,
+    .content-signup-form select.error {
         border-color: #dc3545;
     }
 
-    input.error:focus,
-    textarea.error:focus,
-    select.error:focus {
+    .content-signup-form input.error:focus,
+    .content-signup-form textarea.error:focus,
+    .content-signup-form select.error:focus {
         box-shadow: 0 0 0 0.25rem rgb(220 53 69 / 25%);
     }
 
     /* input success */
-    input.success,
-    textarea.success,
-    select.success {
+    .content-signup-form input.success,
+    .content-signup-form textarea.success,
+    .content-signup-form select.success {
         border-color: #198754;
     }
 
-    input.success:focus,
-    textarea.success:focus {
+    .content-signup-form input.success:focus,
+    .content-signup-form textarea.success:focus {
         box-shadow: 0 0 0 0.25rem rgb(25 135 84 / 25%);
     }
 
     /* button */
-    button {
+    .content-signup-form button {
         background: #961313;
         color: #fff;
         width: 50%;
@@ -223,13 +226,13 @@ if (isset($_POST['signup'])) {
         font-weight: bold;
     }
 
-    button:hover {
+    .content-signup-form button:hover {
         background: #7f0202;
         border-color: #7f0202;
         cursor: pointer;
     }
 
-    .center-button {
+    .content-signup-form .center-button {
         text-align: center;
         margin-top: 2.5rem;
         margin-bottom: 1rem;
@@ -244,8 +247,8 @@ if (isset($_POST['signup'])) {
     } */
 
     /* radio  & checkbox*/
-    label.radio,
-    label.checkbox {
+    /* .content-signup-form label.radio,
+    .content-signup-form label.checkbox {
         width: auto;
         cursor: pointer;
         display: inline-block;
@@ -253,33 +256,33 @@ if (isset($_POST['signup'])) {
         border-radius: 5px;
     }
 
-    .stack label.radio,
-    .stack label.checkbox {
+    .content-signup-form .stack label.radio,
+    .content-signup-form .stack label.checkbox {
         display: block;
         margin-left: auto;
     }
 
-    .radio+.radio,
-    .checkbox+.checkbox {
+    .content-signup-form .radio+.radio,
+    .content-signup-form .checkbox+.checkbox {
         margin-left: 1rem;
     }
 
-    input[type="checkbox"],
-    input[type="radio"] {
+    .content-signup-form input[type="checkbox"],
+    .content-signup-form input[type="radio"] {
         vertical-align: baseline;
         width: auto;
     }
 
     /* vertical form */
-    .vertical label,
+    /* .vertical label,
     .vertical input,
     .vertical textarea {
         display: block;
         width: 100%;
-    }
+    } */
 
     /* horizontal form */
-    .horizontal .field {
+    /* .horizontal .field {
         display: grid;
         grid-template-columns: 20% 1fr;
         gap: 1rem 1rem;
@@ -302,10 +305,10 @@ if (isset($_POST['signup'])) {
     .horizontal .field button,
     .horizontal .field small {
         grid-column: 2 / 3;
-    }
+    } */
 
     /* Utility classes*/
-    .half {
+    /* .half {
         width: 50%;
     }
 
@@ -315,11 +318,11 @@ if (isset($_POST['signup'])) {
 
     .full {
         width: 100%;
-    }
+    } */
 
-    .error {
+    /* .error {
         color: #dc3545;
-    }
+    } */ 
 </style>
 <!-- SCRIPT    /////////////////////////////////////////////////////////////////////////// -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

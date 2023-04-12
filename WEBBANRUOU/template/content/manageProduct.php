@@ -1,11 +1,11 @@
 <!-- HTML cho cửa sổ thêm sản phẩm -->
-<div id="add-product-window" class="product-window" style="display:none;">
-    <button id="close-add-product-button" class="close-btn" style="margin:10px">&times;</button>
-    <form method="POST" class='product-form' action="manageProduct.php">
+<div id="content-admin-product-add-product-window" class="content-admin-product-product-window" style="display:none;">
+    <button id="close-add-product-button" class="content-admin-product-close-btn" style="margin:10px">&times;</button>
+    <form method="POST" class='content-admin-product-product-form' action="manageProduct.php">
         <img id="previewImage" src="no_image.jpg" alt="Preview Image">
         <div class="field">
             <label for="">Đường dẫn ảnh</label>
-            <input type="url" id="imageInput" required onchange="addImage('previewImage','imageInput')">
+            <input type="url" id="add_imageInput" required onchange="addImage('previewImage','add_imageInput')">
             <button type="button" id="add_image" onclick="addImage()"><i class="fa-solid fa-upload"></i></i> Tải ảnh</button>
         </div>
         <div class="field">
@@ -55,9 +55,9 @@
 
 
 <!-- HTML của form chỉnh sửa sản phẩm -->
-<div id="edit-product-window" class="product-window" style="display:none;">
-    <button id="close-edit-product-window" class="close-btn" style="margin:10px">&times;</button>
-    <form method="POST" class='product-form' action="manageProduct.php">
+<div id="content-admin-product-edit-product-window" class="content-admin-product-product-window" style="display:none;">
+    <button id="close-edit-product-window" class="content-admin-product-close-btn" style="margin:10px">&times;</button>
+    <form method="POST" class='content-admin-product-product-form' action="manageProduct.php">
         <img id="edit_previewImage" src="no_image.jpg" alt="Preview Image">
         <div class="field">
             <label for="">Đường dẫn ảnh</label>
@@ -113,7 +113,7 @@
     </form>
 </div>
 <!-- HTML form xóa sản phẩm -->
-<div id="delete-product-window" style="display: none">
+<div id="content-admin-product-delete-product-window" style="display: none">
     <label>Bạn có chắc chắc muốn xóa sản phẩm <span id="delete-product-name"> </span></label>
     <div class="button-container">
         <button id="delete-product-confirm">Có</button>
@@ -121,13 +121,13 @@
     </div>
 </div>
 
-<!----------------------------- Table sản phẩm -->
-<div class="container">
+<!-------------------------------------- Table sản phẩm -------------------------------------------------->
+<div class="content-admin-product-container">
     <div class='top-bar'>
         <div class="search-container">
             <form action="manageProduct.php">
-                <input type="text" placeholder="Search" name="search">
-                <button type="button"><i class="fa fa-search"></i></button>
+                <input type="text" placeholder="Search" name="search" id="search-input">
+                <button type="button" id="search-button"><i class="fa fa-search"></i></button>
             </form>
         </div>
         <div class="add-product">
@@ -148,9 +148,9 @@
                 <th>Stock</th>
                 <th>Action</th>
             </tr>
-            <tbody>
+            <!-- <tbody>
 
-            </tbody>
+            </tbody> -->
 
         </table>
     </div>
@@ -160,9 +160,20 @@
 
 
 
-<style>
-    /* CSS để ẩn cửa sổ thêm sản phẩm */
-    .product-window {
+<style> 
+    .content-admin-product-container {
+        background-color: rgba(217, 217, 217, 0.5);
+        max-width: 90%;
+        /* height: 90%; */
+        margin: 10px auto;
+        padding: 1rem;        
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        font-family: 'OpenSans-regular';
+    }
+    /* cửa sổ sản phẩm */
+    .content-admin-product-product-window {
         position: fixed;
         width: 80%;
         height: 80%;
@@ -176,15 +187,15 @@
     }
 
     /* Ẩn mũi tên ở input type number */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+    .content-admin-product-product-window input::-webkit-outer-spin-button,
+    .content-admin-product-product-window input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
 
 
     /* CSS cho nút đóng */
-    .close-btn {
+    .content-admin-product-close-btn {
         position: absolute;
         top: -7px;
         right: -7px;
@@ -195,7 +206,7 @@
         cursor: pointer;
     }
 
-    img {
+    .content-admin-product-product-window img {
         width: 20%;
         height: auto;
         float: right;
@@ -205,44 +216,33 @@
         border-color: #961313;
         border-radius: 10px;
     }
+    
 
-    .category-field {
-        float: right
-    }
-
-    .container {
-        background-color: rgba(217, 217, 217, 0.5);
-        max-width: 90%;
-        /* height: 90%; */
-        margin: 10px auto;
-        padding: 1rem;
-    }
-
-    .product-form .field {
+    .content-admin-product-product-form .field {
         margin: 15px;
         margin-top: 30px;
         margin-bottom: 10px;
     }
 
-    .product-form .field {
+    .content-admin-product-product-form .field {
         display: flex;
         /* align-items: center; */
         /* margin-bottom: 10px; */
     }
 
-    .product-form .field label {
+    .content-admin-product-product-form .field label {
         width: 150px;
         text-align: left;
         margin-right: 10px;
     }
 
-    .product-form .field.tax-checkbox label {
+    .content-admin-product-product-form .field.tax-checkbox label {
         width: 60px;
     }
 
-    .product-form input[type=text],
-    input[type=number],
-    input[type=url] {
+    .content-admin-product-product-form input[type=text],
+    .content-admin-product-product-form input[type=number],
+    .content-admin-product-product-form input[type=url] {
         padding: 10px;
         font-size: 14px;
         border-radius: 5px;
@@ -251,18 +251,18 @@
         border: solid 1px #ccc;
     }
 
-    .product-form input[type=checkbox] {
+    .content-admin-product-product-form input[type=checkbox] {
         margin-right: 70px;
         transform: scale(1.5);
     }
 
-    .product-form select {
+    .content-admin-product-product-form select {
         font-size: 15px;
         padding: 10px;
         border-radius: 5px;
     }
 
-    .product-form #submit-add-product {
+    .content-admin-product-product-form #submit-add-product {
         /* align-items: center; */
         padding: 10px;
         display: block;
@@ -274,17 +274,17 @@
         border: none;
     }
 
-    .search-container {
+    .content-admin-product-container .search-container {
         float: left;
         width: 60%;
         /* position: absolute; */
     }
 
-    .add-product {
+    .content-admin-product-container .add-product {
         float: right;
     }
 
-    .search-container input[type=text] {
+    .content-admin-product-container .search-container input[type=text] {
         padding: 6px;
         /* padding-right: 90%; */
         margin-top: 8px;
@@ -294,7 +294,7 @@
         width: 60%;
     }
 
-    .search-container button {
+    .content-admin-product-container .search-container button {
         /* float: right; */
         position: absolute;
         padding: 6px 10px;
@@ -307,12 +307,12 @@
         cursor: pointer;
     }
 
-    .search-container button:hover {
+    .content-admin-product-container .search-container button:hover {
         background: #ccc;
 
     }
 
-    .add-product button {
+    .content-admin-product-container .add-product button {
         background-color: #961313;
         padding: 6px;
         padding-left: 15px;
@@ -324,7 +324,7 @@
         font-weight: bold;
         border-radius: 10px;
     }
-    .add-product button:hover {
+    .content-admin-product-container .add-product button:hover {
         cursor: pointer;
 
     }
@@ -346,31 +346,29 @@
         cursor: pointer;
     }
     
-    #delete-product-window{
+    #content-admin-product-delete-product-window{
         display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border: 1px solid black;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  z-index: 999;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid black;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        z-index: 999;
     }
-    #delete-product-window label{
-        /* margin-bottom: 20px; */
-    }
-    .button-container {
+    
+    #content-admin-product-delete-product-window .button-container {
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 20px;
     }
-    #delete-product-cancel{
+    #content-admin-product-delete-product-window #delete-product-cancel{
         background-color: lightgray;
         color: black;
         padding: 5px 10px;
@@ -378,26 +376,22 @@
         margin-right: 10px;
         cursor: pointer;
     }
-    #delete-product-confirm{
+    #content-admin-product-delete-product-window #delete-product-confirm{
         background-color: red;
         color: white;
         padding: 5px 10px;
         border: none;
         cursor: pointer;
         margin-right: 30%;
-    }
+    }    
 
-    .topnav input[type=text] {
-        border: 1px solid #ccc;
-    }
-
-    .table-manager {
+    .content-admin-product-container .table-manager {
         /* display: flex; */
         flex-direction: column;
     }
 
 
-    table {
+    .content-admin-product-container table {
         border-collapse: collapse;
         width: 100%;
         resize: horizontal;
@@ -408,34 +402,37 @@
         /* outline: none; */
 
     }
-    table input[type=checkbox] {
+    .content-admin-product-container table input[type=checkbox] {
         transform: scale(1.5);
     }
 
-    td:nth-child(1) {
+    .content-admin-product-container td:nth-child(1) {
         /* text-align: center; */
         width: 130px;
     }
 
-
-    td:nth-child(4) {
+    .content-admin-product-container td:nth-child(3) {
+        text-align: right;
+        
+    }
+    .content-admin-product-container td:nth-child(4) {
         text-align: center;
         width: 35px;
         
     }
 
-    td:nth-child(6) {
+    .content-admin-product-container td:nth-child(6) {
         text-align: center;
         width: 40px;
     }
 
-    td:nth-child(7) {
+    .content-admin-product-container td:nth-child(7) {
         text-align: center;
         width: 108px;
     }
 
-    th,
-    td {
+    .content-admin-product-container th,
+    .content-admin-product-container td {
         text-align: left;
         padding: 8px;
         border: 1px solid #ddd;
@@ -444,45 +441,45 @@
         word-wrap: break-word;
     }
 
-    th {
+    .content-admin-product-container th {
         background-color: #961313;
         color: white;
         resize: horizontal;
     }
 
-    tr:hover {
+    .content-admin-product-container tr:hover {
         background-color: #f5f5f5;
     }
 
-    .fa-toggle-on {
+    .content-admin-product-container .fa-toggle-on {
         color: green;
     }
 
-    .fa-toggle-off {
+    .content-admin-product-container .fa-toggle-off {
         color: red;
     }
 
 
     /* CSS */
-    .btn-edit {
+    .content-admin-product-container .btn-edit {
         /* background-color: yellow; */
         border-style: none;
         padding: 5px;
     }
 
-    .btn-edit:hover {
+    .content-admin-product-container .btn-edit:hover {
         cursor: pointer;
         text-decoration: underline;
 
     }
 
-    .btn-del {
+    .content-admin-product-container .btn-del {
         /* background-color: yellow; */
         border-style: none;
         padding: 5px;
     }
 
-    .btn-del:hover {
+    .content-admin-product-container .btn-del:hover {
         cursor: pointer;
         text-decoration: underline;
 
@@ -490,53 +487,7 @@
 
 
 
-    /* CSS cho hộp thoại edit */
-    .edit-form {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .edit-form-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%;
-    }
-
-    .edit-form input[type=text],
-    .edit-form input[type=number],
-    .edit-form input[type=date] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    .edit-form button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-    }
-
-    .edit-form button:hover {
-        background-color: #45a049;
-    }
+    
 </style>
 <script src="https://kit.fontawesome.com/44c01e1bca.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
@@ -549,7 +500,7 @@
     // Thêm sự kiện click cho nút
     addProductButton.addEventListener('click', function() {
         // Hiển thị cửa sổ thêm sản phẩm
-        var addProductWindow = document.getElementById('add-product-window');
+        var addProductWindow = document.getElementById('content-admin-product-add-product-window');
         addProductWindow.style.display = 'block';
     });
     // Lấy đối tượng nút đóng cửa sổ
@@ -558,23 +509,12 @@
     // Thêm sự kiện click cho nút đóng cửa sổ
     closeAddProductButton.addEventListener('click', function() {
         // Ẩn cửa sổ thêm sản phẩm
-        var addProductWindow = document.getElementById('add-product-window');
+        var addProductWindow = document.getElementById('content-admin-product-add-product-window');
         addProductWindow.style.display = 'none';
     });
 
 
     //-------------------THÊM ẢNH--------------
-    function addImage() {
-        const imageUrl = document.getElementById('imageInput').value;
-        if (imageUrl) {
-            document.getElementById("previewImage").innerHTML = "";
-            document.getElementById("previewImage").src = imageUrl;
-        }
-        if (imageUrl == "") {
-            document.getElementById("previewImage").innerHTML = "";
-            document.getElementById("previewImage").src = "no_image.jpg";
-        }
-    }
 
     function addImage(imageLocation, imageSrc) {
         const imageUrl = document.getElementById(imageSrc).value;
@@ -594,7 +534,7 @@
     // <!----------------- CHỈNH SỬA SẢN PHẨM---------------------- -->
     // Thêm sự kiện click cho nút chỉnh sửa
     function openEditForm(button) {
-        var editForm = document.getElementById('edit-product-window');
+        var editForm = document.getElementById('content-admin-product-edit-product-window');
         // Nếu form chỉnh sửa đang ẩn, hiển thị nó
         if (editForm.style.display === 'none') {
             editForm.style.display = 'block';
@@ -607,7 +547,7 @@
         // Ẩn cửa sổ sửa sản phẩm
         var closeEditProductButton = document.getElementById('close-edit-product-window');
         closeEditProductButton.addEventListener('click', function() {
-            var editProductWindow = document.getElementById('edit-product-window');
+            var editProductWindow = document.getElementById('content-admin-product-edit-product-window');
             editProductWindow.style.display = 'none';
         });
         // Lấy id sản phẩm cần edit
@@ -651,7 +591,7 @@
     }
     // --------------------------------------XÓA SẢN PHẨM-----------------------------
     function openDeleteConfirm(button){
-        var deleteForm = document.getElementById('delete-product-window');
+        var deleteForm = document.getElementById('content-admin-product-delete-product-window');
         var closeDeleteProductButton = document.getElementById('delete-product-cancel')
         // Nếu form chỉnh sửa đang ẩn, hiển thị nó
         if (deleteForm.style.display === 'none') {
@@ -662,14 +602,15 @@
             deleteForm.style.display = 'none';
         }
         closeDeleteProductButton.addEventListener('click', function() {
-            var DeleteProductWindow = document.getElementById('delete-product-window');
+            var DeleteProductWindow = document.getElementById('content-admin-product-delete-product-window');
             DeleteProductWindow.style.display = 'none';
         });
-        var id = button.getAttribute('data-id');
+        // var id = button.getAttribute('data-id');
         var productId = button.getAttribute('data-id');
+        $("#delete-product-name").html(productId);
         $("#delete-product-confirm").on("click", function() {
         $.ajax({
-            url: 'dbconnection_DELETE.php',
+            url: '../../template/dbconnection_DELETE.php',
             type: 'POST',
             data: {
                 table_name: "product",
@@ -696,13 +637,13 @@
     }
 
     // -------------------Ajax hiển thị sản phẩm vào table---------------------------------
-    var index = 0;
+    var Count_number_of_product = 0;
     $(document).ready(function() {
         var pro = [];
         var cat = [];
 
         $.ajax({
-            url: "dbconnection_GET.php",
+            url: "../../template/dbconnection_GET.php",
             type: "GET",
             data: {
                 table_name: "product"
@@ -713,7 +654,7 @@
             }
         }).then(function() {
             $.ajax({
-                url: "dbconnection_GET.php",
+                url: "../../template/dbconnection_GET.php",
                 type: "GET",
                 data: {
                     table_name: "category"
@@ -732,6 +673,7 @@
                     });
                     // console.log(newPro);
                     $.each(newPro, function(i, item) {
+                        // console.log(newPro);
                         // var activeIcon = item.IsActive == 1 ? '<input type="checkbox" name="IsActive" id="IsActive" value="1" checked>' :
                         //     '<input type="checkbox" name="IsActive" id="IsActive" value="0">';
                         var activeIcon = item.IsActive == 1 ? '<button id="IconActive" value=1><i class="fas fa-toggle-on"></i></button>' :
@@ -749,17 +691,17 @@
                             "<td>" + '<button class="btn-edit" data-id=' + item.ProductNum + ' onclick="openEditForm(this)">Edit</button> | <button class="btn-del" data-id=' + item.ProductNum + ' onclick="openDeleteConfirm(this)">Delete</button>' + "</td>" +
                             "</tr>"
                         );
-                        index++;
+                        Count_number_of_product++;
                     });
-                    console.log("Số lượng sản phẩm đã thêm: " + index);
+                    console.log("Số lượng sản phẩm đã thêm: " + Count_number_of_product);
                 }
             })
         });
     });
 
     // -----------------------Kiểm tra hình ảnh
-    function checkProductImage() {
-        document.getElementById("imageInput");
+    function checkProductImage(imgEle) {
+        var imageInput = document.getElementById(imgEle);
         if (imageInput.validity.valueMissing) {
             imageInput.setCustomValidity("Vui lòng nhập đường dẫn ảnh");
             imageInput.reportValidity();
@@ -778,8 +720,8 @@
     }
 
     // ----------------------KiếM tra tên sản phẩm
-    function checkProductName() {
-        var productName = document.getElementById("productName");
+    function checkProductName(proName) {
+        var productName = document.getElementById(proName);
         if (productName.validity.valueMissing) {
             productName.setCustomValidity("Vui lòng nhập tên sản phẩm");
             productName.reportValidity();
@@ -797,8 +739,8 @@
         }
     }
     // -------------------------Kiểm tra giá sản phẩm
-    function checkProductPrice() {
-        var productPrice = document.getElementById("Price");
+    function checkProductPrice(proPrice) {
+        var productPrice = document.getElementById(proPrice);
         if (productPrice.validity.valueMissing) {
             productPrice.setCustomValidity("Vui lòng nhập giá sản phẩm");
             productPrice.reportValidity();
@@ -814,9 +756,9 @@
             return true;
         }
     }
-    // ------------------------Kiểm tra số lượng sản phẩm
-    function checkProductQuantity() {
-        var checkProductQuantity = document.getElementById("Quan");
+    // ------------------------Kiểm tra số lượng sản phẩm-----------------------
+    function checkProductQuantity(Quantity) {
+        var checkProductQuantity = document.getElementById(Quantity);
         if (checkProductQuantity.value < 0) {
             checkProductQuantity.setCustomValidity("Số lượng sản phẩm không được nhỏ hơn 0");
             checkProductQuantity.reportValidity();
@@ -827,13 +769,39 @@
             return true;
         }
     }
+    function checkIfIDExists(idToCheck) {
+  // Thực hiện kiểm tra xem mã ID đã tồn tại trong cơ sở dữ liệu hay chưa
+  // Hàm này trả về true nếu mã ID đã tồn tại và false nếu không tồn tại
+        const productNumbers = [];
+        const tdElements = document.querySelectorAll('#content_admin_product_table tbody td:first-child');
+        tdElements.forEach((td) => {
+        productNumbers.push(td.textContent);
+        });  
+        if(productNumbers.includes(idToCheck)){
+            return true;
+        }
+        else {
+            return false;
+        }            
+         
+    }
+    // Tạo ID cho sản phẩm mới    
+    function generateTempProductID(index) {
+        let tempID = "P" + (index + 1).toString().padStart(5, "0");
+        while (checkIfIDExists(tempID)) {
+            index++;
+            tempID = "P" + (index + 1).toString().padStart(5, "0");
+        }
+        return tempID;
+    }
     // ---------------------------------Ajax thêm sản phẩm-------------------------
     $(document).ready(function() {
         $("#submit-add-product").on("click", function() {
-            if (checkProductImage() == true && checkProductName() == true && checkProductPrice() == true &&
-                checkProductQuantity() == true) {
+            if (checkProductImage("add_imageInput") == true && checkProductName("productName") == true && checkProductPrice("Price") == true &&
+                checkProductQuantity("Quan") == true) {
+                    productNum = generateTempProductID(Count_number_of_product);
                 var data_insert = {
-                    ProductNum: "P" + (index + 1).toString().padStart(5, "0") + '',
+                    ProductNum: productNum + '',
                     ProductName: $("#productName").val() + '',
                     Descript: "" + '',
                     Price: $("#Price").val() + '',
@@ -843,11 +811,11 @@
                     Quan: $("#Quan").val() + '',
                     IsActive: 1 + '',
                     CatId: $("#category").val() + '',
-                    ImageSource: $("#imageInput").val() + '',
+                    ImageSource: $("#add_imageInput").val() + '',
                 };
                 console.log(data_insert);
                 $.ajax({
-                    url: 'dbconnection_POST.php',
+                    url: '../../template/dbconnection_POST.php',
                     method: 'POST',
                     dataType: 'json',
                     data: {
@@ -882,7 +850,9 @@
     // ------------------------Ajax lưu sản phẩm đã edit--------------------------
 
     $("#submit-edit-product").on("click", function() {
-        var data_insert = {
+        if (checkProductImage("edit_imageInput") == true && checkProductName("edit_productName") == true && checkProductPrice("edit_productPrice") == true &&
+                checkProductQuantity("edit_Quan") == true){               
+        var data_update = {
             ProductNum:$("#edit_ProductNum").val() + '',
             ProductName: $("#edit_productName").val() + '',
             Descript: "" + '',
@@ -896,11 +866,12 @@
             ImageSource: $("#edit_imageInput").val() + '',
         };
         $.ajax({
-            url: 'edit_product.php',
+            url: '../../template/dbconnection_PUT.php',
             type: 'POST',
             data: {                
-                data_insert: JSON.stringify(
-                    data_insert
+                table_name: 'product',
+                data_update: JSON.stringify(
+                    data_update
                 )
             },
             success: function(response) {
@@ -918,5 +889,18 @@
                 alert('Có lỗi khi gửi dữ liệu tới API. ' + errorMessage);
             }
         })
-    })
+        }
+    } )
+
+    // -------------------TÌM KIẾM--------------------
+    $(document).ready(function() {
+    $('#search-button').click(function() {
+        var keyword = $('#search-input').val().toLowerCase();
+        $('#content_admin_product_table tbody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(keyword) > -1)
+        });
+        // console.log(keyword);
+    });
+});
+
 </script>
