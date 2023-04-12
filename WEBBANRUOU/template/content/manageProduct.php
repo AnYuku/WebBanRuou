@@ -557,7 +557,7 @@
 
         // Gửi yêu cầu AJAX để truy vấn thông tin sản phẩm từ server
         $.ajax({
-            url: 'edit_product.php',
+            url: '../../template/dbconnection_EDIT_PRODUCT.php',
             type: 'GET',
             data: {
                 table_name: "product",
@@ -676,8 +676,9 @@
                         // console.log(newPro);
                         // var activeIcon = item.IsActive == 1 ? '<input type="checkbox" name="IsActive" id="IsActive" value="1" checked>' :
                         //     '<input type="checkbox" name="IsActive" id="IsActive" value="0">';
-                        var activeIcon = item.IsActive == 1 ? '<button id="IconActive" value=1><i class="fas fa-toggle-on"></i></button>' :
-                                '<button id="IconDeactive" value=0><i class="fas fa-toggle-off"></i></button>';
+                        var activeIcon = item.IsActive == 1 ?
+                        '<button class="IconActive" value=1 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-on"></i></button>' :
+                        '<button class="IconDeactive" value=0 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-off"></i></button>';
                         var priceFormatted = Number(item.Price).toLocaleString("vi-VN");
                         var id = item.ProductNum;
                         $("#content_admin_product_table tbody").append(
@@ -894,13 +895,43 @@
 
     // -------------------TÌM KIẾM--------------------
     $(document).ready(function() {
-    $('#search-button').click(function() {
-        var keyword = $('#search-input').val().toLowerCase();
-        $('#content_admin_product_table tbody tr').filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(keyword) > -1)
+        $('#search-button').click(function() {
+            var keyword = $('#search-input').val().toLowerCase();
+            $('#content_admin_product_table tbody tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(keyword) > -1)
+            });
+            // console.log(keyword);
         });
-        // console.log(keyword);
     });
-});
+
+    // -----------------------Active Icon------------------------------------------------
+    function switchActive(button){     
+    var _productId = button.getAttribute('data-id');
+    var _isActive = button.getAttribute('value')
+    // console.log(isActive);
+    $.ajax({
+        url: '../../template/dbconnection_PRODUCT_ACTIVE.php',
+        type: 'POST',
+        data: {                
+            productId: _productId,
+            isActive: _isActive,
+        },
+        success: function(response) {
+            console.log(response);
+            if (response=="1") {
+                console.log("Đã ẩn sản phẩm");
+                location.reload();
+            } else if (response=="0"){
+                console.log("Đã hiện sản phẩm");
+                location.reload();
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            console.log(productId);
+        }
+
+    })
+}
 
 </script>

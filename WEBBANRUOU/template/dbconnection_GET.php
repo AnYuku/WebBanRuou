@@ -12,8 +12,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $table_name = $_POST['table_name'];
-
+    $table_name = $_GET['table_name'];
+    
     // Get data from table
     $sql = "SELECT * FROM $table_name";
     $result = $conn->query($sql);
@@ -22,6 +22,11 @@
     $data = array();
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            foreach ($row as $key => $value) {
+                if (is_string($value)) {
+                    $row[$key] = rtrim($value);
+                }
+            }
             $data[] = $row;
         }
     }
