@@ -7,41 +7,6 @@ session_start();
 //     exit();
 // }
 
-if (isset($_POST['login'])) {
-    // Create connection
-    $conn = new mysqli('localhost','admin', 'admin','pubmanager');
-
-    if ($conn->connect_errno) {
-        echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-        // exit();
-    } else {
-        mysqli_set_charset($conn, "utf8");
-    }
-
-    // kiem tra thong tin dang nhap
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
-    $data = $conn->query("SELECT * FROM useraccount WHERE UserName='$username' AND UserPassword='$password'");
-    if ($data->num_rows > 0) {
-        // dang nhap thanh cong 
-        $_SESSION['logged_in'] = '1';
-        $_SESSION['username'] = $username;
-        $user = mysqli_fetch_assoc($data);
-        $accessLevel = $user["AccessLevel"];
-        if ($accessLevel == 100) {
-            // Người dùng là admin
-            exit('admin');
-        } else if ($accessLevel == 50) {
-            // Người dùng là khách hàng
-            exit('client');
-            // exit('success');
-        } else {
-            // dang nhap that bai
-            exit('failed');
-        }
-    }
-    $conn->close();
-}
 ?>
 <div class="content-login-container">
     <div class="content-login-form">
@@ -235,7 +200,6 @@ if (isset($_POST['login'])) {
     }
 
     $(document).ready(function() {
-        console.log('ready');
         $("#submit").on("click", function() {
             checkPassword();
             checkUsername();
@@ -244,16 +208,14 @@ if (isset($_POST['login'])) {
             var password = document.getElementById("password");
             var _password = $("#password").val();
             $.ajax({
-                url: 'login.php',
+                url: '../../template/dbconnection_LOGIN.php',
                 method: 'POST',
-                dataType: 'text',
-                data: {
-                    login: 1,
+                dataType: 'json',
+                data: {                    
                     username: _username,
                     password: _password,
                 },
                 success: function(response) {
-
                     // $("#result").html(result);
                     console.log(response);
                     if (response == 'admin') {
