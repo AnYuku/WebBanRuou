@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-//neu da login
-// if (isset($_SESSION['logged_in'])) {
-//     // header("location: Personal.php");
-//     exit();
-// }
+// neu da login
+if (isset($_SESSION['logged_in'])) {
+    // header("location: Personal.php");
+    exit();
+}
 
 ?>
 <div class="content-login-container">
@@ -46,7 +46,7 @@ session_start();
     }
 
 
-    .content-login-container{
+    .content-login-container {
         font-weight: bold;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
             "Helvetica Neue", sans-serif;
@@ -154,7 +154,7 @@ session_start();
     }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 <script>
@@ -211,7 +211,7 @@ session_start();
                 url: '../../template/dbconnection_LOGIN.php',
                 method: 'POST',
                 dataType: 'json',
-                data: {                    
+                data: {
                     username: _username,
                     password: _password,
                 },
@@ -219,15 +219,17 @@ session_start();
                     // $("#result").html(result);
                     console.log(response);
                     if (response == 'admin') {
-                        alert('Day la trang admin');
-                        location.reload();
+                        swal("Thành công", "Bạn đã đăng nhập với vai trò admin", "success")
+                            .then((value) => {
+                                window.location = 'index.php?user=admin';
+                            });
                     } else if (response == 'client') {
-                        alert('Dang nhap khach hang thanh cong.');
-                        // if (result.indexOf("success") >= 0)
-                        //     window.location = 'Personal.php';
-                        // console.log(result.indexOf("success"));
+                        swal("Thành công", "Bạn đã đăng nhập", "success")
+                            .then((value) => {
+                                window.location = 'index.php?user=client';
+                            });
                     } else
-                        alert("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                        swal("Có lỗi xảy ra", "Tên đăng nhập hoặc mật khẩu không chính xác!","error");
                     // console.log(result.indexOf("error"));
                 },
             })

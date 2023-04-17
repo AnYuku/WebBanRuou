@@ -283,6 +283,7 @@
 </style>
 <!-- SCRIPT    /////////////////////////////////////////////////////////////////////////// -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function checkUsername() {
         var username = document.getElementById("username");
@@ -378,12 +379,15 @@
                 },
                 success: function(response) {
                     if (response.indexOf("success") >= 0) {
-                        alert("Đăng ký thành công \nChuyển sang trang đăng nhập ");
-                        window.location = 'login.php';
+                        swal("Thành công", "Đăng ký thành công", "success")
+                            .then((value) => {
+                                window.location = 'login.php';
+                            });
                     } else if (response.indexOf("error1") >= 0) {
-                        alert("Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác");
+                        swal("Thất bại", "Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác", "error");                        
                     } else if (response.indexOf("error2") >= 0) {
-                        alert("Email đã được sử dụng, vui lòng chọn Email khác");
+                        swal("Thất bại", "Email đã được sử dụng, vui lòng chọn email khác", "error");                       
+
                     }
 
                 },

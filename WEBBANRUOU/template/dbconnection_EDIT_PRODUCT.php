@@ -66,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
             $data[] = $row;
         }
     }
+    else echo"Khong tim thay san pham";
     echo json_encode($data);
 
     $conn->close();

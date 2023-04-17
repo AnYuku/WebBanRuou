@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $servername = "localhost";
     $username = "admin";
     $password = "admin";
@@ -29,10 +30,11 @@
             // Người dùng là khách hàng
             echo json_encode('client');
             // exit('success');
-        } else {
+        } 
+    }
+    else {
             // dang nhap that bai
             echo json_encode('failed');
         }
-    }
+   
     $conn->close();
-?>
