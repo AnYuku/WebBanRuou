@@ -949,7 +949,10 @@
                 }
             });
             if (rowCount === 0) {
-                swal('Không tìm thấy kết quả phù hợp');
+                swal("Thất bại", "Không tìm thấy sản phẩm yêu cầu", "error")
+                            .then((value) => {
+                                location.reload();
+                            });
             }
         });
     });
