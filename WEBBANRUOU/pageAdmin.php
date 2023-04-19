@@ -14,20 +14,11 @@
 </head>
 <body>
     <?php
-    session_start();
-        if(isset($_GET['user'])){
-            $user = $_GET['user'];
-            if($user==='admin'){
-                include("pageAdmin.php");
-            }
-            else{
-                include("pageProduct.php");
-            }
-        }
-        else{
-            include("pageProduct.php");
-
-        }
+        include("./template/header/Header.php");
+        include("./template/header/ListMenuAdmin.php");
+        include("./template/header/ListMenuUser.php");
+        include("./template/content/conTentChangeAdmin.php");
+        include("./template/footer/fooTer.php");
     ?>
 </body>
 <script src="./js/jsPage.js"></script>
