@@ -167,6 +167,7 @@
         unsetAllFilters();
         loadData({ page: 1});
         pageSelected = 1;
+        total_pages = total_pages_products;
     }
 
     // Function to handle check button click event
@@ -178,45 +179,68 @@
                     case 'filter_by_price':
                         const min = document.getElementById("content_left_client_all_product_input_min").value;
                         const max = document.getElementById("content_left_client_all_product_input_max").value;
-                        console.log('Filter by price '+min+'-'+max);
                         if (parseInt(max) < parseInt(min)) {
                             alert("Giá trị của max phải lớn hơn giá trị của min");
                         }
-
-                        if(min != "" && max == "") {
-                            // Chỉ có min
-                            console.log('By min');
-                            loadDataByIsPrice({ page: 1, priceMin: min});
-                        } else  if (min == "" && max != "") {
-                            // Chỉ có max
-                            console.log('By max');
-                            loadDataByIsPrice({ page: 1, priceMax: max});
-                        } else {
-                            // Chỉ có min và max
-                            console.log('By min and max');
-                            loadDataByIsPrice({ page: 1, priceMin: min, priceMax: max});
+                        let signal = true;
+                        let contentData = {};
+                        if(min == "" && max == "") {
+                            alert("Giá trị nhập vào trống")
+                            signal = false;
                         }
-                        filterSeleted = checkbox.id;
+                        if(signal) {
+                            if(min != "" && max == "") {
+                                // Chỉ có min
+                                loadDataByIsPrice({ page: 1, priceMin: min});
+                                contentData = {
+                                    priceMin: min
+                                }
+                            } else  if (min == "" && max != "") {
+                                // Chỉ có max
+                                loadDataByIsPrice({ page: 1, priceMax: max});
+                                contentData = {
+                                    priceMax: max
+                                }
+                            } else {
+                                // Chỉ có min và max
+                                loadDataByIsPrice({ page: 1, priceMin: min, priceMax: max});
+                                contentData = {
+                                    priceMin: min,
+                                    priceMax: max
+                                }
+                            }
+                            filterSeleted = checkbox.id;
+                            $.ajax({
+                                url: "./template/db_GET_Total_Page_Product_By_Price.php",
+                                type: "GET",
+                                data: contentData,
+                                dataType: "json",
+                                success: function(result) {
+                                    total_pages_products_by_price = result;
+                                    total_pages = result;
+                                },
+                                error: function(xhr, status, error) {
+                                    alert(status);
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                        }
                         break;
                     case 'filter_by_price_asd':
-                        console.log('Filter by price asd');
                         loadDataByIsAscending({ page: 1, isAscending: 1});
                         filterSeleted = checkbox.id;
                         pageSelected = 1;
                         break;
                     case 'filter_by_price_des':
-                        console.log('Filter by price des');
                         loadDataByIsAscending({ page: 1, isAscending: 0});
                         filterSeleted = checkbox.id;
                         pageSelected = 1;
                         break;
                     case 'filter_by_new':
-                        console.log('Filter by new');
                         alert("Tính năng này chưa có");
                         break;
                     case 'filter_by_old':
                         alert('Tính năng này chưa có');
-                        console.log('Filter by old');
                         break;
                 }
             }
@@ -242,14 +266,12 @@
                 priceMax: priceMax 
             };
         }
-        console.log(contentData);
         $.ajax({
             url: "./template/dbconnection_GET_PRODUCT_BY_PAGE.php",
             type: "GET",
             data: contentData,
             dataType: "json",
             success: function(result) {
-                console.log('result: ', result);
                 document.querySelector("#client_products_table").innerHTML = "";
                 if(result.length > 0) {
                     $.each(result, function(i, item) {
@@ -306,7 +328,9 @@
     }
     // ===========================================================================================================================================================
     // Khởi tạo các chức năng nút phân trang
+    let total_pages_products_by_price = 0;
     let total_pages_result = 0;
+    let total_pages_products = 0;
     let total_pages = 0;
     let pageSelected = 0;
     $(document).ready(function() {
@@ -317,6 +341,7 @@
             dataType: "json",
             success: function(result) {
                 total_pages = result;
+                total_pages_products = result;
                 pageSelected = 1;
 
                 // Hiển thị số trang
@@ -324,6 +349,7 @@
 
                 // 1 -- Xử lí prevPageBtn click - min pages
                 document.getElementById("prevPageBtn").addEventListener("click", function() {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
                     var searchKey = document.getElementById("client_product_search_bar").value;
                     pageSelected = 1;
                     document.getElementById("pageSelected").innerHTML = pageSelected;
@@ -354,6 +380,7 @@
 
                 // 2 -- Xử lí prevBtn click - giảm 1 - tối thiểu min pages
                 document.getElementById("prevBtn").addEventListener("click", function() {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
                     var searchKey = document.getElementById("client_product_search_bar").value;
                     if (pageSelected > 1) {
                         pageSelected--;
@@ -386,38 +413,40 @@
 
                 // 3 -- Xử lí nextBtn click - tăng 1 - tối đa max pages
                 document.getElementById("nextBtn").addEventListener("click", function() {
-                if (pageSelected < total_pages) {
-                    var searchKey = document.getElementById("client_product_search_bar").value;
-                    pageSelected++;
-                    document.getElementById("pageSelected").innerHTML = pageSelected;
-                    if(searchKey !== "") {
-                        loadSearchResult({ page: pageSelected, searchKey: searchKey});
-                    } else if (filterSeleted !== "") {
-                        if(filterSeleted == "filter_by_price_asd") {
-                            loadDataByIsAscending({ page: pageSelected, isAscending: 1});
-                        }
-                        if(filterSeleted == "filter_by_price_des") {
-                            loadDataByIsAscending({ page: pageSelected, isAscending: 0});
-                        }
-                        if(filterSeleted == "filter_by_price") {
-                            const min = document.getElementById("content_left_client_all_product_input_min").value;
-                            const max = document.getElementById("content_left_client_all_product_input_max").value;
-                            if(min != "" && max == "") {
-                                loadDataByIsPrice({ page: pageSelected, priceMin: min});
-                            } else  if (min == "" && max != "") {
-                                loadDataByIsPrice({ page: pageSelected, priceMax: max});
-                            } else {
-                                loadDataByIsPrice({ page: pageSelected, priceMin: min, priceMax: max});
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    if (pageSelected < total_pages) {
+                        var searchKey = document.getElementById("client_product_search_bar").value;
+                        pageSelected++;
+                        document.getElementById("pageSelected").innerHTML = pageSelected;
+                        if(searchKey !== "") {
+                            loadSearchResult({ page: pageSelected, searchKey: searchKey});
+                        } else if (filterSeleted !== "") {
+                            if(filterSeleted == "filter_by_price_asd") {
+                                loadDataByIsAscending({ page: pageSelected, isAscending: 1});
                             }
+                            if(filterSeleted == "filter_by_price_des") {
+                                loadDataByIsAscending({ page: pageSelected, isAscending: 0});
+                            }
+                            if(filterSeleted == "filter_by_price") {
+                                const min = document.getElementById("content_left_client_all_product_input_min").value;
+                                const max = document.getElementById("content_left_client_all_product_input_max").value;
+                                if(min != "" && max == "") {
+                                    loadDataByIsPrice({ page: pageSelected, priceMin: min});
+                                } else  if (min == "" && max != "") {
+                                    loadDataByIsPrice({ page: pageSelected, priceMax: max});
+                                } else {
+                                    loadDataByIsPrice({ page: pageSelected, priceMin: min, priceMax: max});
+                                }
+                            }
+                        } else {
+                            loadData({page: pageSelected});
                         }
-                    } else {
-                        loadData({page: pageSelected});
                     }
-                }
                 });
 
                 // 4 -- Xử lí nextPageBtn click - max pages
                 document.getElementById("nextPageBtn").addEventListener("click", function() {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
                     var searchKey = document.getElementById("client_product_search_bar").value;
                     pageSelected = total_pages;
                     document.getElementById("pageSelected").innerHTML = pageSelected;

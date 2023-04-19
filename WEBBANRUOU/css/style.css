@@ -666,3 +666,13 @@ input[type=checkbox]:not(:checked) {
     flex-direction: row;
     height: 80px;
 }
+
+.listMenuUser_item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.listMenuUser_item img {
+    margin-right: 20px;
+}
