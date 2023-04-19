@@ -248,7 +248,8 @@ footer .map  {
 .listMenuUser{
     display: none;
     position: absolute;
-    left: 83%;
+    top: 10;
+    right: 0;
     overflow: hidden;
     width: 20%;
     background-color: #600e00;
@@ -262,6 +263,7 @@ footer .map  {
     width: 250px;
     font-size: 1.5rem;
     padding-top: 10px;
+
 }
 
 .listMenuUser ul li:last-child{
@@ -274,7 +276,7 @@ footer .map  {
 } 
 .listMenuUser ul li img{ 
     width: 32px;
-    color: white;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7483%) hue-rotate(0deg) brightness(100%) contrast(100%);
 } 
 
 
