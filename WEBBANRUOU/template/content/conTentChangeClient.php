@@ -17,7 +17,7 @@
                     case 'product_by_cat':
                         # code...
                         $CatId = $_GET["CatId"];
-                        $url = './template/content/content_mid-client-all-product.php';
+                        $url = './template/content/content_client_all_product.php';
                         include($url);
                         break;
                     case 'info':
@@ -43,7 +43,7 @@
                 }
             }
             else{
-                include('./template/content/content_mid-client-all-product.php');
+                include('./template/content/content_client_all_product.php');
 
             }
         ?>

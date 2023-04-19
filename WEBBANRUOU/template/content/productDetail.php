@@ -1,23 +1,26 @@
 <div id="product-detail-container">
-	<div class="left">
-		<img id="product-detail-container-previewImage" src="" alt="Product Image">
+	<div class="top">
+		<div class="left">
+			<img id="product-detail-container-previewImage" src="" alt="Product Image">
+		</div>
+		<div class="right">
+			<!-- <p>Mã sản phẩm: <span id="product-detail-container-productID"></span></p> -->
+			<h2><span id="product-detail-container-productName"></span></h2>		
+			<p>Loại rượu: <span id ="product-detail-container-productCategory"></span></p>
+			<h3 id="product-detail-container-productPrice"></h3>
+			<!-- <p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
+			<br> -->
+			<!-- <button>Add to Cart</button> -->
+			<form id="add-to-cart-form">
+				<input type="hidden" name="product_id" value="123">
+				<button type="button" id="minus-button" onclick="minus1()"><i class="fa-solid fa-minus"></i></button>
+				<input type="number" name="quantity" value="1" min="1">
+				<button type="button" id="plus-button" onclick="plus1()"><i class="fa-solid fa-plus"></i></button>
+				<button type="button" id="product-detail-container-add-to-cart-btn"></i> Thêm vào giỏ hàng</button>
+			</form>	
+		</div>
 	</div>
-	<div class="right">
-		<p>Mã sản phẩm: <span id="product-detail-container-productID"></span></p>
-		<h2><span id="product-detail-container-productName"></span></h2>		
-		<p>Loại rượu: <span id ="product-detail-container-productCategory"></span></p>
-		<h3 id="product-detail-container-productPrice"></h3>
-		<!-- <p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
-		<br> -->
-		<!-- <button>Add to Cart</button> -->
-		<form id="add-to-cart-form">
-			<input type="hidden" name="product_id" value="123">
-			<button type="button" id="minus-button" onclick="minus1()"><i class="fa-solid fa-minus"></i></button>
-			<input type="number" name="quantity" value="1" min="1">
-			<button type="button" id="plus-button" onclick="plus1()"><i class="fa-solid fa-plus"></i></button>
-			<button type="button" id="product-detail-container-add-to-cart-btn"></i> Thêm vào giỏ hàng</button>
-		</form>	
-	</div>
+	
 	<div class="bottom">
 		<p id="description">Mô tả: <span id="product-detail-container-productDescription"> </span></p>
 	</div>
@@ -28,62 +31,71 @@
 <style>
 	#product-detail-container{
 		background-color: rgba(217, 217, 217, 0.5);
-        max-width: 60%;        
+        max-width: 80%;        
         margin: 10px auto;
         padding: 1rem;        
         font-weight: bold;
-        display: grid;
-		grid-template-columns: 1fr 1.5fr;
-		grid-gap: 20px;
+        display: flex;		
         flex-direction: column;
-		font-family: Verdana, sans-serif;
-		/* min-height:90vh;		 */
+		font-family: Verdana, sans-serif;		
+	}
+
+	#product-detail-container .top{
+		display: flex;
+		flex-direction:row;
 	}
 
 	#product-detail-container .left{
-		width: 100%;
-		
+		width: 100%;		
 	}
 	#product-detail-container .left img{
 		width: 100%;
 		height: auto;
-		max-width: 500px;
+		/* max-width: 500px; */
 		
 	}
-	#product-detail-container .right {
-		flex: 70%;
+	#product-detail-container .right {		
+		/* float: left;		 */
+		width: 100%;
 		padding: 0 20px;
+		margin-left: 25px;
 	}
 	#product-detail-container .bottom{
-		grid-column: 1 / span 2;
-		display: block;
+		/* grid-column: 1 / span 2; */
+		display: flex;
 		min-height: 40vh;
 	}
 	#product-detail-container h2{
+		font-size: 25px;
 		color:#961313;
 	}
 	#product-detail-container h3{
+		margin-top: 100px;
+		font-size: 22px;
 		color:#961313;
 	}
 	#product-detail-container p{
-		font-size: 12px;
+		font-size: 18px;
 	}
 	#product-detail-container input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{
 		-webkit-appearance: none;
 	}
 	#product-detail-container input[type=number]{
+		margin: 50px 0px;
 		width: 50px;
 		text-align: center;
+		font-size: 18px;
 	}
 	#product-detail-container #product-detail-container-add-to-cart-btn {
 		display: block;
-		margin: 20px 0px;
+		/* margin: 20px 0px; */
 		background-color: #961313;
 		border-radius: 20px;
 		border: none;
 		color: white;
 		padding:10px;
 		font-weight: bold;
+		font-size: 20px;
 	}
 
 	#product-detail-container #product-detail-container-add-to-cart-btn:hover {
@@ -109,6 +121,14 @@
 
 	#product-detail-container #add-to-cart-form input[type=number]{
 		padding: 5px;
+	}
+	#product-detail-container .bottom {	
+		flex:1;		
+	}
+	#product-detail-container .bottom p{
+		width: 100%;		
+		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
