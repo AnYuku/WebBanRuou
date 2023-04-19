@@ -16,6 +16,18 @@
             <img src="./image/tax_32px.png" alt="" srcset="">
             <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Quản lí thuế</a>
         </li>
+        <li>
+            <img src="./image/tax_32px.png" alt="" srcset="">
+            <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê sản phẩm đã bán</a>
+        </li>
+        <li>
+            <img src="./image/tax_32px.png" alt="" srcset="">
+            <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê sản phẩm các đơn hàng</a>
+        </li>
+        <li>
+            <img src="./image/tax_32px.png" alt="" srcset="">
+            <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Xác nhận đơn hàng</a>
+        </li>
     </ul>
 </div>
 <script>

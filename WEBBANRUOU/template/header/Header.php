@@ -6,9 +6,27 @@
             </div>
         </div>
         <div id="index_btn_view">
-            <div id="index_btn">
-                <a class="logo">Trang chủ</a> 
-            </div>
+        <?php
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            $user = isset($_GET['user']) ? $_GET['user'] : '';
+
+            if ($user === 'admin') {
+                ?>
+                <div style="display: none;" id="index_btn">
+                    <a class="logo">Trang chủ</a> 
+                </div>
+                <?php
+            } else {
+                ?>
+                <div id="index_btn">
+                    <a class="logo">Trang chủ</a> 
+                </div>
+                <?php
+            }
+        ?>
         </div>
         <div id="link_product">
         <?php
