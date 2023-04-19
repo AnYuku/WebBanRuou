@@ -7,8 +7,8 @@
 		<h2><span id="product-detail-container-productName"></span></h2>		
 		<p>Loại rượu: <span id ="product-detail-container-productCategory"></span></p>
 		<h3 id="product-detail-container-productPrice"></h3>
-		<p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
-		<br>
+		<!-- <p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
+		<br> -->
 		<!-- <button>Add to Cart</button> -->
 		<form id="add-to-cart-form">
 			<input type="hidden" name="product_id" value="123">
@@ -37,7 +37,7 @@
 		grid-gap: 20px;
         flex-direction: column;
 		font-family: Verdana, sans-serif;
-		
+		/* min-height:90vh;		 */
 	}
 
 	#product-detail-container .left{
@@ -57,6 +57,7 @@
 	#product-detail-container .bottom{
 		grid-column: 1 / span 2;
 		display: block;
+		min-height: 40vh;
 	}
 	#product-detail-container h2{
 		color:#961313;
