@@ -885,7 +885,7 @@
     $("#submit-edit-product").on("click", function() {
         if (checkProductImage("edit_imageInput") == true && checkProductName("edit_productName") == true && checkProductPrice("edit_productPrice") == true &&
             checkProductQuantity("edit_Quan") == true) {
-            var data_update = {
+            var data_insert = {
                 ProductNum: $("#edit_ProductNum").val() + '',
                 ProductName: $("#edit_productName").val() + '',
                 Descript: $("#edit_Descript").val() + '',
@@ -899,17 +899,17 @@
                 ImageSource: $("#edit_imageInput").val() + '',
             };
             $.ajax({
-                url: '../../template/dbconnection_PUT.php',
+                url: '../../template/dbconnection_EDIT_PRODUCT.php',
                 type: 'POST',
                 data: {
-                    table_name: 'product',
-                    data_update: JSON.stringify(
-                        data_update
+                    // table_name: 'product',
+                    data_insert: JSON.stringify(
+                        data_insert
                     )
                 },
                 success: function(response) {
                     // Xử lý phản hồi từ API
-                    console.log(response);
+                    // console.log(response);
                     if (response) {
                         swal("Thành công", "Sản phẩm đã được lưu", "success")
                             .then((value) => {
