@@ -67,111 +67,19 @@
             $conn->query($sql);
         }
     } else if ($table_name == "transactdetails") {
-        // Only update status transaction details
-        if(isset($data_update['Status'])) {
-            $sql = "UPDATE `transactdetails` SET `Status`='{$data_update['Status']}' WHERE TransactId = '{$data_update['TransactId']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `transactdetail` WHERE TransactDetailId='{$id_object}';";
     } else if ($table_name == "transactheader") {
-        // Only update status transaction header
-        if(isset($data_update['Status'])) {
-            $sql = "UPDATE `transactheader` SET `Status`='{$data_update['Status']}' WHERE TransactId = '{$data_update['TransactId']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `transactdetail` WHERE TransactId = '{$id_object}';" + 
+                "DELETE FROM `transactheader` WHERE TransactId = '{$id_object}';";
     } else if ($table_name == "product") {
-        //ProductName
-        if(isset($data_update['ProductName'])) {
-            $sql = "UPDATE `product` SET `ProductName`='{$data_update['ProductName']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Descript
-        if(isset($data_update['Descript'])) {
-            $sql = "UPDATE `product` SET `Descript`='{$data_update['Descript']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Price
-        if(isset($data_update['Price'])) {
-            $sql = "UPDATE `product` SET `Price`='{$data_update['Price']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Tax1
-        if(isset($data_update['Tax1'])) {
-            $sql = "UPDATE `product` SET `Tax1`='{$data_update['Tax1']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Tax2
-        if(isset($data_update['Tax2'])) {
-            $sql = "UPDATE `product` SET `Tax2`='{$data_update['Tax2']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Tax3
-        if(isset($data_update['Tax3'])) {
-            $sql = "UPDATE `product` SET `Tax3`='{$data_update['Tax3']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //Quan
-        if(isset($data_update['Quan'])) {
-            $sql = "UPDATE `product` SET `Quan`='{$data_update['Quan']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //IsActive
-        if(isset($data_update['IsActive'])) {
-            $sql = "UPDATE `product` SET `IsActive`='{$data_update['IsActive']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //CatId
-        if(isset($data_update['CatId'])) {
-            $sql = "UPDATE `product` SET `CatId`='{$data_update['CatId']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
-        //ImageSource
-        if(isset($data_update['ImageSource'])) {
-            $sql = "UPDATE `product` SET `ImageSource`='{$data_update['ImageSource']}' WHERE `ProductNum` = '{$data_update['ProductNum']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `product` WHERE ProductNum = '{$id_object}';";
     } else if ($table_name == "productcombo") {
-        //Descript
-        if(isset($data_update['Descript'])) {
-            $sql = "UPDATE `productcombo` SET `Descript`='{$data_update['Descript']}' WHERE `ProductComboId` = '{$data_update['ProductComboId']}'";
-            $conn->query($sql);
-        }
-        //ProductLinkNum
-        if(isset($data_update['ProductLinkNum'])) {
-            $sql = "UPDATE `productcombo` SET `ProductLinkNum`='{$data_update['ProductLinkNum']}' WHERE `ProductComboId` = '{$data_update['ProductComboId']}'";
-            $conn->query($sql);
-        }
-        //IsActive
-        if(isset($data_update['IsActive'])) {
-            $sql = "UPDATE `productcombo` SET `IsActive`='{$data_update['IsActive']}' WHERE `ProductComboId` = '{$data_update['ProductComboId']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `productcombo` WHERE ProductComboId = '{$id_object}';";
     } else if ($table_name == "paymentmethod") {
-        //PaymentName
-        if(isset($data_update['PaymentName'])) {
-            $sql = "UPDATE `paymentmethod` SET `PaymentName`='{$data_update['PaymentName']}' WHERE `PaymentId` = '{$data_update['PaymentId']}'";
-            $conn->query($sql);
-        }
-        //Descript
-        if(isset($data_update['Descript'])) {
-            $sql = "UPDATE `paymentmethod` SET `Descript`='{$data_update['Descript']}' WHERE `PaymentId` = '{$data_update['PaymentId']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `paymentmethod` WHERE PaymentId='{$id_object}';";
     } else if ($table_name == "category") {
-        //CatName
-        if(isset($data_update['CatName'])) {
-            $sql = "UPDATE `category` SET `CatName`='{$data_update['CatName']}' WHERE `CatId` = '{$data_update['CatId']}'";
-            $conn->query($sql);
-        }
-        //Descript
-        if(isset($data_update['Descript'])) {
-            $sql = "UPDATE `category` SET `Descript`='{$data_update['Descript']}' WHERE `CatId` = '{$data_update['CatId']}'";
-            $conn->query($sql);
-        }
-        //IsActive
-        if(isset($data_update['IsActive'])) {
-            $sql = "UPDATE `category` SET `Descript`='{$data_update['IsActive']}' WHERE `CatId` = '{$data_update['CatId']}'";
-            $conn->query($sql);
-        }
+        $sql = "DELETE FROM `product` WHERE CatId = '{$id_object}';" + 
+                "DELETE FROM `category` WHERE CatId = '{$id_object}';";
     } else {
         // None
     }  

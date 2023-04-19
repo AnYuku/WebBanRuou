@@ -11,12 +11,13 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
-    $table_name = $_GET['table_name'];
-    //$table_name="taxinfo";
+    $pageString = $_GET['page'];
+    $pageInt = intval($pageString);
+    $page = ($pageInt - 1) * 12;
+    $table_name = 'product';
 
     // Get data from table
-    $sql = "SELECT * FROM $table_name";
+    $sql = "SELECT * FROM $table_name LIMIT 12 OFFSET $page";
     $result = $conn->query($sql);
 
     // Convert data to JSON format

@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // neu da login
 if (isset($_SESSION['logged_in'])) {
@@ -57,7 +59,7 @@ if (isset($_SESSION['logged_in'])) {
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background: url('../../../image/login-background.jpg') no-repeat center center fixed;
+        background: url('./image/login-background.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -183,6 +185,7 @@ if (isset($_SESSION['logged_in'])) {
             username.style.borderColor = "red";
         } else {
             username.style.borderStyle = "none";
+            return true;
         }
     }
 
@@ -196,43 +199,46 @@ if (isset($_SESSION['logged_in'])) {
             password.style.borderColor = "red";
         } else {
             password.style.borderStyle = "none";
+            return true;
         }
     }
 
     $(document).ready(function() {
         $("#submit").on("click", function() {
-            checkPassword();
-            checkUsername();
-            var username = document.getElementById("username");
-            var _username = $("#username").val();
-            var password = document.getElementById("password");
-            var _password = $("#password").val();
-            $.ajax({
-                url: '../../template/dbconnection_LOGIN.php',
-                method: 'POST',
-                dataType: 'json',
-                data: {
-                    username: _username,
-                    password: _password,
-                },
-                success: function(response) {
-                    // $("#result").html(result);
-                    console.log(response);
-                    if (response == 'admin') {
-                        swal("Thành công", "Bạn đã đăng nhập với vai trò admin", "success")
-                            .then((value) => {
-                                window.location = 'index.php?user=admin';
-                            });
-                    } else if (response == 'client') {
-                        swal("Thành công", "Bạn đã đăng nhập", "success")
-                            .then((value) => {
-                                window.location = 'index.php?user=client';
-                            });
-                    } else
-                        swal("Có lỗi xảy ra", "Tên đăng nhập hoặc mật khẩu không chính xác!","error");
-                    // console.log(result.indexOf("error"));
-                },
-            })
+            if (checkUsername() && checkPassword()) {
+                var username = document.getElementById("username");
+                var _username = $("#username").val();
+                var password = document.getElementById("password");
+                var _password = $("#password").val();
+                $.ajax({
+                    url: './template/dbconnection_LOGIN.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        username: _username,
+                        password: _password,
+                    },
+                    success: function(response) {
+                        // $("#result").html(result);
+                        console.log(response);
+                        if (response == 'admin') {
+                            swal("Thành công", "Bạn đã đăng nhập với vai trò admin", "success")
+                                .then((value) => {
+                                    window.location = 'index.php?user=admin';
+                                });
+                        } else if (response == 'client') {
+                            swal("Thành công", "Bạn đã đăng nhập", "success")
+                                .then((value) => {
+                                    window.location = 'index.php?user=client';
+                                });
+                        } else
+                            swal("Có lỗi xảy ra", "Tên đăng nhập hoặc mật khẩu không chính xác!", "error");
+                        // console.log(result.indexOf("error"));
+                    },
+                })
+            };
+
+
 
         })
 

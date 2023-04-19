@@ -2,8 +2,8 @@
 session_start();
 unset($_SESSION['logged_in']);
 session_destroy();
-header("location: login.php");  
+// include("./template/content/login.php");
+header("Location: ../../index.php", true, 301);  
 exit();
-
 
 ?>

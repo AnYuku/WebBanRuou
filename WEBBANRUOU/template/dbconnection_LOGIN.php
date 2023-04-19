@@ -1,8 +1,8 @@
 <?php
     session_start();
     $servername = "localhost";
-    $username = "admin";
-    $password = "admin";
+    $username = "root";
+    $password = "";
     $dbname = "pubmanager";
 
     // Create connection
