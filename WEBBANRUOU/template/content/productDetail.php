@@ -111,8 +111,9 @@
 		padding: 5px;
 	}
 </style>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
 <script>
+	console.log('Run');
 	// Nhấn + - để thay đổi giá trị số lượng	
     var quantityInput = document.querySelector('input[name="quantity"]');
     function plus1() {
@@ -125,11 +126,16 @@
             quantityInput.value = parseInt(quantityInput.value) - 1;
         }
     };
-	var productId = <?php echo json_encode($_GET['productId']); ?>;
-	console.log(productId);
+	let productId = 0;
+	try {
+		const productIdString = <?php echo json_encode($_GET['productId']); ?>;
+		productId = productIdString;
+	} catch (e) {
+		console.log(e);
+	};
 	$(document).ready(function() {    
         $.ajax({
-            url: "../../template/dbconnection_PRODUCT_DETAIL.php",
+            url: "./template/dbconnection_PRODUCT_DETAIL.php",
             type: "GET",
             data: {                
 				productId: productId

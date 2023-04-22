@@ -20,6 +20,9 @@
                         $url = './template/content/content_client_all_product.php';
                         include($url);
                         break;
+                    case 'product_details':
+                        include('./template/content/productDetail.php');
+                        break;
                     case 'info':
                         # code...
                             // include('./template/content/content-admin-tax-manager.php');

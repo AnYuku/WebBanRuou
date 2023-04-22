@@ -9,7 +9,18 @@
             flex: 1;
         "
     >
-        <div id="content_left_client_all_product">
+        <div id="content_left_client_all_product_searching">
+            <div id="product_seaching_view">
+                <a>Tìm kiếm nâng cao</a>
+                <div class="roundedArrowView" id="showSearch">
+                    <img src="./image/down_512px.png" alt="" srcset="">
+                </div>
+                <div class="roundedArrowView" id="hideSearch" style="display: none;">
+                    <img src="./image/up_512px.png" alt="" srcset="">
+                </div>
+            </div>
+        </div>
+        <div id="content_left_client_all_product" style="display: none;">
             <div class="content_left_client_all_product_title_style content_left_client_all_product_title_box">
                 <Text>Bộ lọc tìm kiếm:</Text>
             </div>
@@ -88,6 +99,7 @@
     <div
         style="
             flex: 3;
+            border: 1px solid black;
         "
     >
         <div id="content_mid_client_all_product">
@@ -118,9 +130,41 @@
             </div>
         </div>
     </div>
+    <div
+        style="flex: 1;"
+        id="right_content"
+    >
+
+    </div>
 </div>
 
 <script>
+    var showSearchButton = document.getElementById('showSearch');
+    var hideSearchButton = document.getElementById('hideSearch');
+    var searchContainer = document.getElementById('content_left_client_all_product');
+    //var right_content = document.getElementById('right_content');
+
+    showSearchButton.addEventListener('click', function() {
+        // Ẩn nút "Hiển thị tìm kiếm"
+        showSearchButton.style.display = 'none';
+        // Hiển thị nút "Ẩn tìm kiếm"
+        hideSearchButton.style.display = 'block';
+        // Hiển thị phần tìm kiếm
+        searchContainer.style.display = 'block';
+        //right_content.style.display = 'none';
+    });
+
+    hideSearchButton.addEventListener('click', function() {
+        // Hiển thị nút "Hiển thị tìm kiếm"
+        showSearchButton.style.display = 'block';
+        // Ẩn nút "Ẩn tìm kiếm"
+        hideSearchButton.style.display = 'none';
+        // Ẩn phần tìm kiếm
+        searchContainer.style.display = 'none';
+        //right_content.style.display = 'block';
+    });
+
+    // =====================================================================================================
     let filterSeleted = "";
     const searchBtn = document.getElementById("client_product_search_btn");
     const clearBtn = document.getElementById("client_product_clear_btn");
@@ -274,9 +318,11 @@
             success: function(result) {
                 document.querySelector("#client_products_table").innerHTML = "";
                 if(result.length > 0) {
+                    let productIdList = [];
                     $.each(result, function(i, item) {
                         const price = parseInt(item.Price, 10);
                         const formattedNumber = price.toLocaleString('vi-VN');
+                        productIdList.push(item.ProductNum);
                         const productItem = `
                             <div class="client_product_item" id="${item.ProductNum}">
                                 <img src=${item.ImageSource} alt="image product"/>
@@ -291,6 +337,7 @@
                     if(page == 1) {
                         document.getElementById("pageSelected").innerHTML = 1;
                     }
+                    addHrefToProduct({ productIdList: productIdList });
                 }
             }
         });
@@ -305,9 +352,11 @@
             success: function(result) {
                 document.querySelector("#client_products_table").innerHTML = "";
                 if(result.length > 0) {
+                    let productIdList = [];
                     $.each(result, function(i, item) {
                         const price = parseInt(item.Price, 10);
                         const formattedNumber = price.toLocaleString('vi-VN');
+                        productIdList.push(item.ProductNum);
                         const productItem = `
                             <div class="client_product_item" id="${item.ProductNum}">
                                 <img src=${item.ImageSource} alt="image product"/>
@@ -322,6 +371,7 @@
                     if(page == 1) {
                         document.getElementById("pageSelected").innerHTML = 1;
                     }
+                    addHrefToProduct({ productIdList: productIdList });
                 }
             }
         });
@@ -480,14 +530,6 @@
 
     function loadData({page}) {
         // product Item component
-        const productItem = `
-            <div class="client_product_item">
-                <img src=item.ImageSource alt="image product"/>
-                <div>
-                    <Text>item.ProductName</Text>
-                    <Text>item.Price</Text>
-                </div>
-            </div>`;
         $(document).ready(function() {
             $.ajax({
                 url: "./template/dbconnection_GET_PRODUCT_BY_PAGE.php",
@@ -495,11 +537,13 @@
                 data: { page: page },
                 dataType: "json",
                 success: function(result) {
+                    let productIdList = [];
                     document.querySelector("#client_products_table").innerHTML = "";
                     if(result.length > 0) {
                         $.each(result, function(i, item) {
                             const price = parseInt(item.Price, 10);
                             const formattedNumber = price.toLocaleString('vi-VN');
+                            productIdList.push(item.ProductNum);
                             const productItem = `
                                 <div class="client_product_item" id="${item.ProductNum}">
                                     <img src=${item.ImageSource} alt="image product"/>
@@ -514,6 +558,7 @@
                         if(page == 1) {
                             document.getElementById("pageSelected").innerHTML = 1;
                         }
+                        addHrefToProduct({ productIdList: productIdList });
                     }
                 }
             });
@@ -521,6 +566,33 @@
     };
     // Auto khi vào trang load page 1 đầu tiên
     loadData({page: 1});
+
+    let catId = "";
+    try {
+        const string = <?php 
+            if(isset($_GET['CatId'])) {
+                echo json_encode($_GET['CatId']);
+            } else {
+                $string = "";
+                echo json_encode($string);
+            }
+        ?>;
+        catId = string;
+    } catch (e) {
+        console.log(e);
+    }
+    console.log("Category ID:",catId);
+
+    function addHrefToProduct ({ productIdList = []}) {
+        const elements = document.querySelectorAll('.client_product_item');
+
+        elements.forEach(element => {
+            element.addEventListener('click', () => {
+                const productId = element.id;
+                window.location.href = `index.php?chon=t&id=sanpham&data=product_details&productId=${productId}`;
+            });
+        });
+    }
 
     function loadSearchResult({searchKey, page}) {
         $.ajax({
@@ -534,9 +606,11 @@
             success: function(result) {
                 document.querySelector("#client_products_table").innerHTML = "";
                 if(result.length > 0) {
+                    let productIdList = [];
                     $.each(result, function(i, item) {
                         const price = parseInt(item.Price, 10);
                         const formattedNumber = price.toLocaleString('vi-VN');
+                        productIdList.push(item.ProductNum);
                         const productItem = `
                             <div class="client_product_item" id="${item.ProductNum}">
                                 <img src=${item.ImageSource} alt="image product"/>
@@ -548,6 +622,7 @@
                         `;
                         $('#client_products_table').append(productItem);
                     });
+                    addHrefToProduct({ productIdList: productIdList });
                 } else {
                     const content = `
                         <div class="client_product_empty_product_message_view">
