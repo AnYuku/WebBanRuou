@@ -485,7 +485,7 @@ input[type=number] {
     outline: none;
     cursor: pointer;
     border-radius: 50%;
-    position: relative; /* Add position:relative for ::after pseudo-element */
+    /* position: relative; Add position:relative for ::after pseudo-element */
 }
 
 input[type="checkbox"]:checked::after {
