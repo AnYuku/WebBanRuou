@@ -18,7 +18,6 @@
         include("./template/header/ListMenuAdmin.php");
         include("./template/header/ListMenuUser.php");
         include("./template/content/conTentChangeAdmin.php");
-        include("./template/footer/fooTer.php");
     ?>
 </body>
 <script src="./js/jsPage.js"></script>
