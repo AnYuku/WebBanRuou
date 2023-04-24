@@ -3,11 +3,11 @@
     </div>
     <div id="contentcenter">
         <?php
-            if (!isset($_SESSION['username'])) {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-                include('./template/content/conTentChangeLogin.php');
-                exit;
-            }
+            // if (!isset($_SESSION['username'])) {
+            //     // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            //     include('./template/content/conTentChangeLogin.php');
+            //     exit;
+            // }
             
             // Nếu đã đăng nhập, điều hướng đến trang thông tin cá nhân
             
