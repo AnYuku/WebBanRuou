@@ -22,19 +22,5 @@
         
     ?>
 </main>
-<!-- <script>
-    $('#loginphp').click(function(e){
-        e.preventDefault();
-        $('#main').load("./template/content/conTentChangeLogin.php");
-    })
-    $('#changePageProduct').click(function(e){
-        e.preventDefault();
-        $('#main').load("./template/content/conTentChangeClient.php");
-    })
-    $('.logo').click(function(e){
-        e.preventDefault();
-        $('#main').load("./template/content/conTent.php");
-    })
-</script> -->
 
 

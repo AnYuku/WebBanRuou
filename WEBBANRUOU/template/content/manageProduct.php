@@ -665,7 +665,6 @@
     $(document).ready(function() {
         var pro = [];
         var cat = [];
-
         $.ajax({
             url: "../../template/dbconnection_GET.php",
             type: "GET",

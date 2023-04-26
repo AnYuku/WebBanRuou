@@ -193,6 +193,10 @@
                             showCreateModal();
                         });
                     }
+                },
+                error: function(xhr, status, error) {
+                    alert(status);
+                    console.log(xhr.responseText);
                 }
             });
             const buttons = document.getElementsByClassName("content_admin_table_item_button");

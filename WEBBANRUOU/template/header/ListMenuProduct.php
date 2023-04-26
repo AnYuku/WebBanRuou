@@ -20,5 +20,42 @@
             });
         });
 
+
+// hover list menu product
+var mennuHoverProduct = document.querySelector('.menuheader');
+var menuProduct = document.querySelector('.listMenuProduct');
+
+ var isMenuVisible = false;
+
+ if (typeof mennuHoverProduct !== 'undefined' && mennuHoverProduct !== null) {
+  // mennuHoverProduct đã được định nghĩa và có giá trị
+  mennuHoverProduct.addEventListener('mouseenter', function() {
+    menuProduct.style.display = 'block';
+    isMenuVisible = true;
+  });
+  
+  mennuHoverProduct.addEventListener('mouseleave', function() {
+    isMenuVisible = false;
+    setTimeout(function() {
+      if (!isMenuVisible) {
+        menuProduct.style.display = 'none';
+      }
+    }, 200);
+  });
+  
+  menuProduct.addEventListener('mouseenter', function() {
+    isMenuVisible = true;
+  });
+  
+  menuProduct.addEventListener('mouseleave', function() {
+    isMenuVisible = false;
+    setTimeout(function() {
+      if (!isMenuVisible) {
+        menuProduct.style.display = 'none';
+      }
+    }, 200);
+  }); 
+
+}
 </script>
 

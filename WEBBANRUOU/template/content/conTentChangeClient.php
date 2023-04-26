@@ -3,11 +3,11 @@
     </div>
     <div id="contentcenter">
         <?php
-            if (!isset($_SESSION['username'])) {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-                include('./template/content/conTentChangeLogin.php');
-                exit;
-            }
+            // if (!isset($_SESSION['username'])) {
+            //     // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            //     include('./template/content/conTentChangeLogin.php');
+            //     exit;
+            // }
             
             // Nếu đã đăng nhập, điều hướng đến trang thông tin cá nhân
             
@@ -19,6 +19,9 @@
                         $CatId = $_GET["CatId"];
                         $url = './template/content/content_client_all_product.php';
                         include($url);
+                        break;
+                    case 'product_details':
+                        include('./template/content/productDetail.php');
                         break;
                     case 'info':
                         # code...
@@ -33,7 +36,8 @@
                     case 'giohang':
                             # code..   
                             // include('./template/content/content-admin-tax-manager.php');
-                        echo 'Giỏ hàng';
+                        // echo 'Giỏ hàng';
+                        include('./template/content/cart.php');
                     break;          
                     case 'logout':
                             # code..   
