@@ -18,7 +18,7 @@
         </li>
         <li>
             <img src="./image/tax_32px.png" alt="" srcset="">
-            <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê sản phẩm đã bán</a>
+            <a class="statistics_of_products _sold" href="index.php?user=admin&data=statistics_of_products _sold">Thống kê sản phẩm đã bán</a>
         </li>
         <li>
             <img src="./image/tax_32px.png" alt="" srcset="">
