@@ -4,13 +4,12 @@
     box-sizing: border-box;
 }
 
-#content_admin  {
+#content_admin {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    background: url('../image/admin_background.jpg') repeat scroll 0 0 transparent;
+    min-height: 100vh;
     padding-bottom: 50px;
-}   
+}
 
 #content_admin_button_add {
     float: right;
@@ -31,7 +30,7 @@
     box-shadow: 0 5px #999;
 }
 
-#content_admin_button_add:active  {
+#content_admin_button_add:active {
     box-shadow: 0 2px #999;
     transform: translateY(3px);
 }
@@ -46,10 +45,10 @@
     width: 100%;
     background-color: #A92F2F;
     color: white;
-    font-family:'OpenSans-regular';
+    font-family: 'OpenSans-regular';
     border-collapse: collapse;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
 }
 
 #content_admin_table_thead tr th {
@@ -104,7 +103,7 @@
     text-align: center;
 }
 
-.content_admin_button_edit:active  {
+.content_admin_button_edit:active {
     background-color: #ED6262;
     color: white;
 }
@@ -119,9 +118,9 @@
 }
 
 #content_admin_tax_table {
-    width:100%;
-	border:1px solid red;
-    font-family:'OpenSans-regular';
+    width: 100%;
+    border: 1px solid red;
+    font-family: 'OpenSans-regular';
     table-layout: fixed;
 }
 
@@ -129,7 +128,7 @@
     background-color: #a92f2f;
 }
 
-#content_admin_tax_table thead th{
+#content_admin_tax_table thead th {
     padding: 20px 15px;
     text-align: left;
     font-weight: 500;
@@ -137,14 +136,14 @@
     color: #fff;
 }
 
-#content_admin_tax_table tbody td{
+#content_admin_tax_table tbody td {
     padding: 15px;
     text-align: left;
-    vertical-align:middle;
+    vertical-align: middle;
     font-weight: 300;
     font-size: 18px;
     color: #fff;
-    border-bottom: solid 1px rgba(255,255,255,0.1);
+    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
     background-color: #888;
 }
 
@@ -155,13 +154,14 @@
     position: relative;
     background-color: black;
     color: white;
-    cursor:pointer;
-    user-select:none;
+    cursor: pointer;
+    user-select: none;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     transition-duration: 0.4s;
-    -webkit-transition-duration: 0.4s; /* Safari */
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
     font-size: 13px;
 }
 
@@ -176,20 +176,20 @@
     position: absolute;
     border-radius: 4em;
     left: 0;
-    top:0;
+    top: 0;
     width: 100%;
     height: 100%;
     opacity: 0;
     transition: all 0.5s;
     box-shadow: 0 0 10px 20px white;
-  }
+}
 
 .content_admin_table_item_button:active:after {
     box-shadow: 0 0 0 0 white;
     position: absolute;
     border-radius: 4em;
     left: 0;
-    top:0;
+    top: 0;
     opacity: 1;
     transition: 0s;
 }
@@ -204,26 +204,35 @@
     align-items: flex-end;
     padding: 10px 100px;
 }
-  /* The Modal (background) */
+
+/* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
-  
+
 /* Modal Content/Box */
 .modal-content {
     border-radius: 15px;
     background-color: #ED6262;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 5% auto;
+    /* 15% from the top and centered */
     padding: 0px 20px 20px;
     border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
+    width: 60%;
+    /* Could be more or less, depending on screen size */
     display: flex;
     flex-direction: column;
 }
@@ -235,14 +244,14 @@
     font-size: 40px;
     font-weight: bold;
 }
-  
+
 .close:hover,
 .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
-  
+
 .content_admin_form_1_item {
     display: flex;
     margin-top: 5px;
@@ -295,7 +304,7 @@
     flex: 1;
     display: flex;
     flex-direction: row;
-    /* background-color: #888; */ 
+    /* background-color: #888; */
 }
 
 .content_admin_form_button_view_style {
@@ -314,9 +323,11 @@
     border-radius: 10px;
     border-color: #ED6262;
 }
+
 /* css content mid client all product */
 #content_mid_client_all_product {
-    min-height: 100vh; /* set initial height to 100% of viewport height */
+    min-height: 100vh;
+    /* set initial height to 100% of viewport height */
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -361,7 +372,8 @@
 #client_products_table {
     display: flex;
     flex-wrap: wrap;
-    min-height: calc(100vh / 10 * 9); /* set initial height to 100% of viewport height */
+    min-height: calc(100vh / 10 * 9);
+    /* set initial height to 100% of viewport height */
     width: 100%;
     background-color: white;
 }
@@ -372,7 +384,7 @@
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
-    background-color:  #A92F2F;
+    background-color: #A92F2F;
     margin: 10px;
     cursor: pointer;
 }
@@ -392,7 +404,7 @@
     color: white;
 }
 
-.client_product_item_text_view > :nth-child(1) {
+.client_product_item_text_view> :nth-child(1) {
     font-weight: 500;
     position: absolute;
     left: 0;
@@ -400,7 +412,7 @@
     text-align: left;
 }
 
-.client_product_item_text_view > :nth-child(2) {
+.client_product_item_text_view> :nth-child(2) {
     font-size: 20px;
     font-weight: bold;
     align-items: flex-end;
@@ -437,6 +449,8 @@
 #content_left_client_all_product {
     background-color: #ED6262;
     flex: 1;
+    width: 100%;
+    height: 100%;
     padding-top: 15%;
 }
 
@@ -475,13 +489,13 @@
 }
 
 /* Input number - make up down arrow disappear */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+.content_left_client_all_product_checkbox_view input::-webkit-outer-spin-button,
+.content_left_client_all_product_checkbox_view input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type=number] {
+.content_left_client_all_product_checkbox_view input[type=number] {
     -moz-appearance: textfield;
 }
 
@@ -499,8 +513,9 @@ input[type=number] {
     /* position: relative; Add position:relative for ::after pseudo-element */
 }
 
-input[type="checkbox"]:checked::after {
-    content: "\2713"; /* Add tick symbol */
+.content_left_client_all_product_checkbox_view input[type="checkbox"]:checked::after {
+    content: "\2713";
+    /* Add tick symbol */
     font-size: 16px;
     color: white;
     position: absolute;
@@ -509,12 +524,12 @@ input[type="checkbox"]:checked::after {
     transform: translate(-50%, -50%);
 }
 
-input[type=checkbox]:checked {
+.content_left_client_all_product_checkbox_view input[type=checkbox]:checked {
     background-color: green;
     border: 2px solid green;
 }
 
-input[type=checkbox]:not(:checked) {
+.content_left_client_all_product_checkbox_view input[type=checkbox]:not(:checked) {
     background-color: #FFFFFF;
 }
 
