@@ -29,6 +29,10 @@
                         # code..   
                     include('./template/content/content_statistics_of_products _sold.php');
                 break;
+                case 'list_of_rows_menus':
+                        # code..   
+                    include('./template/content/content_list_of_rows_menus.php');
+                break;
                 case 'info':
                     # code...
                         // include('./template/content/content-admin-tax-manager.php');

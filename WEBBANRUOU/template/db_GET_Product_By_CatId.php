@@ -18,38 +18,7 @@
     $table_name = 'product';
 
     // Get data from table
-    if(isset($_GET['isAscending'])) {
-        $isAscending = $_GET['isAscending']; // Assuming $_GET['isAscending'] contains a string representation of a number
-        $isAscendingNumber = intval($isAscending);
-        if($isAscendingNumber == 0) {
-            // Giảm dần
-            $sql = "SELECT * FROM $table_name ORDER BY `product`.`Price` DESC LIMIT 12 OFFSET $page";
-        } else {
-            // Tăng dần
-            $sql = "SELECT * FROM $table_name ORDER BY `product`.`Price` ASC LIMIT 12 OFFSET $page";
-        }
-    } else if (isset($_GET['priceMin']) || isset($_GET['priceMax'])) {
-        if(!isset($_GET['priceMax'])) {
-            // Nếu chỉ có min
-            $priceMinString = $_GET['priceMin'];
-            $priceMin = intval($priceMinString);
-            $sql = "SELECT * FROM $table_name WHERE price > $priceMin LIMIT 12 OFFSET $page";
-        } else if (!isset($_GET['priceMin'])) {
-            // Nếu chỉ có max
-            $priceMaxString = $_GET['priceMax'];
-            $priceMax = intval($priceMaxString);
-            $sql = "SELECT * FROM $table_name WHERE price < $priceMax LIMIT 12 OFFSET $page";
-        } else {
-            // Nếu có cả min và max
-            $priceMinString = $_GET['priceMin'];
-            $priceMin = intval($priceMinString);
-            $priceMaxString = $_GET['priceMax'];
-            $priceMax = intval($priceMaxString);
-            $sql = "SELECT * FROM $table_name WHERE price BETWEEN $priceMin AND $priceMax LIMIT 12 OFFSET $page";
-        }
-    } else {
-        $sql = "SELECT * FROM $table_name LIMIT 12 OFFSET $page";
-    }
+    $sql = "SELECT * FROM $table_name WHERE CatId = '$catId' LIMIT 12 OFFSET $page";
     $result = $conn->query($sql);
 
     // Convert data to JSON format

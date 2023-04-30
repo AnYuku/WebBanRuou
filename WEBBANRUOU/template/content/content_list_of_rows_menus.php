@@ -2,7 +2,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 
 <?php
@@ -11,7 +10,6 @@
     require("./template/dbconnection_Doanh_Thu_once_month.php");
     require("./template/dbconnection_Doanh_Thu_once_week.php");
     require("./template/dbconnection_Doanh_Thu_once_year.php");
-    require("./template/dbconnection_list_of_rows_menus.php");
 
 
     
@@ -36,15 +34,9 @@
     </div>
 </form>
 <div class="chart">
-  <div class="block_one">
     <canvas id="myChart_column" style="width:100%;max-width:600px"></canvas>
     <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-  </div>
-  <div class="block_two">
-  <canvas id="myChart_line" style="width:100%;max-width:600px"></canvas>
-  </div>
 </div>
-
 
 
 <script>
@@ -131,34 +123,6 @@ new Chart("myChart_column", {
   }
 });
 
-
-// const xValues = [50,60,70,80,90,100,110,120,130,140,150];
-// const yValues = [7,8,8,9,9,9,10,11,14,14,15];
-
-new Chart("myChart_line", {
-  type: "line",
-  data: {
-    labels: <?php echo json_encode($timeday); ?> ,
-    datasets: [{
-      fill: false,
-      lineTension: 0,
-      backgroundColor: "rgba(0,0,255,1.0)",
-      borderColor: "rgba(0,0,255,0.1)",
-      data: <?php echo json_encode($count); ?>
-    }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "Thống kê đơn hàng"
-    },
-    scales: {
-      yAxes: [{ticks: {min: 0, max:16}}],
-    }
-  }
-});
-
 </script>
 <style>
     .chart{
@@ -176,14 +140,5 @@ new Chart("myChart_line", {
     }
     .search_time .date_time select{
         margin-left: 20px;
-    }
-    .chart .block_one{
-      margin-left: 50px;
-    }
-    .chart .block_one .myChart{
-      margin-top: 20px;
-    }
-    .chart .block_two{
-      margin-left: 100px;
     }
 </style>

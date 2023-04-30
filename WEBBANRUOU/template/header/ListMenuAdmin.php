@@ -6,7 +6,7 @@
         </li>
         <li>
             <img src="./image/Magnetic Card_32px.png" alt="" srcset="">
-            <a class="payment_management" href="index.php?user=admin&data=payment_management">Quản lí thanh toán</a>
+            <a class="payment_management" href="index.php?user=admin&data=payment_management">Quản lí phương thức thanh toán</a>
         </li>
         <li>
             <img src="./image/product_30px.png" alt="" srcset="">
@@ -22,7 +22,7 @@
         </li>
         <li>
             <img src="./image/tax_32px.png" alt="" srcset="">
-            <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê sản phẩm các đơn hàng</a>
+            <a class="tax_administration" href="index.php?user=admin&data=list_of_rows_menus">Thống kê các đơn hàng</a>
         </li>
         <li>
             <img src="./image/tax_32px.png" alt="" srcset="">

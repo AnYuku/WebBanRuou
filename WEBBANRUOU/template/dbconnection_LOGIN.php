@@ -19,9 +19,10 @@
     
     if ($sql->num_rows > 0) {
         // dang nhap thanh cong 
-        $_SESSION['logged_in'] = '1';
-        $_SESSION['username'] = $username;
         $user = mysqli_fetch_assoc($sql);
+        $_SESSION['logged_in'] = true;        
+        $_SESSION['username'] = $username;
+        $_SESSION['userId'] = $user["UserId"];
         $accessLevel = $user["AccessLevel"];
         if ($accessLevel == 100) {
             // Người dùng là admin
