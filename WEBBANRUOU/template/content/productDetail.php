@@ -94,7 +94,7 @@
 					)
 				},
 				success: function(response) {
-					// Xử lý phản hồi từ API					
+					console.log(response);				
 					if (response) {
 						Swal.fire({
 							position: 'top-end',
