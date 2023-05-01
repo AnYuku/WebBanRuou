@@ -25,6 +25,10 @@
                         # code..   
                     include('./template/content/content-admin-tax-manager.php');
                 break;
+                case 'statistics_of_products _sold':
+                        # code..   
+                    include('./template/content/content_statistics_of_products _sold.php');
+                break;
                 case 'info':
                     # code...
                         // include('./template/content/content-admin-tax-manager.php');
