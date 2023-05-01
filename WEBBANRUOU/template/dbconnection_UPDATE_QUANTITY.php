@@ -1,8 +1,4 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$Whopay = $_SESSION["userId"];
 
 $servername = "localhost";
 $username = "admin";
@@ -17,12 +13,7 @@ if ($conn->connect_error) {
 }
 $productId = $_POST['productId'];
 $quantityChange = $_POST['quantityChange'];
-
-$sql = "SELECT TransactId FROM transactheader 
-WHERE WhoPay = '$Whopay' AND Status = '0' ";
-$result =$conn->query($sql);
-$data = $result->fetch_assoc();
-$transactId = $data['TransactId'] ;
+$transactId = $_POST['transactId'];
 // Lấy thông tin sản phẩm và số lượng cũ từ cơ sở dữ liệu
 $sql = "SELECT Quan FROM transactdetail WHERE ProductNum = '$productId' AND TransactId = '$transactId'";
 $result = $conn->query($sql);
@@ -50,11 +41,7 @@ else if($quantityNew > $stock){
 $sql = "UPDATE `transactdetail` SET `Quan`='$quantityNew' WHERE ProductNum = '$productId' AND TransactId = '$transactId'";
 $conn->query($sql);
 // Cập nhật tổng cộng
-$sql = "UPDATE transactheader SET Net = (
-    SELECT SUM(CostEach * Quan)
-    FROM transactdetail
-    WHERE TransactId = '{$transactId}'
-), Total = (
+$sql = "UPDATE transactheader SET Total = (
     SELECT SUM(CostEach * Quan)
     FROM transactdetail
     WHERE TransactId = '{$transactId}'
