@@ -97,7 +97,7 @@
 					)
 				},
 				success: function(response) {
-					// console.log(response);				
+					console.log(response);				
 					if (response) {
 						Swal.fire({
 							position: 'top-end',
