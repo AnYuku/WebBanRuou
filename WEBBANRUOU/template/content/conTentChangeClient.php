@@ -36,7 +36,8 @@
                     case 'giohang':
                             # code..   
                             // include('./template/content/content-admin-tax-manager.php');
-                        echo 'Giỏ hàng';
+                        // echo 'Giỏ hàng';
+                        include('./template/content/cart.php');
                     break;          
                     case 'logout':
                             # code..   

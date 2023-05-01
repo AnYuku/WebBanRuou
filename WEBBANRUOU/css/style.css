@@ -177,7 +177,7 @@
     border-radius: 25px;
     height: 50px;
     width: 50px;
-    position: relative;
+    position: inherit;
     background-color: black;
     color: white;
     cursor: pointer;
@@ -198,8 +198,8 @@
 
 .content_admin_table_item_button:after {
     content: "";
-    display: block;
-    position: absolute;
+    /* display: block; */
+    /* position: absolute; */
     border-radius: 4em;
     left: 0;
     top: 0;

@@ -14,20 +14,28 @@
 </head>
 <body>
     <?php
-    session_start();
-        if(isset($_GET['user'])){
-            $user = $_GET['user'];
-            if($user==='admin'){
-                include("pageAdmin.php");
-            }
-            else{
-                include("pageProduct.php");
-            }
-        }
-        else{
-            include("pageProduct.php");
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
 
-        }
+    //   session_start();
+      if(isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+          include("pageAdmin.php");
+      } elseif(isset($_SESSION['client']) && $_SESSION['client'] === true) {
+          include("pageProduct.php");
+      } else {
+          // Nếu không có session hoặc không đúng loại session, kiểm tra biến GET 'user'
+          if(isset($_GET['user'])) {
+              $user = $_GET['user'];
+              if($user === 'admin') {
+                  include("pageAdmin.php");
+              } else {
+                  include("pageProduct.php");
+              }
+          } else {
+              include("pageProduct.php");
+          }
+      }
     ?>
 </body>
 <script src="./js/jsPage.js"></script>
