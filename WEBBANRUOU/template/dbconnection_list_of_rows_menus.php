@@ -1,4 +1,12 @@
 <?php
+
+$tungay=null;
+$denngay=null;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Lấy thời gian từ input
+    $tungay = $_POST['from_date'];
+    $denngay = $_POST['to_date'];
+}
 // Kết nối đến cơ sở dữ liệu
 $servername = "localhost";
 $username = "admin";
@@ -14,15 +22,13 @@ if ($conn->connect_error) {
 }
 
 // Truy vấn cơ sở dữ liệu để lấy thông tin về số lượng sản phẩm đã bán của từng loại sản phẩm
-$sql = "SELECT category.CatName, SUM(transactdetail.Quan) AS Total_sold
-                FROM category
-                JOIN product ON category.CatId = product.CatId
-                JOIN transactdetail ON product.ProductNum = transactdetail.ProductNum
-                WHERE transactdetail.Status = 2
-                GROUP BY category.CatId;";
+$sql = "SELECT DATE(transactheader.TimePayment) AS TimeDay, COUNT(*) AS TotalCount
+            FROM transactheader transactheader
+            WHERE status = 1 AND transactheader.TimePayment BETWEEN '$tungay' AND '$denngay'
+            GROUP BY DATE(transactheader.TimePayment);";
 $result = mysqli_query($conn, $sql);
-$total_sold = [];
-$CatName =[];
+$count = [];
+$timeday =[];
 $data = [];
 
 if ($result) {
@@ -30,10 +36,10 @@ if ($result) {
     $row = mysqli_fetch_all($result);
     $data[] = $row;
     foreach ($result as $data ) {
-        $total_sold[] = $data['Total_sold'];
-        // echo json_encode($total_sold);
-        $CatName[] = $data['CatName'];
-        // echo json_encode($CatName);
+        $timeday[] = $data['TimeDay'];
+        $count[] = $data['TotalCount'];
+        
+
     }
     
 } else {
