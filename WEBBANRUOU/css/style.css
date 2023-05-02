@@ -879,3 +879,10 @@
     margin: 0;
     display: none;
 }
+
+.table_confirm_order_view {
+    width: 100%;
+    min-height: 90vh;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}

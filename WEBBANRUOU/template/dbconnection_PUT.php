@@ -69,7 +69,8 @@ if ($table_name == "taxinfo") {
 } else if ($table_name == "transactdetails") {
     $sql = "";
 } else if ($table_name == "transactheader") {
-    $sql = "";
+    $sql = "UPDATE `$table_name` SET `Status`='{$data_update['Status']}' WHERE TransactId = '{$data_update['TransactId']}'";
+    $conn->query($sql);
 } else if ($table_name == "product") {
     $sql = "";
 } else if ($table_name == "productcombo") {
