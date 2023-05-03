@@ -1,19 +1,19 @@
 <div id="client-user-info">
     <h1>Thông tin cá nhân</h1>
-    <div class="personal-info">
-        <span>Username:</span>
+    <div class="personal-info">       
+        <label>Username:</label>        
         <span class="username"></span>
     </div>
     <div class="personal-info">
-        <span>Email:</span>
+        <label>Email:</label>
         <input class="email" type="email" name="email" value="" disabled required>
     </div>
     <div class="personal-info">
-        <span>Tiền trong tài khoản:</span>
+        <label>Tiền trong tài khoản:</label>
         <span class="totalCash"></span>
     </div>
     <div class="personal-info">
-        <span>Địa chỉ:</span>
+        <label>Địa chỉ:</label>
         <input class="address" type="text" name="email" value="" disabled required>
     </div>
     <button id="edit-button">Sửa thông tin cá nhân</button>
@@ -41,8 +41,8 @@
             </div>
         </form>
         <div class="modal-buttons">
-            <button type="button" id="confirm-change-password-button">Đổi mật khẩu</button>
-            <button type="button" id="close-button">Đóng</button>
+            <button type="button" id="confirm-change-password-button" class="button-23">Đổi mật khẩu</button>
+            <button type="button" id="close-button" class="button-23">Đóng</button>
         </div>
     </div>
 </div>
@@ -127,7 +127,7 @@
     changePasswordButton.addEventListener('click', function() {
         // Xử lý đổi mật khẩu ở đây
         if (checkPassword()) {
-             $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "./template/dbconnection_Personal_Info.php",
                 dataType: "json",
@@ -156,7 +156,7 @@
                             text: 'Sai mật khẩu cũ',
 
                         })
-                    } 
+                    }
                 }
             })
         }
@@ -347,5 +347,20 @@
 
     #client-user-info button:hover {
         background-color: #d32f2f;
+    }
+
+    .modal-content{
+        max-width: 500px;
+        color: #fff;
+    }    
+    .modal-content h2{
+        padding: 20px
+    } 
+    .modal-content input[type="password"] {
+        margin: 10px 0px;
+        padding: 0px 10px;
+        width: 100%;
+        height: 30px;
+        border-radius: 10px;
     }
 </style>

@@ -33,9 +33,10 @@ echo json_encode($data);
 
 // Khi nhấn nút thanh toán
 if (isset($_POST['action']) && $_POST['action'] == 'pay') {
+    
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $current_date_time = date('Y-m-d H:i:s');
-    
+
     $sql = "UPDATE transactheader 
         SET `Status` = 1, `TimePayment`='$current_date_time'
         WHERE `WhoPay` = '$Whopay' AND `Status` = 0 

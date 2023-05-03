@@ -19,10 +19,9 @@
 
 <!-- HTML chi tiết modal -->
 <div id="order-detail-modal" class="order-detail-modal">
-    <div class="order-detail-modal-content">
-        
+    <div class="order-detail-modal-content">        
         <span class="order-detail-modal-close">&times;</span>
-        <p id="order-detail"></p>
+        <div id="order-detail"></div>
     </div>
 </div>
 
@@ -50,7 +49,7 @@
                     row += "<td>" + formattedDate + "</td>";
                     row += "<td>" + formatNumber(order.Total) + " đ" + "</td>";
                     row += "<td>" + status + "</td>";
-                    row += "<td><button class='btn-detail' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";     
+                    row += "<td><button class='btn-detail button-23' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";     
                     row += "</tr>";
                     orderList.innerHTML += row;
                 }
@@ -81,10 +80,11 @@
                 let dateObj = new Date(response[0].TimePayment);
                 let formattedDate = dateObj.toLocaleTimeString('en-GB') + ' ' + dateObj.toLocaleDateString('en-GB');
                 let orderDetail = ""
+                orderDetail += "<p>Chi tiết đơn hàng: <span>"  + transactId +"</span></p>";
+                orderDetail += "<p>Tổng cộng: <span>" + formatNumber(response[0].Total) + " đ" + "</span></p>" ;
+                orderDetail += "<p>Thời gian: <span>" + formattedDate +"</span></p>" ;
                 orderDetail += "<table>";
-                orderDetail += "<p>Chi tiết đơn hàng: " + transactId +"</p>";
-                orderDetail += "<p>Tổng cộng: " + formatNumber(response[0].Total) + " đ" + "</p>" ;
-                orderDetail += "<p>Thời gian: " + formattedDate +"</p>" ;
+                
                 orderDetail += "<thead>";
                 orderDetail += "<tr>";
                 orderDetail += "<th>Tên sản phẩm</th>";
@@ -126,7 +126,7 @@
         margin-left: 300px;
         padding: 1rem;
         
-        font-weight: bold;
+        /* font-weight: bold; */
         display: flex;
         flex-direction: column;
         font-family: 'OpenSans-regular';
@@ -209,4 +209,11 @@
         text-decoration: none;
         cursor: pointer;
     }
+    .order-detail-modal-content p{
+        padding: 5px;
+    }
+    .order-detail-modal-content span{
+        font-weight: bold;
+    }
+    
 </style>

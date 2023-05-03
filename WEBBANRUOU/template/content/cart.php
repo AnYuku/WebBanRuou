@@ -57,7 +57,14 @@ $Whopay = $_SESSION["userId"];
                 }
                 $("#cart-cart-table tbody").html(html);
                 $("#totalPrice").html("Tổng tiền: " + formatNumber(totalCost) + " đ");
-                $("#btn-transactheader").html("<button class='btn-transactheader' action='pay'>Thanh toán</button>")
+                if(data.length == 0){
+                    $("#btn-transactheader").html("<button class='btn-transactheader button-23' disabled action='pay'>Thanh toán</button>")
+
+                }
+                else{
+                    $("#btn-transactheader").html("<button class='btn-transactheader button-23' action='pay'>Thanh toán</button>")
+
+                }
             }
         });
 
@@ -152,14 +159,25 @@ $Whopay = $_SESSION["userId"];
 
 <style>
     #cart-container {
+        max-width: 90%; 
+        min-width: 600px;       
+        margin: 10px auto;
+        margin-left: 300px;
+        padding: 1rem;        
+        font-weight: bold;
         display: flex;
         flex-direction: column;
         align-items: center;
+        color: #961313;
+    }
+    #cart-container p{
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     #cart-cart-table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: collapse; 
     }
 
     #cart-cart-table th,

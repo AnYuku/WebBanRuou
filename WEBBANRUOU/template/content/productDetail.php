@@ -82,7 +82,6 @@
 		?>
 		var isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
 		if (isLoggedIn) {
-
 			let productDataToCart = {
 				productId: productId,
 				productQuantity: $('#producQuantityToBuy').val()

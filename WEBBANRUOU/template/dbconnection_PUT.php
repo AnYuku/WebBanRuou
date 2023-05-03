@@ -51,6 +51,10 @@ if ($table_name == "taxinfo") {
         $sql = "UPDATE `$table_name` SET `TotalCash`='{$data_update['TotalCash']}' WHERE UserId = '{$data_update['UserId']}'";
         $conn->query($sql);
     }
+    if (isset($data_update['TotalCashDec'])) {
+        $sql = "UPDATE `$table_name` SET `TotalCash`= `TotalCash` - '{$data_update['TotalCashDec']}' WHERE UserId = '{$data_update['UserId']}'";
+        $conn->query($sql);
+    }
     //IsActive
     if (isset($data_update['IsActive'])) {
         $sql = "UPDATE `$table_name` SET `IsActive`='{$data_update['IsActive']}' WHERE UserId = '{$data_update['UserId']}'";
@@ -69,9 +73,13 @@ if ($table_name == "taxinfo") {
 } else if ($table_name == "transactdetails") {
     $sql = "";
 } else if ($table_name == "transactheader") {
-    $sql = "";
+    $sql = "UPDATE `$table_name` SET `Status`='{$data_update['Status']}' WHERE TransactId = '{$data_update['TransactId']}'";
+    $conn->query($sql);
 } else if ($table_name == "product") {
-    $sql = "";
+    if (isset($data_update['QuanDec'])) {
+        $sql = "UPDATE `product` SET `Quan`= `Quan` - '{$data_update['QuanDec']}' WHERE ProductNum = '{$data_update['ProductNum']}'";
+        $conn->query($sql);
+    }
 } else if ($table_name == "productcombo") {
     $sql = "";
 } else if ($table_name == "paymentmethod") {
