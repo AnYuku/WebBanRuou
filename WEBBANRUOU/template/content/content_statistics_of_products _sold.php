@@ -8,6 +8,9 @@
         </a>
     </div>
     <div class="view_chart">
+        <div class="view_chart_left">
+            <select id="yearSelect_myChart1"></select>
+        </div>
         <canvas id="myChart1"></canvas>
         <div class="view_chart_center">
             <a>
@@ -16,6 +19,9 @@
         </div>
     </div>
     <div class="view_chart">
+        <div class="view_chart_left">
+            <select id="yearSelect_myChart2"></select>
+        </div>
         <canvas id="myChart2"></canvas>
         <div class="view_chart_center">
             <a>
@@ -42,11 +48,46 @@
     let allDataCountOrder = [];
     let allProduct = [];
     var currentYear = new Date().getFullYear();
-    let yearChart3 = 2023;
+    let yearChart1 = currentYear;
+    let yearChart2 = currentYear;
+    let yearChart3 = currentYear;
     let quarterChart3 = 1;
     var myChart1 = "";
     var myChart2 = "";
     var myChart3 = "";
+
+    var colors = {
+        borderColor: [
+            '#2ecc71',
+            '#3498db',
+            '#9b59b6',
+            '#34495e',
+            '#f1c40f',
+            '#e67e22',
+            '#e74c3c',
+            '#95a5a6',
+            '#16a085',
+            '#27ae60'
+        ],
+        backgroundColor: [
+            makeTransparentAndDarker('#2ecc71'),
+            makeTransparentAndDarker('#2d6da3'),
+            makeTransparentAndDarker('#7e549e'),
+            makeTransparentAndDarker('#2c3e50'),
+            makeTransparentAndDarker('#c7a00e'),
+            makeTransparentAndDarker('#ad610f'),
+            makeTransparentAndDarker('#a53729'),
+            makeTransparentAndDarker('#7f8c8d'),
+            makeTransparentAndDarker('#0d7b54'),
+            makeTransparentAndDarker('#1f8e43')
+        ]
+    };
+
+    var colorChuThich = {
+        borderColor: '#000',
+        backgroundColor: '#fff'
+    }
+
 
     function formatTimeToTimeSQL(time) {
         const date = new Date(time);
@@ -97,12 +138,38 @@
             timeStart: formatTimeToTimeSQL(startTime),
             timeEnd: formatTimeToTimeSQL(endTime)
         };
+    };
+
+    function toCurrency(number) {
+        let formattedNumber = number.toLocaleString('en-US');
+        return formattedNumber;
     }
 
     function getTransactIdByTime(time) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: "./template/db_GET_TransactHeaderByTime.php",
+                type: "GET",
+                data: {
+                    Start: time.timeStart,
+                    End: time.timeEnd
+                },
+                dataType: "json",
+                success: function(result) {
+                    resolve(result);
+                },
+                error: function(xhr, status, error) {
+                    reject(error);
+                }
+            });
+        });
+    };
+
+    function getDoanhThuByTime(time) {
+        console.log('time: ', time);
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: "./template/db_GET_doanhThuByTime.php",
                 type: "GET",
                 data: {
                     Start: time.timeStart,
@@ -210,6 +277,59 @@
         return uniqueProducts;
     }
 
+    function initDataChar1(year) {
+        return new Promise(function(resolve, reject) {
+            getDoanhThuByTime(getQuarterTime(year, 1))
+                .then(function(totalDoanhThu1) {
+                    getDoanhThuByTime(getQuarterTime(year, 2))
+                        .then(function(totalDoanhThu2) {
+                            getDoanhThuByTime(getQuarterTime(year, 3))
+                                .then(function(totalDoanhThu3) {
+                                    getDoanhThuByTime(getQuarterTime(year, 4))
+                                        .then(function(totalDoanhThu4) {
+                                            let total1 = 0;
+                                            let total2 = 0;
+                                            let total3 = 0;
+                                            let total4 = 0;
+
+                                            if (totalDoanhThu1 !== null) {
+                                                total1 = totalDoanhThu1.SumTotal;
+                                            }
+                                            if (totalDoanhThu2 !== null) {
+                                                total2 = totalDoanhThu2.SumTotal;
+                                            }
+                                            if (totalDoanhThu3 !== null) {
+                                                total3 = totalDoanhThu3.SumTotal;
+                                            }
+                                            if (totalDoanhThu4 !== null) {
+                                                total4 = totalDoanhThu4.SumTotal;
+                                            }
+
+                                            resolve([
+                                                total1,
+                                                total2,
+                                                total3,
+                                                total4
+                                            ]);
+                                        })
+                                        .catch(function(error) {
+                                            reject(error);
+                                        });
+                                })
+                                .catch(function(error) {
+                                    reject(error);
+                                });
+                        })
+                        .catch(function(error) {
+                            reject(error);
+                        });
+                })
+                .catch(function(error) {
+                    reject(error);
+                });
+        });
+    };
+
     function initDataChar2(year) {
         return new Promise(function(resolve, reject) {
             getTransactIdByTime(getQuarterTime(year, 1))
@@ -269,60 +389,6 @@
 
         const newColor = `rgba(${newR}, ${newG}, ${newB}, ${alpha})`;
         return newColor;
-    }
-
-
-
-    const year = 2023;
-
-    const exampleData = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    const exampleData1 = [12, 19, 3, 5, 2, 3, 15];
-
-    const data2 = [0, 0, 0, 0];
-
-    var data = [
-        [75, 80, 85, 90],
-        [60, 70, 80, 90],
-        [65, 75, 85, 95],
-        [50, 55, 60, 65],
-        [70, 80, 90, 100],
-        [55, 65, 75, 85],
-        [80, 85, 90, 95],
-        [65, 75, 85, 95],
-        [50, 60, 70, 80],
-        [70, 80, 90, 100]
-    ];
-    var labels = ['Product A', 'Product B', 'Product C', 'Product D', 'Product E', 'Product F', 'Product G', 'Product H', 'Product I', 'Product J'];
-    var colors = {
-        borderColor: [
-            '#2ecc71',
-            '#3498db',
-            '#9b59b6',
-            '#34495e',
-            '#f1c40f',
-            '#e67e22',
-            '#e74c3c',
-            '#95a5a6',
-            '#16a085',
-            '#27ae60'
-        ],
-        backgroundColor: [
-            makeTransparentAndDarker('#2ecc71'),
-            makeTransparentAndDarker('#2d6da3'),
-            makeTransparentAndDarker('#7e549e'),
-            makeTransparentAndDarker('#2c3e50'),
-            makeTransparentAndDarker('#c7a00e'),
-            makeTransparentAndDarker('#ad610f'),
-            makeTransparentAndDarker('#a53729'),
-            makeTransparentAndDarker('#7f8c8d'),
-            makeTransparentAndDarker('#0d7b54'),
-            makeTransparentAndDarker('#1f8e43')
-        ]
-    };
-
-    var colorChuThich = {
-        borderColor: '#000',
-        backgroundColor: '#fff'
     }
 
     function destroyChart(chart) {
@@ -416,41 +482,67 @@
             years.push(i);
         }
 
-        var yearSelect = document.getElementById("yearSelect_myChart3");
-        var quarterSelect = document.getElementById("quarterSelect_myChart3");
+        var yearSelect1 = document.getElementById("yearSelect_myChart1");
+        var yearSelect2 = document.getElementById("yearSelect_myChart2");
+        var yearSelect3 = document.getElementById("yearSelect_myChart3");
+        var quarterSelect3 = document.getElementById("quarterSelect_myChart3");
 
         // Thêm lựa chọn vào box
         for (var i = 0; i < years.length; i++) {
             var option = document.createElement("option");
             option.text = years[i];
-            yearSelect.add(option);
+            yearSelect1.add(option);
+        }
+        for (var i = 0; i < years.length; i++) {
+            var option = document.createElement("option");
+            option.text = years[i];
+            yearSelect2.add(option);
+        }
+        for (var i = 0; i < years.length; i++) {
+            var option = document.createElement("option");
+            option.text = years[i];
+            yearSelect3.add(option);
         }
         for (var i = 0; i < dataQuy.length; i++) {
             var option = document.createElement("option");
             option.text = dataQuy[i];
-            quarterSelect.add(option);
+            quarterSelect3.add(option);
         }
 
         // Thêm chức năng khi thay đổi lựa chọn
 
-        function changeChart3() {
-            var yearSelect = document.getElementById("yearSelect_myChart3").value;
-            var quarterSelect = document.getElementById("quarterSelect_myChart3").value;
-            yearChart3 = yearSelect;
-            quarterChart3 = formatQuarterToNumber(quarterSelect);
+        function changeChart() {
+            var yearSelect1 = document.getElementById("yearSelect_myChart1").value;
+            var yearSelect2 = document.getElementById("yearSelect_myChart2").value;
+            var yearSelect3 = document.getElementById("yearSelect_myChart3").value;
+            var quarterSelect3 = document.getElementById("quarterSelect_myChart3").value;
+            yearChart1 = yearSelect1;
+            yearChart2 = yearSelect2;
+            yearChart3 = yearSelect3;
+            quarterChart3 = formatQuarterToNumber(quarterSelect3);
             destroyChart(myChart1);
             destroyChart(myChart2);
             destroyChart(myChart3);
             loadView();
         }
 
-        yearSelect.addEventListener("change", (event) => {
+        yearSelect1.addEventListener("change", (event) => {
             event.preventDefault();
-            changeChart3();
+            changeChart();
         });
-        quarterSelect.addEventListener("change", (event) => {
+
+        yearSelect2.addEventListener("change", (event) => {
             event.preventDefault();
-            changeChart3();
+            changeChart();
+        });
+
+        yearSelect3.addEventListener("change", (event) => {
+            event.preventDefault();
+            changeChart();
+        });
+        quarterSelect3.addEventListener("change", (event) => {
+            event.preventDefault();
+            changeChart();
         });
     }
 
@@ -460,8 +552,16 @@
                 allProduct = resultAllProduct;
                 initDataTransDetails()
                     .then(function(allTransDetails) {
-                        initChart1(exampleData, exampleData1);
-                        initDataChar2(year)
+                        initDataChar1(yearChart1)
+                            .then(function(dataChart1) {
+                                console.log('dataChart1: ', dataChart1);
+                                initChart1(dataQuy, dataChart1);
+                            })
+                            .catch(function(error) {
+                                alert(error);
+                            });
+
+                        initDataChar2(yearChart2)
                             .then(function(data) {
                                 initChart2(dataQuy, data);
                             })
