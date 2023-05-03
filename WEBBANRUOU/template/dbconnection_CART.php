@@ -33,16 +33,18 @@ echo json_encode($data);
 
 // Khi nhấn nút thanh toán
 if (isset($_POST['action']) && $_POST['action'] == 'pay') {
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     $current_date_time = date('Y-m-d H:i:s');
+    
     $sql = "UPDATE transactheader 
         SET `Status` = 1, `TimePayment`='$current_date_time'
         WHERE `WhoPay` = '$Whopay' AND `Status` = 0 
         LIMIT 1";
     $conn->query($sql);
-    echo json_encode(true);
+    // echo json_encode(true);
 }
 
-if (isset($_POST['action']) && $_POST['action'] == "updateQuantity")
+// if (isset($_POST['action']) && $_POST['action'] == "updateQuantity")
 
 if (isset($_POST['action']) && $_POST['action'] == 'delete') {   
     $productNum = $_POST["productId"];
@@ -52,5 +54,5 @@ if (isset($_POST['action']) && $_POST['action'] == 'delete') {
     WHERE transactheader.WhoPay = '$Whopay' AND transactheader.Status = 0 
     AND transactdetail.ProductNum = '$productNum' ";
     $conn->query($sql);
-    echo json_encode(true);    
+    // echo json_encode(true);    
 }

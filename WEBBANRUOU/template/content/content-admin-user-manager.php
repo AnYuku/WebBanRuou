@@ -127,7 +127,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <div class="content_admin_form_1_item" id="conten_admin-money_view">
                         <a class="content_admin_form_1_item_text content_admin_form_text_style">Tiền trong ví:</a>
                         <div class="content_admin_form_1_item_input">
-                            <input type="text" class="content_admin_form_input_style" style="width: 50%;" id="content_admin_form_input_money" value="0">
+                            <input type="text" class="content_admin_form_input_style" style="width: 50%;" id="content_admin_form_input_money" value="0" oninput="changeToZero()">
                         </div>
                     </div>
                     <div class="content_admin_form_1_item">
@@ -147,6 +147,40 @@ if (session_status() == PHP_SESSION_NONE) {
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div id="Modal_NapTien" style="display: none">
+        <div class="modal" style="display: flex; align-items: center;">
+            <div class="modal-content" style="height: 30%;">
+                <div class="modal_NapTien_text_view">
+                    <div class="modal_NapTien_text_view_center">
+                        <a>Nạp tiền</a>
+                    </div>
+                    <div>
+                        <span class="close" onclick="hideModalNapTien()">&times;</span>
+                    </div>
+                </div>
+                <div class="moder_NapTien_buttons_view">
+                    <button id="input_money_100" class="button-23">100,000 VND</button>
+                    <button id="input_money_200" class="button-23">200,000 VND</button>
+                    <button id="input_money_500" class="button-23">500,000 VND</button>
+                    <button id="input_money_1000" class="button-23">1,000,000 VND</button>
+                </div>
+                <div>
+
+                </div>
+                <div class="moder_NapTien_buttons_view_2">
+                    <div>
+                        <a>Khác:</a>
+                    </div>
+                    <div>
+                        <input type="number" id="input_money" class="content_admin_form_input_style no-arrow" value="0" oninput="changeToZeroNapTien()" />
+                    </div>
+                    <div>
+                        <button class="button-23" id="Nap_Tien_Btn">Nạp</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -172,6 +206,23 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
     let user_data = [];
+    let userIdSelected = 0;
+
+    function changeToZero() {
+        var input = document.getElementById("content_admin_form_input_money");
+        if (input.value === "") {
+            input.value = "0";
+        }
+    }
+
+    function changeToZeroNapTien() {
+        var input_money = document.getElementById("input_money");
+        if (input_money.value === "") {
+            input_money.value = "0";
+        } else {
+            input_money.value = parseInt(input_money.value, 10);
+        }
+    }
 
     function isGmailFormat(email) {
         const gmailRegex = /^[a-zA-Z0-9_.+-]+@gmail\.com$/;
@@ -218,7 +269,7 @@ if (session_status() == PHP_SESSION_NONE) {
             return data;
         } else {
             let AccessLevel = '50';
-            if (capDoTruyCap === 'Admin') {
+            if (capDoTruyCap === 'admin') {
                 AccessLevel = '100';
                 money = 0;
             }
@@ -240,12 +291,14 @@ if (session_status() == PHP_SESSION_NONE) {
     };
 
     function resetFormCreate() {
-        document.getElementById("content_admin_form_input_username").value;
-        document.getElementById("content_admin_form_input_password").value;
-        //document.getElementById("content_admin_form_input_accesslevel").value;
-        document.getElementById("content_admin_form_input_gmail").value;
-        document.getElementById("content_admin_form_input_money").value;
-        document.getElementById("content_admin_form_input_address").value;
+        document.getElementById("content_admin_form_input_username").value = "";
+        document.getElementById("content_admin_form_input_password").value = "";
+        document.getElementById("content_admin_form_input_gmail").value = "";
+        document.getElementById("content_admin_form_input_money").value = "0";
+        document.getElementById("content_admin_form_input_address").value = "";
+        document.getElementById("content_admin_form_input_accesslevel").selectedIndex = 1;
+        const moneyElement = document.getElementById('conten_admin-money_view');
+        moneyElement.style.display = 'flex';
     };
     // ============================================================================================================================================================
     function loadData() {
@@ -313,7 +366,7 @@ if (session_status() == PHP_SESSION_NONE) {
         event.preventDefault();
         if (checkEmptyInfo().status === true) {
             const content = checkEmptyInfo().message;
-            console.log('content: ', JSON.stringify(content));
+            // console.log('content: ', JSON.stringify(content));
             $.ajax({
                 url: "./template/dbconnection_POST.php",
                 type: "POST",
@@ -323,7 +376,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 },
                 dataType: "json",
                 success: function(result) {
-                    console.log(result);
+                    // console.log(result);
                     alert("Tạo tài khoản thành công!");
                     hideCreateModal();
                     loadData();
@@ -340,9 +393,154 @@ if (session_status() == PHP_SESSION_NONE) {
 
     document.getElementById("content_admin_form_button_cancel").addEventListener("click", function(event) {
         event.preventDefault();
-        document.getElementById("content_admin_form_input_username").value = "";
-        document.getElementById("content_admin_form_input_password").value = "";
+        resetFormCreate();
         hideCreateModal();
+    });
+
+    document.getElementById("Nap_Tien_Btn").addEventListener("click", function(event) {
+        event.preventDefault();
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const input_moneyString = document.getElementById("input_money").value;
+        const input_money = parseInt(input_moneyString, 10);
+        const content = {
+            UserId: id,
+            TotalCash: input_money
+        };
+
+        $.ajax({
+            url: "./template/db_PUT_NapTien.php",
+            type: "POST",
+            data: {
+                data_update: JSON.stringify(content)
+            },
+            dataType: "json",
+            success: function(result) {
+                alert("Nạp tiền thành công");
+                hideModalNapTien();
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Nạp tiền thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    document.getElementById("input_money_1000").addEventListener("click", function(event) {
+        event.preventDefault();
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const content = {
+            UserId: id,
+            TotalCash: '1000000'
+        };
+
+        $.ajax({
+            url: "./template/db_PUT_NapTien.php",
+            type: "POST",
+            data: {
+                data_update: JSON.stringify(content)
+            },
+            dataType: "json",
+            success: function(result) {
+                alert("Nạp tiền thành công");
+                hideModalNapTien();
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Nạp tiền thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    document.getElementById("input_money_500").addEventListener("click", function(event) {
+        event.preventDefault();
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const content = {
+            UserId: id,
+            TotalCash: '500000'
+        };
+
+        $.ajax({
+            url: "./template/db_PUT_NapTien.php",
+            type: "POST",
+            data: {
+                data_update: JSON.stringify(content)
+            },
+            dataType: "json",
+            success: function(result) {
+                alert("Nạp tiền thành công");
+                hideModalNapTien();
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Nạp tiền thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    document.getElementById("input_money_200").addEventListener("click", function(event) {
+        event.preventDefault();
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const content = {
+            UserId: id,
+            TotalCash: '200000'
+        };
+
+        $.ajax({
+            url: "./template/db_PUT_NapTien.php",
+            type: "POST",
+            data: {
+                data_update: JSON.stringify(content)
+            },
+            dataType: "json",
+            success: function(result) {
+                alert("Nạp tiền thành công");
+                hideModalNapTien();
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Nạp tiền thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    document.getElementById("input_money_100").addEventListener("click", function(event) {
+        event.preventDefault();
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const content = {
+            UserId: id,
+            TotalCash: '100000'
+        };
+
+        $.ajax({
+            url: "./template/db_PUT_NapTien.php",
+            type: "POST",
+            data: {
+                data_update: JSON.stringify(content)
+            },
+            dataType: "json",
+            success: function(result) {
+                alert("Nạp tiền thành công");
+                hideModalNapTien();
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Nạp tiền thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    document.getElementById("input_money").addEventListener("click", function(event) {
+
     });
 
     // ============================================================================================================================================================
@@ -365,6 +563,17 @@ if (session_status() == PHP_SESSION_NONE) {
         var createModal = document.getElementById("createModal");
         createModal.style.display = "none";
     }
+
+    function showModalNapTien() {
+        var Modal_NapTien = document.getElementById("Modal_NapTien");
+        Modal_NapTien.style.display = "block";
+        document.getElementById("input_money").value = "0";
+    }
+
+    function hideModalNapTien() {
+        var Modal_NapTien = document.getElementById("Modal_NapTien");
+        Modal_NapTien.style.display = "none";
+    }
     // ============================================================================================================================================================
     function extractIdFromButtonId(buttonId) {
         var numericId = buttonId.replace('user-', '');
@@ -379,10 +588,13 @@ if (session_status() == PHP_SESSION_NONE) {
     function addDataIntoModal({
         id
     }) {
-        const userID = <?php echo $_SESSION['userId'] ?>;
-        console.log('userID: ', userID);
+        let userID = "";
+        try {
+            userID = '<?php echo $_SESSION['userId'] ?>';
+        } catch (e) {
+            console.log(e);
+        }
         const index = extractIdFromButtonId(id);
-        console.log(user_data[index]);
         document.getElementById("content_admin_form_input_edit_username").value = user_data[index].UserName;
         document.getElementById("content_admin_form_input_edit_userid").value = user_data[index].UserId;
         if (user_data[index].IsActive + '' == '1') {
@@ -393,14 +605,22 @@ if (session_status() == PHP_SESSION_NONE) {
         document.getElementById("content_admin_form_input_edit_password").value = user_data[index].UserPassword;
         const moneyView = document.getElementById('content_admin-edit-money_view');
         const napTienBtn = document.getElementById('content_admin_edit_form_depositBtn');
+        const xoaBtn = document.getElementById('content_admin_edit_form_deleteBtn');
+        // console.log('Role:', user_data[index].AccessLevel);
         if (user_data[index].AccessLevel == 100) {
             document.getElementById("content_admin_form_input_edit_accessLevel").selectedIndex = 0;
+            document.getElementById("content_admin_form_input_edit_accessLevel").options[1].disabled = true;
             moneyView.style.display = 'none';
             napTienBtn.style.display = 'none';
+            if (user_data[index].UserId === userID) {
+                xoaBtn.style.display = 'none';
+            }
         } else {
             document.getElementById("content_admin_form_input_edit_accessLevel").selectedIndex = 1;
+            document.getElementById("content_admin_form_input_edit_accessLevel").options[0].disabled = true;
             moneyView.style.display = 'flex';
             napTienBtn.style.display = 'block';
+            xoaBtn.style.display = 'block';
         }
         document.getElementById("content_admin_form_input_edit_email").value = user_data[index].Email;
         document.getElementById("content_admin_form_input_edit_money").value = toCurrency(user_data[index].TotalCash);
@@ -408,23 +628,109 @@ if (session_status() == PHP_SESSION_NONE) {
     }
 
     function handleEditBtn(id) {
+        userIdSelected = id;
         addDataIntoModal({
             id: id
         });
         showModal();
     }
 
+    function checkDataChange(pw, email) {
+        if (pw === "") {
+            return {
+                status: false,
+                message: "Mật khẩu đang trống"
+            }
+        } else if (email === "") {
+            return {
+                status: false,
+                message: "Email đang trống"
+            }
+        } else if (!isGmailFormat(email)) {
+            return {
+                status: false,
+                message: "Email sai định dạng"
+            }
+        } else {
+            return {
+                status: true
+            }
+        }
+    }
+
+    function getDataFromCreateForm() {
+        const id = document.getElementById("content_admin_form_input_edit_userid").value;
+        const pw = document.getElementById("content_admin_form_input_edit_password").value;
+        const email = document.getElementById("content_admin_form_input_edit_email").value;
+        const address = document.getElementById("content_admin_form_input_edit_addresss").value;
+        const isOk = checkDataChange(pw, email).status;
+        if (isOk) {
+            return {
+                UserId: id,
+                UserPassword: pw,
+                Email: email,
+                Address: address
+            }
+        } else {
+            alert(checkDataChange(pw, email).message);
+            return null;
+        }
+
+    }
+
     document.getElementById("content_admin_edit_form_depositBtn").addEventListener("click", function(event) {
         event.preventDefault();
-        alert("Click Nạp tiền");
+        showModalNapTien();
     });
     document.getElementById("content_admin_edit_form_deleteBtn").addEventListener("click", function(event) {
         event.preventDefault();
-        alert("Click Xóa");
+        const index = extractIdFromButtonId(userIdSelected);
+        const userInfo = user_data[index];
+        const userid = userInfo.UserId;
+        $.ajax({
+            url: "./template/dbconnection_DELETE.php",
+            type: "POST",
+            data: {
+                table_name: "useraccount",
+                id_object: userid
+            },
+            dataType: "json",
+            success: function(result) {
+                console.log('result: ', result);
+                alert("Xóa tài khoản thành công!");
+                hideModal();
+                loadData();
+            },
+            error: function(xhr, status, error) {
+                alert("Xóa tài khoản thất bại!");
+                console.log(xhr.responseText);
+            }
+        });
     });
     document.getElementById("content_admin_edit_form_saveBtn").addEventListener("click", function(event) {
         event.preventDefault();
-        alert("Click Lưu");
+        const contentChange = getDataFromCreateForm();
+        if (contentChange !== null) {
+            $.ajax({
+                url: "./template/dbconnection_PUT.php",
+                type: "POST",
+                data: {
+                    table_name: "useraccount",
+                    data_update: JSON.stringify(contentChange)
+                },
+                dataType: "json",
+                success: function(result) {
+                    console.log('result: ', result);
+                    alert("Cập nhật tài khoản thành công!");
+                    hideModal();
+                    loadData();
+                },
+                error: function(xhr, status, error) {
+                    alert("Cập nhật tài khoản thất bại!");
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     });
     document.getElementById("content_admin_edit_form_cancelBtn").addEventListener("click", function(event) {
         event.preventDefault();

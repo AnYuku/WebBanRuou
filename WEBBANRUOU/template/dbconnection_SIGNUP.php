@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])) {
-    header('Location: index.php');
+if (isset($_SESSION['AccessLevel']) && $_SESSION["AccessLevel"] == 50) {
+    // header('Location: index.php');
     exit();
 }
 

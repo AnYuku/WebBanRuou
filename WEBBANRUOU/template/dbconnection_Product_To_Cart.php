@@ -56,10 +56,10 @@ function generateTempID($isTS, $conn)
         $result3 = mysqli_query($conn, $sql3);
         // Đếm số lượng kết quả trả về
         $indexTD = mysqli_num_rows($result3);
-        $tempID = "TS" . str_pad(($indexTD + 1), 5, "0", STR_PAD_LEFT);
+        $tempID = "TD" . str_pad(($indexTD + 1), 5, "0", STR_PAD_LEFT);
         while (checkIfIDExists($tempID, $conn)) {
             $indexTD++;
-            $tempID = "TS" . str_pad(($indexTD + 1), 5, "0", STR_PAD_LEFT);
+            $tempID = "TD" . str_pad(($indexTD + 1), 5, "0", STR_PAD_LEFT);
         }
         return $tempID;
     }
@@ -119,8 +119,8 @@ if ($result->num_rows > 0) {
     $TransactDetailId = generateTempID(0, $conn);
     $CostEach = floatval($productInfo["Price"]);
     $Total = $CostEach * $data_insert['productQuantity'];
-    $sql = "INSERT INTO `transactdetail`(`TransactDetailId`,`ProductNum`,`CostEach`,`Total`,`Quan`,
-        `Status`,`TransactId`) VALUES ('$TransactDetailId','{$data_insert["productId"]}','$CostEach',
+    $sql = "INSERT INTO `transactdetail`(`TransactDetailId`,`ProductNum`,`CostEach`,`Tax1`,`Tax2`,`Tax3`,`Total`,`Quan`,
+        `Status`,`TransactId`) VALUES ('$TransactDetailId','{$data_insert["productId"]}','$CostEach',0,0,0,
          '$Total',{$data_insert['productQuantity']},'0','$transactId')";
     $conn->query($sql);
     //Cập nhật tổng hóa đơn

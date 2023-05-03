@@ -24,6 +24,7 @@
         $_SESSION['username'] = $username;
         $_SESSION['userId'] = $user["UserId"];
         $accessLevel = $user["AccessLevel"];
+        $_SESSION['AccessLevel'] = $accessLevel;
         if ($accessLevel == 100) {
             // Người dùng là admin
             echo json_encode('admin');

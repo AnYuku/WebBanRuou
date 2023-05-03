@@ -18,16 +18,12 @@
                     break;
                 case 'product_management':
                         # code..   
-                    // include('./template/content/contentPage.php');
-                    echo 'Quản lý sản phẩm';
+                    include('./template/content/manageProduct.php');
+                    // echo 'Quản lý sản phẩm';
                 break;          
                 case 'tax_administration':
                         # code..   
                     include('./template/content/content-admin-tax-manager.php');
-                break;
-                case 'statistics_of_products _sold':
-                        # code..   
-                    include('./template/content/content_statistics_of_products _sold.php');
                 break;
                 case 'info':
                     # code...
