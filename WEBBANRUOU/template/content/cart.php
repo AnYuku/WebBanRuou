@@ -118,6 +118,7 @@ $Whopay = $_SESSION["userId"];
                         productId: productId
                     },
                     success: function(response) {
+                        console.log(response);
                         location.reload();
                     }
                 });

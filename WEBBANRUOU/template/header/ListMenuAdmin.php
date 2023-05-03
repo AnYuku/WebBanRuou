@@ -22,11 +22,11 @@
     </li>
     <li>
       <img src="./image/tax_32px.png" alt="" srcset="">
-      <a class="tax_administration" href="index.php?user=admin&data=list_of_rows_menus">Thống kê các đơn hàng</a>
+      <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê các đơn hàng</a>
     </li>
     <li>
-      <img src="./image/transaction_480px.png" alt="" srcset="">
-      <a class="tax_administration" href="index.php?user=admin&data=confirm_order">Xác nhận đơn hàng</a>
+      <img src="./image/tax_32px.png" alt="" srcset="">
+      <a class="tax_administration" href="index.php?user=admin&data=confirm_order_administration">Xác nhận đơn hàng</a>
     </li>
   </ul>
 </div>

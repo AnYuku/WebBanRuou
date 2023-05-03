@@ -18,7 +18,7 @@
                         break;
                     case 'product_management':
                         # code..   
-                        // include('./template/content/contentPage.php');
+                        include('./template/content/manageProduct.php');
                         echo 'Quản lý sản phẩm';
                         break;
                     case 'tax_administration':

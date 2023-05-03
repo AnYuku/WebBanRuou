@@ -223,7 +223,7 @@
     function checkPassword() {
         var password = document.getElementById("password");
         var _password = $("#password").val();
-        var regex = /^[a-zA-Z0-9]+$/;
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
         if (password.validity.valueMissing) {
             password.setCustomValidity("Vui lòng nhập mật khẩu");
             password.reportValidity();

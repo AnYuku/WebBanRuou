@@ -179,7 +179,7 @@
     .content-admin-product-product-window {
         position: fixed;
         width: 80%;
-        height: 80%;
+        height: 90%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -399,6 +399,7 @@
 
 
     .content-admin-product-container table {
+        margin-top: 20px;
         border-collapse: collapse;
         width: 100%;
         resize: horizontal;
@@ -560,7 +561,7 @@
 
         // Gửi yêu cầu AJAX để truy vấn thông tin sản phẩm từ server
         $.ajax({
-            url: '../../template/dbconnection_EDIT_PRODUCT.php',
+            url: './template/dbconnection_EDIT_PRODUCT.php',
             type: 'GET',
             data: {
                 table_name: "product",
@@ -620,7 +621,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: '../../template/dbconnection_DELETE.php',
+                        url: './template/dbconnection_DELETE.php',
                         type: 'POST',
                         data: {
                             table_name: "product",
@@ -666,7 +667,7 @@
         var pro = [];
         var cat = [];
         $.ajax({
-            url: "../../template/dbconnection_GET.php",
+            url: "./template/dbconnection_GET.php",
             type: "GET",
             data: {
                 table_name: "product"
@@ -677,7 +678,7 @@
             }
         }).then(function() {
             $.ajax({
-                url: "../../template/dbconnection_GET.php",
+                url: "./template/dbconnection_GET.php",
                 type: "GET",
                 data: {
                     table_name: "category"
@@ -841,7 +842,7 @@
                 };
                 console.log(data_insert);
                 $.ajax({
-                    url: '../../template/dbconnection_POST.php',
+                    url: './template/dbconnection_POST.php',
                     method: 'POST',
                     dataType: 'json',
                     data: {
@@ -898,7 +899,7 @@
                 ImageSource: $("#edit_imageInput").val() + '',
             };
             $.ajax({
-                url: '../../template/dbconnection_EDIT_PRODUCT.php',
+                url: './template/dbconnection_EDIT_PRODUCT.php',
                 type: 'POST',
                 data: {
                     // table_name: 'product',
@@ -962,7 +963,7 @@
         var _isActive = button.getAttribute('value')
         // console.log(isActive);
         $.ajax({
-            url: '../../template/dbconnection_PRODUCT_ACTIVE.php',
+            url: './template/dbconnection_PRODUCT_ACTIVE.php',
             type: 'POST',
             data: {
                 productId: _productId,
