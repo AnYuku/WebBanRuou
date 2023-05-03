@@ -48,7 +48,7 @@
                         // include('./template/content/content-admin-tax-manager.php');
                         echo 'Giỏ hàng';
                         break;
-                    case 'confirm_order':
+                    case 'confirm_order_administratio':
                         include('./template/content/content-admin_confirm_order.php');
                         break;
                     case 'logout':

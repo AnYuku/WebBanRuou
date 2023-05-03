@@ -1,7 +1,9 @@
 <div id="client-user-info">
     <h1>Thông tin cá nhân</h1>
     <div class="personal-info">
-        <span>Username:</span>
+        <div>
+            <span>Username:</span>
+        </div>
         <span class="username"></span>
     </div>
     <div class="personal-info">
@@ -41,8 +43,8 @@
             </div>
         </form>
         <div class="modal-buttons">
-            <button type="button" id="confirm-change-password-button">Đổi mật khẩu</button>
-            <button type="button" id="close-button">Đóng</button>
+            <button type="button" id="confirm-change-password-button" class="button-23">Đổi mật khẩu</button>
+            <button type="button" id="close-button" class="button-23">Đóng</button>
         </div>
     </div>
 </div>
@@ -127,7 +129,7 @@
     changePasswordButton.addEventListener('click', function() {
         // Xử lý đổi mật khẩu ở đây
         if (checkPassword()) {
-             $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "./template/dbconnection_Personal_Info.php",
                 dataType: "json",
@@ -156,7 +158,7 @@
                             text: 'Sai mật khẩu cũ',
 
                         })
-                    } 
+                    }
                 }
             })
         }

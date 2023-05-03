@@ -17,16 +17,12 @@
       <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Quản lí thuế</a>
     </li>
     <li>
-      <img src="./image/tax_32px.png" alt="" srcset="">
-      <a class="statistics_of_products _sold" href="index.php?user=admin&data=statistics_of_products _sold">Thống kê sản phẩm đã bán</a>
+      <img src="./image/pie_chart_480px.png" alt="" srcset="">
+      <a class="statistics_of_products _sold" href="index.php?user=admin&data=statistics_of_products _sold">Thống kê kinh doanh tổng hợp</a>
     </li>
     <li>
-      <img src="./image/tax_32px.png" alt="" srcset="">
-      <a class="tax_administration" href="index.php?user=admin&data=tax_administration">Thống kê các đơn hàng</a>
-    </li>
-    <li>
-      <img src="./image/tax_32px.png" alt="" srcset="">
-      <a class="tax_administration" href="index.php?user=admin&data=confirm_order_administration">Xác nhận đơn hàng</a>
+      <img src="./image/transaction_480px.png" alt="" srcset="">
+      <a class="tax_administration" href="index.php?user=admin&data=confirm_order_administratio">Xác nhận đơn hàng</a>
     </li>
   </ul>
 </div>
