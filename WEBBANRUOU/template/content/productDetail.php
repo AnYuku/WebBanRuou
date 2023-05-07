@@ -1,3 +1,9 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$Whopay = $_SESSION["userId"];
+?>
 <div id="product-detail-container">
 	<div class="left">
 		<img id="product-detail-container-previewImage" src="" alt="Product Image">
@@ -27,7 +33,7 @@
 <script src="https://kit.fontawesome.com/44c01e1bca.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-	console.log('Run');
+	var userID = '<?php echo $Whopay; ?>';
 	// Nhấn + - để thay đổi giá trị số lượng	
 	var quantityInput = document.querySelector('input[name="quantity"]');
 
@@ -82,7 +88,7 @@
 		?>
 		var isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
 		if (isLoggedIn) {
-			let productDataToCart = {
+			let productDataToCart = {				
 				productId: productId,
 				productQuantity: $('#producQuantityToBuy').val()
 			}
@@ -91,6 +97,7 @@
 				url: './template/dbconnection_Product_To_Cart.php',
 				type: 'POST',
 				data: {
+					userID : userID,
 					productDataToCart: JSON.stringify(
 						productDataToCart
 					)
@@ -98,8 +105,7 @@
 				success: function(response) {
 					console.log(response);				
 					if (response) {
-						Swal.fire({
-							position: 'top-end',
+						Swal.fire({							
 							icon: 'success',
 							title: 'Sản phẩm đã được thêm vào giỏ hàng',
 							showConfirmButton: false,

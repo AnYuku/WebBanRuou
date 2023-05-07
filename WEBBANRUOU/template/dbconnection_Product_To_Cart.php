@@ -1,8 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$Whopay = $_SESSION["userId"];
+
 
 $servername = "localhost";
 $username = "admin";
@@ -66,6 +63,8 @@ function generateTempID($isTS, $conn)
 }
 
 // Kiểm tra xem đã có giỏ hàng hay chưa
+
+$Whopay = $_POST['userID'];
 $sql = "SELECT * FROM transactheader WHERE WhoPay = '$Whopay' AND Status = 0";
 $result = $conn->query($sql);
 // Đếm số lượng index
