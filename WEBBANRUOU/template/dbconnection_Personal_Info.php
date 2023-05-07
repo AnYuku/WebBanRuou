@@ -1,8 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$UserId = $_SESSION["userId"];
+$UserId = $_POST['userID'];
 
 // Kết nối với cơ sở dữ liệu MySQL
 $servername = "localhost";
@@ -17,6 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getInfo') {
+    $UserId = $_POST['userID'];
     $sql = "SELECT UserName, TotalCash, Email, `Address`
         FROM useraccount
         WHERE UserId = '$UserId'";
@@ -25,6 +23,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'getInfo') {
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'save') {
+    $UserId = $_POST['userID'];
     $email = $_POST['email'];
     $address = $_POST['address'];
     // Kiểm tra trùng lặp email
@@ -46,6 +45,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'changePassword') {
+    $UserId = $_POST['userID'];
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['newPassword'];
     $confirmPassword = $_POST['confirmPassword'];

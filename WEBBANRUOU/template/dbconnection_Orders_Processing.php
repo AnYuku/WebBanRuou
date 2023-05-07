@@ -1,8 +1,4 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$Whopay = $_SESSION["userId"];
 
 // Kết nối với cơ sở dữ liệu MySQL
 $servername = "localhost";
@@ -17,6 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getList'){
+    $Whopay = $_POST['userID'];
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
         WHERE WhoPay = '$Whopay' AND `Status` = 1 
@@ -30,6 +27,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'getList'){
         echo json_encode($data);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList'){
+    $Whopay = $_POST['userID'];
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
         WHERE WhoPay = '$Whopay' AND `Status` = 2 OR `Status` = 4
@@ -45,6 +43,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList'){
 
 if (isset($_POST['action']) && $_POST['action'] == 'getDetails'){
     $TransactId = $_POST['transactId'];
+    $Whopay = $_POST['userID'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader
@@ -63,6 +62,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'getDetails'){
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails'){
     $TransactId = $_POST['transactId'];
+    $Whopay = $_POST['userID'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader

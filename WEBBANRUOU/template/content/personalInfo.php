@@ -1,3 +1,9 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$UserId = $_SESSION["userId"];
+?>
 <div id="client-user-info">
     <h1>Thông tin cá nhân</h1>
     <div class="personal-info">       
@@ -48,7 +54,8 @@
 </div>
 
 
-<script>
+<script> 
+    var userID = '<?php echo $UserId; ?>';
     // Lấy các phần tử cần thiết
     const modal = document.getElementById('client-user-info-change-password-modal');
     const openModalButton = document.getElementById('change-password-button');
@@ -132,6 +139,7 @@
                 url: "./template/dbconnection_Personal_Info.php",
                 dataType: "json",
                 data: {
+                    userID : userID,
                     action: "changePassword",
                     oldPassword: $("#old-password").val(),
                     newPassword: $("#new-password").val(),
@@ -178,6 +186,7 @@
             url: "./template/dbconnection_Personal_Info.php",
             dataType: "json",
             data: {
+                userID : userID,
                 action: "getInfo"
             },
             success: function(data) {
@@ -207,6 +216,7 @@
                     url: "./template/dbconnection_Personal_Info.php",
                     dataType: "json",
                     data: {
+                        userID : userID,
                         email: _email,
                         address: _address,
                         action: 'save',

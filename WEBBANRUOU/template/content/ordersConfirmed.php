@@ -1,3 +1,9 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) { 
+    session_start();    
+}
+$Whopay = $_SESSION["userId"];
+?>
 <div id="orders-confirmed-container">
     <h1>Đơn hàng đã xử lý </h1>
     <br>
@@ -27,6 +33,7 @@
 </div>
 
 <script>
+    var userID = '<?php echo $Whopay; ?>';
     // Gửi yêu cầu lấy danh sách đơn hàng từ máy chủ
     $(document).ready(function() {
         $.ajax({
@@ -34,6 +41,7 @@
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
+                userID : userID,
                 action: "getConfirmedList"
             },
             success: function(data) {
@@ -73,6 +81,7 @@
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
+                userID : userID,
                 action: 'getConfirmedDetails',
                 transactId: transactId
             },

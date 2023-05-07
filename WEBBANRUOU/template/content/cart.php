@@ -29,11 +29,15 @@ $Whopay = $_SESSION["userId"];
 <script src="https://kit.fontawesome.com/44c01e1bca.js" crossorigin="anonymous"></script>
 
 <script>
+    var userID = '<?php echo $Whopay; ?>';
     $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "./template/dbconnection_CART.php",
             dataType: "json",
+            data: {
+                userID : userID                
+            },
             success: function(data) {
                 console.log(data);
                 var html = "";
