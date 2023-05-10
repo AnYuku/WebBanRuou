@@ -1,6 +1,6 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) { 
-    session_start();    
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 $Whopay = $_SESSION["userId"];
 ?>
@@ -26,14 +26,19 @@ $Whopay = $_SESSION["userId"];
 <!-- HTML chi tiết modal -->
 <div id="order-detail-modal" class="order-detail-modal">
     <div class="order-detail-modal-content">
-        
+
         <span class="order-detail-modal-close">&times;</span>
         <p id="order-detail"></p>
     </div>
 </div>
 
 <script>
-    var userID = '<?php echo $Whopay; ?>';
+    var userID = '0';
+    try {
+        userID = '<?php echo $Whopay; ?>';
+    } catch (e) {
+        console.log(e);
+    };
     // Gửi yêu cầu lấy danh sách đơn hàng từ máy chủ
     $(document).ready(function() {
         $.ajax({
@@ -41,11 +46,10 @@ $Whopay = $_SESSION["userId"];
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
-                userID : userID,
+                userID: userID,
                 action: "getConfirmedList"
             },
-            success: function(data) {
-                console.log(data);
+            success: function(data) {                
                 var orderList = document.getElementById("order-list");
                 for (var i = 0; i < data.length; i++) {
                     var order = data[i];
@@ -58,7 +62,7 @@ $Whopay = $_SESSION["userId"];
                     row += "<td>" + formattedDate + "</td>";
                     row += "<td>" + formatNumber(order.Total) + " đ" + "</td>";
                     row += "<td>" + status + "</td>";
-                    row += "<td><button class='btn-detail button-23' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";     
+                    row += "<td><button class='btn-detail button-23' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";
                     row += "</tr>";
                     orderList.innerHTML += row;
                 }
@@ -71,7 +75,7 @@ $Whopay = $_SESSION["userId"];
     }
 
     // Chi tiết sản phẩm
-    
+
     // var productId = $(this).data('product-id');
     $(document).on('click', '.btn-detail', function() {
         const orderDetailModal = document.getElementById('order-detail-modal');
@@ -81,7 +85,7 @@ $Whopay = $_SESSION["userId"];
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
-                userID : userID,
+                userID: userID,
                 action: 'getConfirmedDetails',
                 transactId: transactId
             },
@@ -90,37 +94,36 @@ $Whopay = $_SESSION["userId"];
                 let dateObj = new Date(response[0].TimePayment);
                 let formattedDate = dateObj.toLocaleTimeString('en-GB') + ' ' + dateObj.toLocaleDateString('en-GB');
                 let orderDetail = ""
-                orderDetail += "<p>Chi tiết đơn hàng: <span>" + transactId +"</span></p>";
-                orderDetail += "<p>Tổng cộng: <span>" + formatNumber(response[0].Total) + " đ" + "</span></p>" ;
-                orderDetail += "<p>Thời gian: <span>" + formattedDate +"</span></p>" ;
                 orderDetail += "<table>";
-                
+                orderDetail += "<p>Chi tiết đơn hàng: <span>" + transactId + "</span></p>";
+                orderDetail += "<p>Tổng cộng: <span>" + formatNumber(response[0].Total) + " đ" + "</span></p>";
+                orderDetail += "<p>Thời gian: <span>" + formattedDate + "</span></p>";
                 orderDetail += "<thead>";
                 orderDetail += "<tr>";
                 orderDetail += "<th>Tên sản phẩm</th>";
                 orderDetail += "<th>Số lượng</th>";
-                orderDetail += "<th>Đơn giá</th>";                
+                orderDetail += "<th>Đơn giá</th>";
                 orderDetail += "</tr>";
                 orderDetail += "</thead>";
                 orderDetail += "<tbody>";
-                
+
                 for (var i = 0; i < response.length; i++) {
-                    orderDetail += "<tr>";                    
-                    orderDetail += "<td>" + response[i].ProductName +"</td>";
-                    orderDetail += "<td>" + response[i].Quan +"</td>";
-                    orderDetail += "<td>" + formatNumber(response[i].CostEach) + " đ" +"</td>";
+                    orderDetail += "<tr>";
+                    orderDetail += "<td>" + response[i].ProductName + "</td>";
+                    orderDetail += "<td>" + response[i].Quan + "</td>";
+                    orderDetail += "<td>" + formatNumber(response[i].CostEach) + " đ" + "</td>";
                     orderDetail += "</tr>";
                 }
                 orderDetail += "</tbody>";
                 orderDetail += "</table>";
                 // Hiển thị cửa sổ chi tiết đơn hàng
-                
+
                 const orderDetailContent = document.getElementById('order-detail');
                 orderDetailContent.innerHTML = orderDetail;
                 orderDetailModal.style.display = 'block';
             }
         })
-        
+
         const orderDetailClose = document.getElementsByClassName('order-detail-modal-close')[0];
         orderDetailClose.addEventListener('click', () => {
             orderDetailModal.style.display = 'none';
@@ -130,16 +133,18 @@ $Whopay = $_SESSION["userId"];
 </script>
 <style>
     #orders-confirmed-container {
-        max-width: 90%;
-        /* height: 90%; */
-        margin: 10px auto;
-        margin-left: 300px;
-        padding: 1rem;
+        max-width: 90%; 
+        min-width: 600px;       
         
-        /* font-weight: bold; */
+        /* margin-left: 500px; */
+        padding: 1rem;        
+        font-weight: bold;
         display: flex;
         flex-direction: column;
-        font-family: 'OpenSans-regular';
+        align-items: center;
+        color: #961313;
+        margin: 10px 10px 500px 500px;
+        border:2px solid #ccc; 
     }
 
     #orders-confirmed-container table,
@@ -219,10 +224,12 @@ $Whopay = $_SESSION["userId"];
         text-decoration: none;
         cursor: pointer;
     }
-    .order-detail-modal-content p{
+
+    .order-detail-modal-content p {
         padding: 5px;
     }
-    .order-detail-modal-content span{
+
+    .order-detail-modal-content span {
         font-weight: bold;
     }
 </style>

@@ -70,6 +70,7 @@
     </div>
 </div>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     // variables
     let allProduct = [];
@@ -200,6 +201,33 @@
                         console.log(xhr.responseText);
                     }
                 });
+
+                // const url = "https://vodkashopcrisapp.azurewebsites.net/api/Product/GetAllProducts";
+                // const params = {};
+                // fetch(url, params)
+                //     .then(function(response) {
+                //         return response.json(); // Parse the response as JSON
+                //     })
+                //     .then(function(data) {
+                //         console.log(data); // Access the data retrieved from the API
+                //         allProduct = data;
+                //     })
+                //     .catch(function(error) {
+                //         console.log(error); // Handle any errors that occurred during the request
+                //     });
+                // $.ajax({
+                //     url: url,
+                //     type: "GET",
+                //     dataType: "json",
+                //     success: function(resultProduct) {
+                //         console.log('resultProduct: ', resultProduct);
+                //         allProduct = resultProduct;
+                //     },
+                //     error: function(xhr, status, error) {
+                //         alert(status);
+                //         console.log(xhr.responseText);
+                //     }
+                // });
             },
             error: function(xhr, status, error) {
                 alert(status);
@@ -253,6 +281,7 @@
                                     console.log(xhr.responseText);
                                 }
                             });
+
                         });
                         const contentUpdate1 = {
                             UserId: userIdSelected.id,
@@ -356,7 +385,7 @@
                 dataType: "json",
                 success: function(result) {
                     const customAllTransactDetail = result.map((item) => {
-                        const product = getProductByProductNum(item.ProductNum);
+                        const product = getProductByProductNum(item.ProductNum, allProduct);
                         return {
                             ...item,
                             ...product
@@ -435,7 +464,9 @@
             });
     }
 
-    function getProductByProductNum(productNum) {
+    function getProductByProductNum(productNum, allProduct) {
+        console.log('allProduct: ', allProduct);
+        console.log('allProduct: ', allProduct.length);
         let result = {};
         for (let i = 0; i < allProduct.length; i++) {
             if (allProduct[i].ProductNum === productNum) {
@@ -460,7 +491,7 @@
             dataType: "json",
             success: function(result) {
                 const customAllTransactDetail = result.map((item) => {
-                    const product = getProductByProductNum(item.ProductNum);
+                    const product = getProductByProductNum(item.ProductNum, allProduct);
                     return {
                         ...item,
                         ...product
@@ -502,27 +533,38 @@
     }
 
     function handleCancelOrder(id) {
-        const transactId = formatTransactId(id);
-        const contentUpdate = {
-            TransactId: transactId,
-            Status: 4
-        };
-        $.ajax({
-            url: "./template/dbconnection_PUT.php",
-            type: "POST",
-            data: {
-                table_name: "transactheader",
-                data_update: JSON.stringify(contentUpdate)
-            },
-            dataType: "json",
-            success: function(result) {
-                alert("Xác nhận thành công");
-                loadData();
-            },
-            error: function(xhr, status, error) {
-                alert(status);
-                console.log(xhr.responseText);
-            }
-        });
+        swal({
+                title: "Bạn có chắc chắn hủy đơn hàng",
+                text: "Một khi đã hủy, bạn không thể hoàn trả hành động",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((result) => {
+                if (result) {
+                    const transactId = formatTransactId(id);
+                    const contentUpdate = {
+                        TransactId: transactId,
+                        Status: 4
+                    };
+                    $.ajax({
+                        url: "./template/dbconnection_PUT.php",
+                        type: "POST",
+                        data: {
+                            table_name: "transactheader",
+                            data_update: JSON.stringify(contentUpdate)
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            alert("Hủy thành công");
+                            loadData();
+                        },
+                        error: function(xhr, status, error) {
+                            alert(status);
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            });
     }
 </script>

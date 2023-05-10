@@ -27,7 +27,7 @@
                     </li>
                     <li class="listMenuUser_item">
                         <img src="./image/bill_512px.png" alt="" srcset="">
-                        <a class="shopping" href="index.php?chon=t&id=sanpham&user=<?php echo $user ?>&data=donhangdangxuly">Đơn hàng đang xử lí</a>
+                        <a class="shopping" href="">Đơn hàng đang xử lí</a>
                     </li>
                     <li class="listMenuUser_item" style="height: 60px;">
                         <img src="./image/paid_bill_512px.png" alt="" srcset="">
@@ -49,10 +49,6 @@
                     <li class="listMenuUser_item">
                         <img src="./image/bill_512px.png" alt="" srcset="">
                         <a class="shopping" href="index.php?chon=t&id=sanpham&user=<?php echo $user ?>&data=donhangdangxuly">Đơn hàng đang xử lí</a>
-                    </li>
-                    <li class="listMenuUser_item" style="height: 60px;">
-                        <img src="./image/paid_bill_512px.png" alt="" srcset="">
-                        <a class="shopping" href="">Đơn hàng đã được xác nhận</a>
                     </li>
                 </div>
             <?php

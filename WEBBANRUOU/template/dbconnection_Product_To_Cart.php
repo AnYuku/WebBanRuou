@@ -1,5 +1,8 @@
 <?php
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$Whopay = $_SESSION["userId"];
 
 $servername = "localhost";
 $username = "admin";
@@ -63,8 +66,6 @@ function generateTempID($isTS, $conn)
 }
 
 // Kiểm tra xem đã có giỏ hàng hay chưa
-
-$Whopay = $_POST['userID'];
 $sql = "SELECT * FROM transactheader WHERE WhoPay = '$Whopay' AND Status = 0";
 $result = $conn->query($sql);
 // Đếm số lượng index
@@ -85,7 +86,19 @@ if ($result->num_rows > 0) {
 $json_data = $_POST['productDataToCart'];
 $data_insert = json_decode($json_data, true);
 
-// Lấy thông tin sản phẩm
+//Kiểm tra số lượng sản phẩm có hợp lệ hay không 
+$sql = "SELECT Quan FROM product WHERE ProductNum = '{$data_insert["productId"]}'";
+$result = $conn->query($sql);
+$product = $result->fetch_assoc();
+$quantity_available = $product['Quan'];
+
+// Kiểm tra xem số lượng sản phẩm có đủ để thêm vào giỏ hàng không
+if($quantity_available < $data_insert["productQuantity"]) {
+    echo json_encode("SL");
+    exit();
+}
+else{
+    // Lấy thông tin sản phẩm
 $sql = "SELECT Price FROM product WHERE ProductNum = '{$data_insert["productId"]}'";
 $result = $conn->query($sql);
 $productInfo = $result->fetch_assoc();
@@ -144,3 +157,6 @@ if ($result->num_rows > 0) {
 // );
 // echo json_encode($array);
 echo json_encode(true);
+}
+
+

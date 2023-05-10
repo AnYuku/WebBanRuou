@@ -13,7 +13,7 @@
 
 #content_admin_button_add {
     float: right;
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 50px;
     margin-right: 10%;
     background-color: #A92F2F;
@@ -151,13 +151,13 @@
 }
 
 #content_admin_tax_table thead {
-    background-color: #a92f2f;
+    background-color: #902828;
 }
 
 #content_admin_tax_table thead th {
     padding: 20px 15px;
     text-align: left;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 20px;
     color: #fff;
 }
@@ -170,7 +170,7 @@
     font-size: 18px;
     color: #fff;
     border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-    background-color: #888;
+    background-color: #a92f2f;
 }
 
 .content_admin_table_item_button {
@@ -229,6 +229,7 @@
     flex-direction: column;
     align-items: flex-end;
     padding: 10px 100px;
+    width: 100%;
 }
 
 /* The Modal (background) */
@@ -523,6 +524,18 @@
 
 .content_left_client_all_product_checkbox_view input[type=number] {
     -moz-appearance: textfield;
+}
+
+.content_left_client_all_product_filter_view input::-webkit-inner-spin-button,
+.content_left_client_all_product_filter_view input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.content_left_client_all_product_filter_view input {
+    -moz-appearance: textfield;
+    /* Firefox */
+    appearance: textfield;
 }
 
 .content_left_client_all_product_checkbox_view input[type="checkbox"] {
@@ -963,6 +976,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 20px;
 }
 
 .main_view_chart div {
@@ -973,4 +987,15 @@
     font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0);
+}
+
+.my-select {
+    width: 100px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 16px;
+    background-color: #f1f1f1;
+    color: #333;
 }

@@ -50,8 +50,7 @@ if (isset($_SESSION['logged_in'])) {
 
     .content-login-container {
         font-weight: bold;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-            "Helvetica Neue", sans-serif;
+        font-family: 'OpenSans-regular';
         font-size: 1rem;
         line-height: 1.7;
         background-color: #f4f4f4;
@@ -201,7 +200,20 @@ if (isset($_SESSION['logged_in'])) {
             password.style.borderStyle = "none";
             return true;
         }
-    }
+    };
+
+    function encryptString(input, secretKey) {
+        let encryptedString = '';
+
+        for (let i = 0; i < input.length; i++) {
+            const charCode = input.charCodeAt(i);
+            const keyChar = secretKey.charCodeAt(i % secretKey.length);
+            const encryptedCharCode = charCode ^ keyChar;
+            encryptedString += String.fromCharCode(encryptedCharCode);
+        }
+
+        return encryptedString;
+    };
 
     $(document).ready(function() {
         $("#submit").on("click", function() {
@@ -221,16 +233,21 @@ if (isset($_SESSION['logged_in'])) {
                     success: function(response) {
                         // $("#result").html(result);
                         console.log(response);
-                        if (response == 'admin') {
+                        if (response.indexOf('admin') >= 0) {
+                            localStorage.setItem('UP', encryptString(_password, '123654789'));
                             swal("Thành công", "Bạn đã đăng nhập với vai trò admin", "success")
                                 .then((value) => {
                                     window.location = 'index.php?user=admin';
                                 });
-                        } else if (response == 'client') {
+                        } else if (response.indexOf('client') >= 0) {
+                            localStorage.setItem('UP', encryptString(_password, '123654789'));
                             swal("Thành công", "Bạn đã đăng nhập", "success")
                                 .then((value) => {
                                     window.location = 'index.php?user=client';
                                 });
+
+                        } else if (response.indexOf('banned') >= 0) {                            
+                            swal("Có lỗi xảy ra", "Bạn đã bị Ban", "error");
                         } else
                             swal("Có lỗi xảy ra", "Tên đăng nhập hoặc mật khẩu không chính xác!", "error");
                         // console.log(result.indexOf("error"));

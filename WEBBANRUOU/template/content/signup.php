@@ -56,7 +56,7 @@
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: url('../../../image/login-background.jpg') no-repeat center center fixed;
+        background: url('./image/login-background.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -222,24 +222,48 @@
 
     function checkPassword() {
         var password = document.getElementById("password");
-        var _password = $("#password").val();
-        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
-        if (password.validity.valueMissing) {
-            password.setCustomValidity("Vui lòng nhập mật khẩu");
-            password.reportValidity();
-            password.style.borderColor = "red";
-        } else if (password.validity.tooShort) {
-            password.setCustomValidity("Mật khẩu cần ít nhất 8 ký tự");
-            password.reportValidity();
-            password.style.borderColor = "red";
-        } else if (!regex.test(_password)) {
-            password.setCustomValidity("Mật khẩu không hợp lệ");
-            password.reportValidity();
-            password.style.borderColor = "red";
-        } else {
-            password.style.borderStyle = "none";
-            return true;
-        }
+var _password = password.value;
+var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
+
+if (password.validity.valueMissing) {
+    password.setCustomValidity("Vui lòng nhập mật khẩu");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (password.validity.tooShort) {
+    password.setCustomValidity("Mật khẩu cần ít nhất 8 ký tự");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[a-z]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ thường");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[A-Z]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ hoa");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/\d/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một chữ số");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[$@$!%*?&]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự đặc biệt");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!regex.test(_password)) {
+    password.setCustomValidity("Mật khẩu không hợp lệ");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else {
+    password.style.borderStyle = "none";
+    return true;
+}
     }
 
     function checkRePassWord() {
@@ -285,7 +309,7 @@
             var _rePassword = $("#rePassword").val();
             var _email = $("#email").val();
 
-            if (checkUsername() && checkPassword() && checkEmail() && checkRePassWord()) {
+            if (checkUsername() && checkPassword() && checkRePassWord() && checkEmail() ) {
                 $.ajax({
                     url: '../../template/dbconnection_SIGNUP.php',
                     method: 'POST',

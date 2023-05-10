@@ -6,20 +6,20 @@ $UserId = $_SESSION["userId"];
 ?>
 <div id="client-user-info">
     <h1>Thông tin cá nhân</h1>
-    <div class="personal-info">       
-        <label>Username:</label>        
+    <div class="personal-info">
+        <lable>Username:</lable>
         <span class="username"></span>
     </div>
     <div class="personal-info">
-        <label>Email:</label>
+        <lable>Email:</lable>
         <input class="email" type="email" name="email" value="" disabled required>
     </div>
     <div class="personal-info">
-        <label>Tiền trong tài khoản:</label>
+        <lable>Tiền trong tài khoản:</lable>
         <span class="totalCash"></span>
     </div>
     <div class="personal-info">
-        <label>Địa chỉ:</label>
+        <lable>Địa chỉ:</lable>
         <input class="address" type="text" name="email" value="" disabled required>
     </div>
     <button id="edit-button">Sửa thông tin cá nhân</button>
@@ -54,8 +54,13 @@ $UserId = $_SESSION["userId"];
 </div>
 
 
-<script> 
-    var userID = '<?php echo $UserId; ?>';
+<script>
+    var userID = '0';
+    try {
+        userID = '<?php echo $UserId; ?>';
+    } catch (e) {
+        console.log(e);
+    };
     // Lấy các phần tử cần thiết
     const modal = document.getElementById('client-user-info-change-password-modal');
     const openModalButton = document.getElementById('change-password-button');
@@ -96,7 +101,27 @@ $UserId = $_SESSION["userId"];
             newPassword.style.borderColor = "red";
             return false;
         } else if (newPasswordValue.length < 8) {
-            newPassword.setCustomValidity("Mật khẩu mới cần ít nhất 8 ký tự");
+            newPassword.setCustomValidity("Mật khẩu phải có ít nhất 8 ký tự");
+            newPassword.reportValidity();
+            newPassword.style.borderColor = "red";
+            return false;
+        } else if (!/[a-z]/.test(newPasswordValue)) {
+            newPassword.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ thường");
+            newPassword.reportValidity();
+            newPassword.style.borderColor = "red";
+            return false;
+        } else if (!/[A-Z]/.test(newPasswordValue)) {
+            newPassword.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ hoa");
+            newPassword.reportValidity();
+            newPassword.style.borderColor = "red";
+            return false;
+        } else if (!/\d/.test(newPasswordValue)) {
+            newPassword.setCustomValidity("Mật khẩu phải chứa ít nhất một chữ số");
+            newPassword.reportValidity();
+            newPassword.style.borderColor = "red";
+            return false;
+        } else if (!/[$@$!%*?&]/.test(newPasswordValue)) {
+            newPassword.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự đặc biệt");
             newPassword.reportValidity();
             newPassword.style.borderColor = "red";
             return false;
@@ -139,7 +164,7 @@ $UserId = $_SESSION["userId"];
                 url: "./template/dbconnection_Personal_Info.php",
                 dataType: "json",
                 data: {
-                    userID : userID,
+                    userID: userID,
                     action: "changePassword",
                     oldPassword: $("#old-password").val(),
                     newPassword: $("#new-password").val(),
@@ -167,9 +192,12 @@ $UserId = $_SESSION["userId"];
                     }
                 }
             })
+            modal.style.display = 'none';
+        } else {
+            event.preventDefault();
         }
         // Đóng modal sau khi đổi mật khẩu xong
-        modal.style.display = 'none';
+
     });
 
     // Đóng modal khi nhấn vào nút đóng bên ngoài modal
@@ -186,7 +214,7 @@ $UserId = $_SESSION["userId"];
             url: "./template/dbconnection_Personal_Info.php",
             dataType: "json",
             data: {
-                userID : userID,
+                userID: userID,
                 action: "getInfo"
             },
             success: function(data) {
@@ -216,7 +244,7 @@ $UserId = $_SESSION["userId"];
                     url: "./template/dbconnection_Personal_Info.php",
                     dataType: "json",
                     data: {
-                        userID : userID,
+                        userID: userID,
                         email: _email,
                         address: _address,
                         action: 'save',
@@ -279,7 +307,7 @@ $UserId = $_SESSION["userId"];
         var address = document.getElementsByClassName("address")[0];
         var _address = $(".address").val();
         console.log(address);
-        const addressRegex = /^[A-Za-z0-9\p{L}\s]+$/u;
+        const addressRegex = /^[A-Za-z0-9\p{L}\s,-/]+$/u;
         if (address.validity.valueMissing) {
             address.setCustomValidity("Vui lòng nhập địa chỉ");
             address.reportValidity();
@@ -303,20 +331,17 @@ $UserId = $_SESSION["userId"];
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 50px auto;
-        width: 600px;
-        max-width: 800px;
-        margin-left: 30rem;
+        margin: 10px auto;   
+        max-width: 90%;    
+        min-width: 600px;       
         padding: 1rem;
         display: flex;
-        flex-direction: column;
-
+        flex-direction: column;        
     }
 
     /* Thiết lập kiểu dáng cho tiêu đề trang */
     #client-user-info h1 {
         font-size: 24px;
-        font-weight: bold;
         margin: 0 0 20px 0;
         text-align: center;
     }
@@ -359,13 +384,16 @@ $UserId = $_SESSION["userId"];
         background-color: #d32f2f;
     }
 
-    .modal-content{
+    .modal-content {
         max-width: 500px;
+        padding: 30px;
         color: #fff;
-    }    
-    .modal-content h2{
+    }
+
+    .modal-content h2 {
         padding: 20px
-    } 
+    }
+
     .modal-content input[type="password"] {
         margin: 10px 0px;
         padding: 0px 10px;

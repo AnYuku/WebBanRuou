@@ -2,14 +2,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
 <div class="main_view_chart">
-    <div>
-        <a>
-            Thống kê
-        </a>
-    </div>
     <div class="view_chart">
         <div class="view_chart_left">
-            <select id="yearSelect_myChart1"></select>
+            <select id="yearSelect_myChart1" class="my-select"></select>
         </div>
         <canvas id="myChart1"></canvas>
         <div class="view_chart_center">
@@ -20,7 +15,7 @@
     </div>
     <div class="view_chart">
         <div class="view_chart_left">
-            <select id="yearSelect_myChart2"></select>
+            <select id="yearSelect_myChart2" class="my-select"></select>
         </div>
         <canvas id="myChart2"></canvas>
         <div class="view_chart_center">
@@ -31,8 +26,8 @@
     </div>
     <div class="view_chart">
         <div class="view_chart_left">
-            <select id="quarterSelect_myChart3"></select>
-            <select id="yearSelect_myChart3"></select>
+            <select id="quarterSelect_myChart3" class="my-select"></select>
+            <select id="yearSelect_myChart3" class="my-select"></select>
         </div>
         <canvas id="myChart3"></canvas>
         <div class="view_chart_center">

@@ -1,5 +1,7 @@
 <?php
 
+$Whopay = $_POST['userID'];
+
 // Kết nối với cơ sở dữ liệu MySQL
 $servername = "localhost";
 $username = "root";
@@ -13,11 +15,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getList'){
-    $Whopay = $_POST['userID'];
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
-        WHERE WhoPay = '$Whopay' AND `Status` = 1 
-        ORDER BY TimePayment DESC";
+        WHERE WhoPay = '$Whopay' AND `Status` = 1 ";
         $result = $conn->query($sql);
 
         $data = array();
@@ -27,11 +27,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'getList'){
         echo json_encode($data);
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList'){
-    $Whopay = $_POST['userID'];
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
-        WHERE WhoPay = '$Whopay' AND `Status` = 2 OR `Status` = 4
-        ORDER BY TimePayment DESC";
+        WHERE WhoPay = '$Whopay' AND `Status` = 2 OR `Status` = 4";
         $result = $conn->query($sql);
 
         $data = array();
@@ -43,7 +41,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList'){
 
 if (isset($_POST['action']) && $_POST['action'] == 'getDetails'){
     $TransactId = $_POST['transactId'];
-    $Whopay = $_POST['userID'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader
@@ -62,7 +59,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'getDetails'){
 }
 if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails'){
     $TransactId = $_POST['transactId'];
-    $Whopay = $_POST['userID'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader
@@ -79,4 +75,3 @@ if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails'){
         
         echo json_encode($data);
 }
-?>

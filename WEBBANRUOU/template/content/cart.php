@@ -3,7 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 $Whopay = $_SESSION["userId"];
-
 ?>
 <div id="cart-container">
     <h1>Giỏ hàng của bạn</h1>
@@ -29,15 +28,18 @@ $Whopay = $_SESSION["userId"];
 <script src="https://kit.fontawesome.com/44c01e1bca.js" crossorigin="anonymous"></script>
 
 <script>
-    var userID = '<?php echo $Whopay; ?>';
-    $(document).ready(function() {
+    var userID = '0';
+        try {
+            userID = '<?php echo $Whopay; ?>';
+        } catch (e) {
+            console.log(e);
+        };
+    $(document).ready(function() {        
         $.ajax({
             type: "POST",
             url: "./template/dbconnection_CART.php",
             dataType: "json",
-            data: {
-                userID : userID                
-            },
+            data : {userID: userID},
             success: function(data) {
                 console.log(data);
                 var html = "";
@@ -61,14 +63,7 @@ $Whopay = $_SESSION["userId"];
                 }
                 $("#cart-cart-table tbody").html(html);
                 $("#totalPrice").html("Tổng tiền: " + formatNumber(totalCost) + " đ");
-                if(data.length == 0){
-                    $("#btn-transactheader").html("<button class='btn-transactheader button-23' disabled action='pay'>Thanh toán</button>")
-
-                }
-                else{
-                    $("#btn-transactheader").html("<button class='btn-transactheader button-23' action='pay'>Thanh toán</button>")
-
-                }
+                $("#btn-transactheader").html("<button class='btn-transactheader button-23' action='pay'>Thanh toán</button>")
             }
         });
 
@@ -85,6 +80,7 @@ $Whopay = $_SESSION["userId"];
             type: 'POST',
             url: './template/dbconnection_UPDATE_QUANTITY.php',
             data: {
+                userID: userID,
                 productId: productId,
                 quantityChange: quantityChange,
             },
@@ -125,6 +121,7 @@ $Whopay = $_SESSION["userId"];
                     type: 'POST',
                     url: './template/dbconnection_CART.php',
                     data: {
+                        userID: userID,
                         action: "delete",
                         productId: productId
                     },
@@ -142,6 +139,7 @@ $Whopay = $_SESSION["userId"];
             type: 'POST',
             url: './template/dbconnection_CART.php',
             data: {
+                userID: userID,
                 action: "pay"
             },
             success: function(response) {
@@ -157,7 +155,6 @@ $Whopay = $_SESSION["userId"];
                 }, delayInMilliseconds);                
             }
         });
-
     });
 </script>
 
@@ -165,14 +162,16 @@ $Whopay = $_SESSION["userId"];
     #cart-container {
         max-width: 90%; 
         min-width: 600px;       
-        margin: 10px auto;
-        margin-left: 300px;
+        
+        /* margin-left: 500px; */
         padding: 1rem;        
         font-weight: bold;
         display: flex;
         flex-direction: column;
         align-items: center;
         color: #961313;
+        margin: 10px 10px 500px 500px;
+        border:2px solid #ccc; 
     }
     #cart-container p{
         margin-top: 20px;
@@ -181,7 +180,7 @@ $Whopay = $_SESSION["userId"];
 
     #cart-cart-table {
         width: 100%;
-        border-collapse: collapse; 
+        border-collapse: collapse;
     }
 
     #cart-cart-table th,

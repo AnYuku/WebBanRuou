@@ -31,7 +31,6 @@ function checkAccount($conn,$username,$email){
     } else {           
         return true;
     }
-   
 }
 if (isset($_POST['action']) && $_POST['action'] == 'check') {
     if(checkAccount($conn,$username,$email))
