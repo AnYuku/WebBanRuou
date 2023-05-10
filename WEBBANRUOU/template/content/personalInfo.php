@@ -4,55 +4,57 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 $UserId = $_SESSION["userId"];
 ?>
-<div id="client-user-info">
-    <h1>Thông tin cá nhân</h1>
-    <div class="personal-info">
-        <lable>Username:</lable>
-        <span class="username"></span>
+<div class="userInfo-MainView">
+    <div id="client-user-info" class="userInfo-View">
+        <div class="userInfo-style_title">
+            <a>Thông tin cá nhân</a>
+        </div>
+        <div class="personal-info">
+            <lable>Tên tài khoản:</lable>
+            <span class="username"></span>
+        </div>
+        <div class="personal-info">
+            <lable>Email:</lable>
+            <input class="email" type="email" name="email" value="" disabled required>
+        </div>
+        <div class="personal-info">
+            <lable>Tiền trong tài khoản:</lable>
+            <span class="totalCash"></span>
+        </div>
+        <div class="personal-info">
+            <lable>Địa chỉ:</lable>
+            <input class="address" type="text" name="email" value="" disabled required>
+        </div>
+        <button id="edit-button">Sửa thông tin cá nhân</button>
+        <button id="change-password-button">Đổi mật khẩu</button>
     </div>
-    <div class="personal-info">
-        <lable>Email:</lable>
-        <input class="email" type="email" name="email" value="" disabled required>
-    </div>
-    <div class="personal-info">
-        <lable>Tiền trong tài khoản:</lable>
-        <span class="totalCash"></span>
-    </div>
-    <div class="personal-info">
-        <lable>Địa chỉ:</lable>
-        <input class="address" type="text" name="email" value="" disabled required>
-    </div>
-    <button id="edit-button">Sửa thông tin cá nhân</button>
-    <button id="change-password-button">Đổi mật khẩu</button>
-</div>
 
-
-<!-- Thêm modal vào HTML -->
-<div id="client-user-info-change-password-modal" class="modal">
-    <!-- Nội dung của modal -->
-    <div class="modal-content">
-        <h2>Đổi mật khẩu</h2>
-        <form>
-            <div class="form-group">
-                <label for="old-password">Mật khẩu cũ</label>
-                <input type="password" class="form-control" id="old-password">
+    <!-- Thêm modal vào HTML -->
+    <div id="client-user-info-change-password-modal" class="modal">
+        <!-- Nội dung của modal -->
+        <div class="modal-content">
+            <h2>Đổi mật khẩu</h2>
+            <form>
+                <div class="form-group">
+                    <label for="old-password">Mật khẩu cũ</label>
+                    <input type="password" class="form-control" id="old-password">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Mật khẩu mới</label>
+                    <input type="password" class="form-control" id="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" id="confirm-password">
+                </div>
+            </form>
+            <div class="modal-buttons">
+                <button type="button" id="confirm-change-password-button" class="button-23">Đổi mật khẩu</button>
+                <button type="button" id="close-button" class="button-23">Đóng</button>
             </div>
-            <div class="form-group">
-                <label for="new-password">Mật khẩu mới</label>
-                <input type="password" class="form-control" id="new-password">
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Xác nhận mật khẩu</label>
-                <input type="password" class="form-control" id="confirm-password">
-            </div>
-        </form>
-        <div class="modal-buttons">
-            <button type="button" id="confirm-change-password-button" class="button-23">Đổi mật khẩu</button>
-            <button type="button" id="close-button" class="button-23">Đóng</button>
         </div>
     </div>
 </div>
-
 
 <script>
     var userID = '0';
@@ -326,22 +328,38 @@ $UserId = $_SESSION["userId"];
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-    #client-user-info {
+    .userInfo-MainView {
+        width: 100%;
+        min-height: 100%;
+        background-color: #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .userInfo-View {
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 50px auto;
         width: 600px;
         max-width: 800px;
-        margin-left: 30rem;
         padding: 1rem;
         display: flex;
         flex-direction: column;
+        margin-top: 100px;
     }
 
-    /* Thiết lập kiểu dáng cho tiêu đề trang */
-    #client-user-info h1 {
+    .userInfo-style_title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .userInfo-style_title a {
+        font-weight: bold;
         font-size: 24px;
         margin: 0 0 20px 0;
         text-align: center;

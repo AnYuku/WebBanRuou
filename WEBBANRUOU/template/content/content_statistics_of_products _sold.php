@@ -783,6 +783,7 @@
 
     loadDataPhanTich()
         .then(function(data) {
+            // Get data
             const TotalProduct = data[0].TotalNumProduct;
             const TotalDoanhThu = data[1].TotalDoanhThu;
             const TotalOrderConfirm = data[2].TotalOrderConfirm;
@@ -791,8 +792,7 @@
             const TotalAdminInactive = data[5].TotalAdminInactive;
             const TotalClientActive = data[6].TotalClientActive;
             const TotalClientInactive = data[7].TotalClientInactive;
-            console.log('Total Admin Active:', TotalAdminActive);
-            console.log('Total Admin Inactive:', TotalAdminInactive);
+            // Set data
             const TongSoLuongSanPham = document.getElementById('TongSoLuongSanPham');
             TongSoLuongSanPham.textContent = formatNumberDisplay(TotalProduct);
             const DoanhThuQuyNay = document.getElementById('DoanhThuQuyNay');

@@ -60,9 +60,13 @@
         return decryptedString;
     };
     const storedValue = localStorage.getItem('UP');
-    let userID = "";
+    userID = "";
     try {
-        userID = '<?php echo $_SESSION['userId'] ?>';
+        userID = "<?php if (isset($_SESSION['userId'])) {
+                        echo $_SESSION['userId'];
+                    } else {
+                        echo "";
+                    } ?>";
     } catch (e) {
         console.log(e);
     };

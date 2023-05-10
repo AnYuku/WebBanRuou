@@ -188,32 +188,7 @@ footer .map  {
 
 
 /* Style ListMenu */
- .listMenuProduct{
-    display: none;
-    position: absolute;
-    width: 220px;
-    background-color: #600e00;
-    /* border-top: 2px solid black; */
-}
 
-.listMenuProduct ul li{
-    display: flex;
-    position: relative;
-    margin-left: 40px;
-    list-style: none;
-    width: 200px;
-    font-size: 1.5rem;
-    padding-top: 10px;
-}
-
-.listMenuProduct ul li:last-child{
-    margin-bottom: 10px;
-}
-
-.listMenuProduct ul li a{ 
-  text-decoration: none;
-  color: white;
-}
 
 .listMenuAdmin{
     display: none;
@@ -261,32 +236,6 @@ footer .map  {
     background-color: #600e00;
 }
 
-.listMenuUser ul li{
-    display: flex;
-    position: relative;
-    margin-left: 20px;
-    list-style: none;
-    width: 250px;
-    font-size: 1.5rem;
-    padding-top: 10px;
-
-}
-
-.listMenuUser ul li:last-child{
-   margin-bottom: 10px;
-}
-
-.listMenuUser ul li a{ 
-    text-decoration: none;
-    color: white;
-} 
-.listMenuUser ul li img{ 
-    width: 32px;
-    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7483%) hue-rotate(0deg) brightness(100%) contrast(100%);
-} 
-
-
-
 @media screen and (max-width: 1050px){
 
     #main #content {
@@ -325,10 +274,6 @@ footer .map  {
     
     footer .map iframe {
         margin-left: 70px;
-    }
-
-    .listMenuProduct {
-        width: 200px;
     }
 
     .listMenuUser {
@@ -377,10 +322,6 @@ footer .map  {
     
     footer .map iframe {
         margin-left: 70px;
-    }
-
-    .listMenuProduct {
-        width: 200px;
     }
 
     .listMenuUser {

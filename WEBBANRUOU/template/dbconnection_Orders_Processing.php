@@ -13,64 +13,64 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-if (isset($_POST['action']) && $_POST['action'] == 'getList'){
+if (isset($_POST['action']) && $_POST['action'] == 'getList') {
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
         WHERE WhoPay = '$Whopay' AND `Status` = 1 ";
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }        
-        echo json_encode($data);
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    echo json_encode($data);
 }
-if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList'){
+if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList') {
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
-        WHERE WhoPay = '$Whopay' AND `Status` = 2 OR `Status` = 4";
-        $result = $conn->query($sql);
+        WHERE WhoPay = '$Whopay' AND (`Status` = 2 OR `Status` = 4)";
+    $result = $conn->query($sql);
 
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }        
-        echo json_encode($data);
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    echo json_encode($data);
 }
 
-if (isset($_POST['action']) && $_POST['action'] == 'getDetails'){
+if (isset($_POST['action']) && $_POST['action'] == 'getDetails') {
     $TransactId = $_POST['transactId'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader
     JOIN transactdetail ON transactdetail.TransactId = transactheader.TransactId
     JOIN product ON transactdetail.ProductNum = product.ProductNum
-    WHERE transactheader.WhoPay = '$Whopay' AND transactheader.Status = 1 
+    WHERE transactheader.WhoPay = '$Whopay' 
     AND transactheader.TransactId = '$TransactId'";
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        
-        echo json_encode($data);
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
 }
-if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails'){
+if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails') {
     $TransactId = $_POST['transactId'];
     $sql = "SELECT product.ProductName, transactdetail.Quan,transactdetail.CostEach, transactheader.TimePayment, 
     transactheader.Total
     FROM transactheader
     JOIN transactdetail ON transactdetail.TransactId = transactheader.TransactId
     JOIN product ON transactdetail.ProductNum = product.ProductNum
-    WHERE transactheader.WhoPay = '$Whopay' AND transactheader.Status = 2 or transactheader.Status = 4
+    WHERE transactheader.WhoPay = '$Whopay' 
     AND transactheader.TransactId = '$TransactId'";
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        
-        echo json_encode($data);
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    echo json_encode($data);
 }

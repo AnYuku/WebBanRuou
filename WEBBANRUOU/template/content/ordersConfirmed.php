@@ -4,31 +4,41 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 $Whopay = $_SESSION["userId"];
 ?>
-<div id="orders-confirmed-container">
-    <h1>Đơn hàng đã xử lý </h1>
-    <br>
-    <table>
-        <thead>
-            <tr>
-                <th>Mã đơn hàng</th>
-                <th>Ngày đặt hàng</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-                <th>Chi tiết</th>
-            </tr>
-        </thead>
-        <tbody id="order-list">
-            <!-- Danh sách đơn hàng sẽ được tạo bởi JavaScript -->
-        </tbody>
-    </table>
-</div>
 
-<!-- HTML chi tiết modal -->
-<div id="order-detail-modal" class="order-detail-modal">
-    <div class="order-detail-modal-content">
+<div class="History-MainView">
+    <div id="orders-confirmed-container" class="History-View">
+        <div class="History-title_view">
+            <a>- Lịch sử mua hàng -</a>
+        </div>
+        <div class="History-table_view">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody id="order-list">
+                    <!-- Danh sách đơn hàng sẽ được tạo bởi JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        <span class="order-detail-modal-close">&times;</span>
-        <p id="order-detail"></p>
+    <!-- HTML chi tiết modal -->
+    <div id="order-detail-modal" class="order-detail-modal">
+        <div class="order-detail-modal-content">
+            <span class="order-detail-modal-close">&times;</span>
+            <div class="History-OrderDetail-title_view">
+                <a>
+                    Chi tiết đơn hàng
+                </a>
+            </div>
+            <div class="History-OrderDetail-Main_View" id="order-detail"></div>
+        </div>
     </div>
 </div>
 
@@ -49,7 +59,7 @@ $Whopay = $_SESSION["userId"];
                 userID: userID,
                 action: "getConfirmedList"
             },
-            success: function(data) {                
+            success: function(data) {
                 var orderList = document.getElementById("order-list");
                 for (var i = 0; i < data.length; i++) {
                     var order = data[i];
@@ -60,15 +70,23 @@ $Whopay = $_SESSION["userId"];
                     var row = "<tr>";
                     row += "<td>" + order.TransactId + "</td>";
                     row += "<td>" + formattedDate + "</td>";
-                    row += "<td>" + formatNumber(order.Total) + " đ" + "</td>";
+                    row += "<td>" + toCurrency(order.Total) + " đ" + "</td>";
                     row += "<td>" + status + "</td>";
                     row += "<td><button class='btn-detail button-23' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";
                     row += "</tr>";
                     orderList.innerHTML += row;
                 }
+                if (data.length === 0) {
+                    var row = "<tr><td colspan=5>Hiện không có đơn hàng nào</td></tr>";
+                    orderList.innerHTML += row;
+                }
             }
         });
     });
+
+    function toCurrency(totalCash) {
+        return new Intl.NumberFormat('en-US').format(totalCash);
+    };
 
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -90,37 +108,42 @@ $Whopay = $_SESSION["userId"];
                 transactId: transactId
             },
             success: function(response) {
-                // console.log(response);
-                let dateObj = new Date(response[0].TimePayment);
-                let formattedDate = dateObj.toLocaleTimeString('en-GB') + ' ' + dateObj.toLocaleDateString('en-GB');
-                let orderDetail = ""
-                orderDetail += "<table>";
-                orderDetail += "<p>Chi tiết đơn hàng: <span>" + transactId + "</span></p>";
-                orderDetail += "<p>Tổng cộng: <span>" + formatNumber(response[0].Total) + " đ" + "</span></p>";
-                orderDetail += "<p>Thời gian: <span>" + formattedDate + "</span></p>";
-                orderDetail += "<thead>";
-                orderDetail += "<tr>";
-                orderDetail += "<th>Tên sản phẩm</th>";
-                orderDetail += "<th>Số lượng</th>";
-                orderDetail += "<th>Đơn giá</th>";
-                orderDetail += "</tr>";
-                orderDetail += "</thead>";
-                orderDetail += "<tbody>";
-
-                for (var i = 0; i < response.length; i++) {
+                if (response.length > 0) {
+                    let dateObj = new Date(response[0].TimePayment);
+                    let formattedDate = dateObj.toLocaleTimeString('en-GB') + ' ' + dateObj.toLocaleDateString('en-GB');
+                    let orderDetail = ""
+                    orderDetail += "<div class='History-OrderDetail-Text_View'><p>Mã đơn hàng: <span>" + transactId + "</span></p>";
+                    orderDetail += "<p>Thời gian: <span>" + formattedDate + "</span></p></div>";
+                    orderDetail += "<div class='History-OrderDetail-Table_View'><table>";
+                    orderDetail += "<thead>";
                     orderDetail += "<tr>";
-                    orderDetail += "<td>" + response[i].ProductName + "</td>";
-                    orderDetail += "<td>" + response[i].Quan + "</td>";
-                    orderDetail += "<td>" + formatNumber(response[i].CostEach) + " đ" + "</td>";
+                    orderDetail += "<th>Tên sản phẩm</th>";
+                    orderDetail += "<th>Số lượng</th>";
+                    orderDetail += "<th>Đơn giá</th>";
+                    // orderDetail += "<th>Tổng tiền</th>";
                     orderDetail += "</tr>";
-                }
-                orderDetail += "</tbody>";
-                orderDetail += "</table>";
-                // Hiển thị cửa sổ chi tiết đơn hàng
+                    orderDetail += "</thead>";
+                    orderDetail += "<tbody>";
 
-                const orderDetailContent = document.getElementById('order-detail');
-                orderDetailContent.innerHTML = orderDetail;
-                orderDetailModal.style.display = 'block';
+                    for (var i = 0; i < response.length; i++) {
+                        orderDetail += "<tr>";
+                        orderDetail += "<td>" + response[i].ProductName + "</td>";
+                        orderDetail += "<td>" + response[i].Quan + "</td>";
+                        orderDetail += "<td>" + toCurrency(response[i].CostEach) + " đ" + "</td>";
+                        orderDetail += "</tr>";
+                    }
+                    orderDetail += "</tbody>";
+                    orderDetail += "</table></div>";
+                    orderDetail += "<div class='History-OrderDetail-TongTien'><a>Thành tiền : </a><div><a>" + toCurrency(response[0].Total) + "</a><a>&nbsp;VND</a></div></div>";
+                    // Hiển thị cửa sổ chi tiết đơn hàng
+
+                    const orderDetailContent = document.getElementById('order-detail');
+                    orderDetailContent.innerHTML = orderDetail;
+                    orderDetailModal.style.display = 'block';
+                }
+            },
+            error: function(xhr, status, error) {
+                reject(error);
             }
         })
 
@@ -132,16 +155,103 @@ $Whopay = $_SESSION["userId"];
     // Thêm sự kiện click vào nút đóng cửa sổ để ẩn cửa sổ chi tiết đơn hàng
 </script>
 <style>
-    #orders-confirmed-container {
-        max-width: 90%;
-        /* height: 90%; */
-        margin: 10px auto;
-        margin-left: 300px;
-        padding: 1rem;
-
+    .History-MainView {
+        width: 100%;
+        min-height: 100%;
         display: flex;
         flex-direction: column;
-        font-family: 'OpenSans-regular';
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #ececec;
+    }
+
+    .History-View {
+        width: 70%;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .History-title_view {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .History-title_view a {
+        font-size: 30px;
+        font-weight: bold;
+        color: #961313;
+    }
+
+    .History-table_view {
+        width: 90%;
+        border: 1px solid #000;
+        border-radius: 10px;
+        padding: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .History-OrderDetail-Main_View {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .History-OrderDetail-title_view {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .History-OrderDetail-title_view a {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .History-OrderDetail-Text_View {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 40px;
+    }
+
+    .History-OrderDetail-Table_View {
+        width: 90%;
+        border: 1px solid #000;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .History-OrderDetail-TongTien {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 0px 30px;
+    }
+
+    .History-OrderDetail-TongTien a {
+        font-size: 25px;
+        font-weight: bold;
     }
 
     #orders-confirmed-container table,
@@ -200,9 +310,10 @@ $Whopay = $_SESSION["userId"];
 
     .order-detail-modal-content {
         background-color: #fefefe;
-        margin: 10% auto;
+        margin: 5% auto;
         padding: 20px;
         border: 1px solid #888;
+        border-radius: 10px;
         width: 80%;
         min-width: 700px;
         max-width: 800px;
