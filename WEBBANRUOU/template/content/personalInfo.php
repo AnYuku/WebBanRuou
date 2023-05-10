@@ -24,6 +24,7 @@ $UserId = $_SESSION["userId"];
     </div>
     <button id="edit-button">Sửa thông tin cá nhân</button>
     <button id="change-password-button">Đổi mật khẩu</button>
+    <button id="personal-cancel">Hủy</button>
 </div>
 
 
@@ -55,6 +56,7 @@ $UserId = $_SESSION["userId"];
 
 
 <script>
+    $("#personal-cancel").hide();
     var userID = '0';
     try {
         userID = '<?php echo $UserId; ?>';
@@ -62,9 +64,9 @@ $UserId = $_SESSION["userId"];
         console.log(e);
     };
     // Lấy các phần tử cần thiết
-    const modal = document.getElementById('client-user-info-change-password-modal');
-    const openModalButton = document.getElementById('change-password-button');
-    const closeButton = document.getElementById('close-button');
+    let modal = document.getElementById('client-user-info-change-password-modal');
+   let openModalButton = document.getElementById('change-password-button');
+    let closeButton = document.getElementById('close-button');
 
     // Gắn sự kiện click vào nút đổi mật khẩu để mở modal
     openModalButton.addEventListener('click', function() {
@@ -233,8 +235,10 @@ $UserId = $_SESSION["userId"];
         $(".email").removeAttr("disabled");
         $(".address").removeAttr("disabled");
         $("#edit-button").text("Lưu").attr("id", "save-button");
-        $("#change-password-button").text("Hủy").attr("id", "cancel-button");
-
+        // $("#change-password-button").removeAttr("id","confirm-change-password-button");
+        // $("#change-password-button").text("Hủy").removeAttr("id").attr("id", "cancel-button");
+        $("#change-password-button").hide();
+        $("#personal-cancel").show();
         $("#save-button").on("click", function() {
             if (checkEmail() && checkAddress()) {
                 var _email = $(".email").val();
@@ -272,7 +276,7 @@ $UserId = $_SESSION["userId"];
                 })
             }
         });
-        $("#cancel-button").on("click", function() {
+        $("#personal-cancel").on("click", function() {
             location.reload();
         });
     });
