@@ -14,6 +14,10 @@
                         # code..   
                     include('./template/content/contentPage.php');
                 break;                 
+                case 'dangky':
+                        # code..   
+                    include('./template/content/conTentChangeSign.php');
+                break;                 
             }
         }
         else{

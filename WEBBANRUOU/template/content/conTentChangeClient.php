@@ -25,20 +25,27 @@
                         break;
                     case 'info':
                         # code...
-                            // include('./template/content/content-admin-tax-manager.php');
-                        echo 'Thông tin cá nhân';
+                            include('./template/content/personalInfo.php');
+                        // echo 'Thông tin cá nhân';
                         break;
                     case 'order':
                         # code...
-                        // include('./template/content/conTentChangeLogin.php');
-                        echo 'Lịch sử mua hàng';
+                        include('./template/content/ordersConfirmed.php');
+                        // echo 'Lịch sử mua hàng';
                         break;
                     case 'giohang':
                             # code..   
                             // include('./template/content/content-admin-tax-manager.php');
                         // echo 'Giỏ hàng';
                         include('./template/content/cart.php');
-                    break;          
+                    break;      
+                    case 'donhangdangxuly':
+                        # code..   
+                        // include('./template/content/content-admin-tax-manager.php');
+                    // echo 'Giỏ hàng';
+                    include('./template/content/ordersProcessing.php');
+                    
+                    break;     
                     case 'logout':
                             # code..   
                         // include('./template/content/contentPage.php');

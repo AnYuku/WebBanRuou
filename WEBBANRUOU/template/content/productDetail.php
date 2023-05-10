@@ -72,8 +72,10 @@
 			}
 		})
 	});
+	
 
-	$('#product-detail-container-add-to-cart-btn').on('click', function(event) {
+
+	$('#product-detail-container-add-to-cart-btn').on('click',  function() {
 		<?php
 		// Kiểm tra xem SESSION $userId đã được đặt hay chưa
 		$isLoggedIn = isset($_SESSION['userId']) ? true : false;
@@ -86,7 +88,7 @@
 			}
 			console.log(productDataToCart);
 			$.ajax({
-				url: './template/content/cart.php',
+				url: './template/dbconnection_Product_To_Cart.php',
 				type: 'POST',
 				data: {
 					productDataToCart: JSON.stringify(
@@ -94,10 +96,15 @@
 					)
 				},
 				success: function(response) {
-					// Xử lý phản hồi từ API					
-					if (response) {
+					console.log(response);	
+					if(response.indexOf("SL") >= 0)	{
 						Swal.fire({
-							position: 'top-end',
+						icon: 'error',
+						title: 'Số lượng không hợp lệ',						
+						})						
+					}		
+					else {
+						Swal.fire({							
 							icon: 'success',
 							title: 'Sản phẩm đã được thêm vào giỏ hàng',
 							showConfirmButton: false,

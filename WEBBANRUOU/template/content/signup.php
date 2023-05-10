@@ -1,4 +1,3 @@
-
 <!-- HTML -->
 <div class="content-signup-container">
     <div class="content-signup-form">
@@ -44,10 +43,10 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        
+
     }
 
-    .content-signup-container{
+    .content-signup-container {
         font-weight: bold;
         flex-direction: column;
         font-family: 'OpenSans-regular';
@@ -57,7 +56,7 @@
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: url('../../../image/login-background.jpg') no-repeat center center fixed;
+        background: url('./image/login-background.jpg') no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -194,98 +193,13 @@
         margin-top: 2.5rem;
         margin-bottom: 1rem;
     }
-
-    /* button:focus {
-	outline: none;
-	color: #fff;
-	background-color: #0b5ed7;
-	border-color: #0a58ca;
-	box-shadow: 0 0 0 0.25rem rgb(49 132 253 / 50%);
-    } */
-
-    /* radio  & checkbox*/
-    /* .content-signup-form label.radio,
-    .content-signup-form label.checkbox {
-        width: auto;
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        border-radius: 5px;
-    }
-
-    .content-signup-form .stack label.radio,
-    .content-signup-form .stack label.checkbox {
-        display: block;
-        margin-left: auto;
-    }
-
-    .content-signup-form .radio+.radio,
-    .content-signup-form .checkbox+.checkbox {
-        margin-left: 1rem;
-    }
-
-    .content-signup-form input[type="checkbox"],
-    .content-signup-form input[type="radio"] {
-        vertical-align: baseline;
-        width: auto;
-    }
-
-    /* vertical form */
-    /* .vertical label,
-    .vertical input,
-    .vertical textarea {
-        display: block;
-        width: 100%;
-    } */
-
-    /* horizontal form */
-    /* .horizontal .field {
-        display: grid;
-        grid-template-columns: 20% 1fr;
-        gap: 1rem 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .horizontal .field label {
-        grid-column: 1 / 2;
-        text-align: left;
-    }
-
-    .horizontal .field label.radio,
-    .horizontal .field label.checkbox {
-        grid-column: 2 / 3;
-        text-align: left;
-    }
-
-    .horizontal .field input,
-    .horizontal .field button,
-    .horizontal .field small {
-        grid-column: 2 / 3;
-    } */
-
-    /* Utility classes*/
-    /* .half {
-        width: 50%;
-    }
-
-    .quarter {
-        width: 25%;
-    }
-
-    .full {
-        width: 100%;
-    } */
-
-    /* .error {
-        color: #dc3545;
-    } */ 
 </style>
 <!-- SCRIPT    /////////////////////////////////////////////////////////////////////////// -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function checkUsername() {
+        var regex = /^[a-zA-Z0-9]+$/;
         var username = document.getElementById("username");
         var _username = $("#username").val();
         if (username.validity.valueMissing) {
@@ -296,26 +210,60 @@
             username.setCustomValidity("Tên đăng nhập cần ít nhất 6 ký tự");
             username.reportValidity();
             username.style.borderColor = "red";
+        } else if (!regex.test(_username)) {
+            username.setCustomValidity("Tên đăng nhập không hợp lệ");
+            username.reportValidity();
+            username.style.borderColor = "red";
         } else {
             username.style.borderStyle = "none";
+            return true;
         }
     }
 
     function checkPassword() {
         var password = document.getElementById("password");
-        var _password = $("#password").val();
+var _password = password.value;
+var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
 
-        if (password.validity.valueMissing) {
-            password.setCustomValidity("Vui lòng nhập mật khẩu");
-            password.reportValidity();
-            password.style.borderColor = "red";
-        } else if (password.validity.tooShort) {
-            password.setCustomValidity("Mật khẩu cần ít nhất 8 ký tự");
-            password.reportValidity();
-            password.style.borderColor = "red";
-        } else {
-            password.style.borderStyle = "none";
-        }
+if (password.validity.valueMissing) {
+    password.setCustomValidity("Vui lòng nhập mật khẩu");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (password.validity.tooShort) {
+    password.setCustomValidity("Mật khẩu cần ít nhất 8 ký tự");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[a-z]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ thường");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[A-Z]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự chữ hoa");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/\d/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một chữ số");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!/[$@$!%*?&]/.test(_password)) {
+    password.setCustomValidity("Mật khẩu phải chứa ít nhất một ký tự đặc biệt");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else if (!regex.test(_password)) {
+    password.setCustomValidity("Mật khẩu không hợp lệ");
+    password.reportValidity();
+    password.style.borderColor = "red";
+    return false;
+} else {
+    password.style.borderStyle = "none";
+    return true;
+}
     }
 
     function checkRePassWord() {
@@ -328,6 +276,7 @@
             rePassword.style.borderColor = "red";
         } else {
             rePassword.style.borderStyle = "none";
+            return true;
         }
 
     }
@@ -348,52 +297,46 @@
             email.style.borderColor = "red";
         } else {
             email.style.borderStyle = "none";
+            return true;
         }
 
     }
     $(document).ready(function() {
         console.log('ready');
         $("#submit").on("click", function() {
-            var username = document.getElementById("username");
-            var password = document.getElementById("password");
-            var rePassword = document.getElementById("rePassword")
-            var email = document.getElementById("email");
             var _username = $("#username").val();
             var _password = $("#password").val();
             var _rePassword = $("#rePassword").val();
             var _email = $("#email").val();
 
-            checkEmail();
-            checkRePassWord();
-            checkPassword();
-            checkUsername();
+            if (checkUsername() && checkPassword() && checkRePassWord() && checkEmail() ) {
+                $.ajax({
+                    url: '../../template/dbconnection_SIGNUP.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        username: _username,
+                        password: _password,
+                        email: _email,
+                        action: 'check_and_signup'
+                    },
+                    success: function(response) {
+                        if (response.indexOf("success") >= 0) {
+                            swal("Thành công", "Đăng ký thành công", "success")
+                                .then((value) => {
+                                    window.location = 'login.php';
+                                });
+                        } else if (response.indexOf("error1") >= 0) {
+                            swal("Thất bại", "Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác", "error");
+                        } else if (response.indexOf("error2") >= 0) {
+                            swal("Thất bại", "Email đã được sử dụng, vui lòng chọn email khác", "error");
 
-            $.ajax({
-                url: '../../template/dbconnection_SIGNUP.php',
-                method: 'POST',
-                dataType: 'json',
-                data: {                    
-                    username: _username,
-                    password: _password,
-                    email: _email,
-                },
-                success: function(response) {
-                    if (response.indexOf("success") >= 0) {
-                        swal("Thành công", "Đăng ký thành công", "success")
-                            .then((value) => {
-                                window.location = 'login.php';
-                            });
-                    } else if (response.indexOf("error1") >= 0) {
-                        swal("Thất bại", "Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác", "error");                        
-                    } else if (response.indexOf("error2") >= 0) {
-                        swal("Thất bại", "Email đã được sử dụng, vui lòng chọn email khác", "error");                       
+                        }
 
-                    }
+                    },
 
-                },
-
-            })
-
+                })
+            }
         });
     });
 </script>

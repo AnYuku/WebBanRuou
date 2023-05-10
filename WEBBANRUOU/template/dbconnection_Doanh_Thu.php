@@ -1,6 +1,5 @@
 <?php
-$tungay=null;
-$denngay=null;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Lấy thời gian từ input
     $tungay = $_POST['from_date'];

@@ -4,7 +4,7 @@
     <div id="contentcenter">  
         <?php
 
-            include("./template/content/login.php");  
+            include("./template/content/signup.php");  
         ?>
     </div>
     <div id="contentright">

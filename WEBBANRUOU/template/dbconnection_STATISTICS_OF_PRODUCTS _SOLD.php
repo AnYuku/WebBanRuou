@@ -18,7 +18,6 @@ $sql = "SELECT category.CatName, SUM(transactdetail.Quan) AS Total_sold
                 FROM category
                 JOIN product ON category.CatId = product.CatId
                 JOIN transactdetail ON product.ProductNum = transactdetail.ProductNum
-                WHERE transactdetail.Status = 2
                 GROUP BY category.CatId;";
 $result = mysqli_query($conn, $sql);
 $total_sold = [];
