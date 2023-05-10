@@ -705,8 +705,8 @@
                             Count_number_of_product++;
                         };
                     });
-                    // console.log("Số lượng sản phẩm đã thêm: " + Count_number_of_product);
-                }
+                    console.log("Số lượng sản phẩm đã thêm: " + Count_number_of_product);
+                }                
             })
         });
     });
@@ -782,89 +782,78 @@
         }
     }
 
-    function checkIfIDExists(idToCheck) {
-        // Thực hiện kiểm tra xem mã ID đã tồn tại trong cơ sở dữ liệu hay chưa
-        // Hàm này trả về true nếu mã ID đã tồn tại và false nếu không tồn tại
-        const productNumbers = [];
-        const tdElements = document.querySelectorAll('#content_admin_product_table tbody td:first-child');
-        tdElements.forEach((td) => {
-            productNumbers.push(td.textContent);
-        });
-        if (productNumbers.includes(idToCheck)) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-    // Tạo ID cho sản phẩm mới    
     function generateTempProductID(index) {
-        let tempID = "P" + (index + 1).toString().padStart(5, "0");
-        while (checkIfIDExists(tempID)) {
-            index++;
-            tempID = "P" + (index + 1).toString().padStart(5, "0");
-        }
-        return tempID;
-    }
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "./template/dbconnection_CHECK_ID.php",
+                type: "POST",
+                data: {
+                    Id: index
+                },
+                dataType: "json",
+                success: function(response) {
+                    resolve(response);
+                },
+                error: function(xhr, status, error) {
+                    reject(error);
+                }
+            });
+        });
+    }   
+       
+    
     // ---------------------------------Ajax thêm sản phẩm-------------------------
     $(document).ready(function() {
-        $("#submit-add-product").on("click", function() {
-            if (checkProductImage("add_imageInput") == true && checkProductName("productName") == true && checkProductPrice("Price") == true &&
-                checkProductQuantity("Quan") == true) {
-                productNum = generateTempProductID(Count_number_of_product);
-                var data_insert = {
-                    ProductNum: productNum + '',
-                    ProductName: $("#productName").val() + '',
-                    Descript: $("#Descript").val() + '',
-                    Price: $("#Price").val() + '',
-                    Tax1: $('#tax1').is(':checked') ? Number('1') : Number('0') + '',
-                    Tax2: $('#tax2').is(':checked') ? Number('1') : Number('0') + '',
-                    Tax3: $('#tax3').is(':checked') ? Number('1') : Number('0') + '',
-                    Quan: $("#Quan").val() + '',
-                    IsActive: 1 + '',
-                    CatId: $("#category").val() + '',
-                    ImageSource: $("#add_imageInput").val() + '',
-                };
-                console.log(data_insert);
-                $.ajax({
-                    url: './template/dbconnection_POST.php',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        table_name: 'product',
-                        data_insert: JSON.stringify(
-                            data_insert
-                        )
-                    },
-
-                    success: function(response) {
-                        // Xử lý phản hồi từ API
-                        console.log(response);
-                        if (response) {
-                            swal("Thành công", "Sản phẩm đã được thêm", "success")
-                                .then((value) => {
-                                    location.reload();
-                                });
-
-                        } else {
-                            swal("Thất bại", "Có lỗi xảy ra", "error")
-                                .then((value) => {
-                                    location.reload();
-                                });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        var errorMessage = xhr.status + ': ' + xhr.statusText
-                        alert('Có lỗi khi gửi dữ liệu tới API. ' + errorMessage);
+    $("#submit-add-product").on("click", async function() {
+        if (checkProductImage("add_imageInput") == true &&
+            checkProductName("productName") == true &&
+            checkProductPrice("Price") == true &&
+            checkProductQuantity("Quan") == true) {
+            const productNum = await generateTempProductID(Count_number_of_product);
+            const data_insert = {
+                ProductNum: productNum,
+                ProductName: $("#productName").val(),
+                Descript: $("#Descript").val(),
+                Price: $("#Price").val(),
+                Tax1: $('#tax1').is(':checked') ? 1 : 0,
+                Tax2: $('#tax2').is(':checked') ? 1 : 0,
+                Tax3: $('#tax3').is(':checked') ? 1 : 0,
+                Quan: $("#Quan").val(),
+                IsActive: 1,
+                CatId: $("#category").val(),
+                ImageSource: $("#add_imageInput").val(),
+            };
+            console.log(data_insert);
+            $.ajax({
+                url: './template/dbconnection_POST.php',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    table_name: 'product',
+                    data_insert: JSON.stringify(data_insert)
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response) {
+                        swal("Thành công", "Sản phẩm đã được thêm", "success")
+                            .then((value) => {
+                                location.reload();
+                            });
+                    } else {
+                        swal("Thất bại", "Có lỗi xảy ra", "error")
+                            .then((value) => {
+                                location.reload();
+                            });
                     }
-
-                })
-            }
-
-
-        })
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    alert('Có lỗi khi gửi dữ liệu tới API. ' + errorMessage);
+                }
+            });
+        }
     });
-
+});
     // ------------------------Ajax lưu sản phẩm đã edit--------------------------
 
     $("#submit-edit-product").on("click", function() {
