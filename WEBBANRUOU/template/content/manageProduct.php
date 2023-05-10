@@ -417,29 +417,34 @@
 
     .content-admin-product-container td:nth-child(1) {
         /* text-align: center; */
-        width: 130px;
+        width: 10%;
+    }
+    .content-admin-product-container td:nth-child(2) {
+        /* text-align: center; */
+        width: 45%;
     }
 
     .content-admin-product-container td:nth-child(3) {
         text-align: right;
-
+        width: 35px
     }
 
     .content-admin-product-container td:nth-child(4) {
         text-align: center;
-        width: 35px;
+        width: 15%;
+
+    }
+    .content-admin-product-container td:nth-child(5) {
+        text-align: center;
+        width: 10%;
 
     }
 
     .content-admin-product-container td:nth-child(6) {
         text-align: center;
-        width: 40px;
+        width: 15%
     }
-
-    .content-admin-product-container td:nth-child(7) {
-        text-align: center;
-        width: 108px;
-    }
+    
 
     .content-admin-product-container th,
     .content-admin-product-container td {

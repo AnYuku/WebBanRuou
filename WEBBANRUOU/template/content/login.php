@@ -247,7 +247,7 @@ if (isset($_SESSION['logged_in'])) {
                                 });
 
                         } else if (response.indexOf('banned') >= 0) {                            
-                            swal("Có lỗi xảy ra", "Bạn đã bị Ban", "error");
+                            swal("Có lỗi xảy ra", "Tài khoản của bạn đã bị vô hiệu hóa", "error");
                         } else
                             swal("Có lỗi xảy ra", "Tên đăng nhập hoặc mật khẩu không chính xác!", "error");
                         // console.log(result.indexOf("error"));
