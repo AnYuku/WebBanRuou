@@ -1,22 +1,24 @@
 <div id="product-detail-container">
-	<div class="left">
-		<img id="product-detail-container-previewImage" src="" alt="Product Image">
-	</div>
-	<div class="right">
-		<p>Mã sản phẩm: <span id="product-detail-container-productID"></span></p>
-		<h2><span id="product-detail-container-productName"></span></h2>
-		<p>Loại rượu: <span id="product-detail-container-productCategory"></span></p>
-		<h3 id="product-detail-container-productPrice"></h3>
-		<!-- <p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
+	<div class="top">
+		<div class="left">
+			<img id="product-detail-container-previewImage" src="" alt="Product Image">
+		</div>
+		<div class="right">
+			<p>Mã sản phẩm: <span id="product-detail-container-productID"></span></p>
+			<h2><span id="product-detail-container-productName"></span></h2>
+			<p>Loại rượu: <span id="product-detail-container-productCategory"></span></p>
+			<h3 id="product-detail-container-productPrice"></h3>
+			<!-- <p>Số lượng:<span id="product-detail-container-productQuantity"></span></p>
 		<br> -->
-		<!-- <button>Add to Cart</button> -->
-		<form id="add-to-cart-form">
-			<input type="hidden" name="product_id" value="123">
-			<button type="button" id="minus-button" onclick="minus1()"><i class="fa-solid fa-minus"></i></button>
-			<input type="number" name="quantity" id="producQuantityToBuy" value="1" min="1">
-			<button type="button" id="plus-button" onclick="plus1()"><i class="fa-solid fa-plus"></i></button>
-			<button type="button" id="product-detail-container-add-to-cart-btn"></i> Thêm vào giỏ hàng</button>
-		</form>
+			<!-- <button>Add to Cart</button> -->
+			<form id="add-to-cart-form">
+				<input type="hidden" name="product_id" value="123">
+				<button type="button" id="minus-button" onclick="minus1()"><i class="fa-solid fa-minus"></i></button>
+				<input type="number" name="quantity" id="producQuantityToBuy" value="1" min="1">
+				<button type="button" id="plus-button" onclick="plus1()"><i class="fa-solid fa-plus"></i></button>
+				<button type="button" id="product-detail-container-add-to-cart-btn"></i> Thêm vào giỏ hàng</button>
+			</form>
+		</div>
 	</div>
 	<div class="bottom">
 		<p id="description">Mô tả: <span id="product-detail-container-productDescription"> </span></p>
@@ -72,10 +74,10 @@
 			}
 		})
 	});
-	
 
 
-	$('#product-detail-container-add-to-cart-btn').on('click',  function() {
+
+	$('#product-detail-container-add-to-cart-btn').on('click', function() {
 		<?php
 		// Kiểm tra xem SESSION $userId đã được đặt hay chưa
 		$isLoggedIn = isset($_SESSION['userId']) ? true : false;
@@ -96,15 +98,14 @@
 					)
 				},
 				success: function(response) {
-					console.log(response);	
-					if(response.indexOf("SL") >= 0)	{
+					console.log(response);
+					if (response.indexOf("SL") >= 0) {
 						Swal.fire({
-						icon: 'error',
-						title: 'Số lượng không hợp lệ',						
-						})						
-					}		
-					else {
-						Swal.fire({							
+							icon: 'error',
+							title: 'Số lượng không hợp lệ',
+						})
+					} else {
+						Swal.fire({
 							icon: 'success',
 							title: 'Sản phẩm đã được thêm vào giỏ hàng',
 							showConfirmButton: false,
@@ -123,31 +124,35 @@
 	});
 </script>
 
-<style>
+<style>	
 	#product-detail-container {
 		background-color: rgba(217, 217, 217, 0.5);
 		max-width: 60%;
 		margin: 10px auto;
 		padding: 1rem;
 		font-weight: bold;
-		display: grid;
-		grid-template-columns: 1fr 1.5fr;
-		grid-gap: 20px;
+		display: flex;
 		flex-direction: column;
 		font-family: Verdana, sans-serif;
-		/* min-height:90vh;		 */
+		justify-content: flex-start;
+		align-items: stretch;
+		/* Thêm thuộc tính align-items */
+		
+	}
+
+	#product-detail-container .top {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 
 	#product-detail-container .left {
 		width: 100%;
-
 	}
 
 	#product-detail-container .left img {
 		width: 100%;
 		height: auto;
-		max-width: 500px;
-
 	}
 
 	#product-detail-container .right {
@@ -156,9 +161,22 @@
 	}
 
 	#product-detail-container .bottom {
-		grid-column: 1 / span 2;
-		display: block;
+		display: flex;
+		flex: 1;
+		/* Thêm thuộc tính flex */
 		min-height: 40vh;
+	}
+
+	#product-detail-container p {
+		margin-bottom: 10px;
+	}
+
+	#product-detail-container h2 {
+		margin-bottom: 20px;
+	}
+
+	#product-detail-container h3 {
+		margin-bottom: 10px;
 	}
 
 	#product-detail-container h2 {
