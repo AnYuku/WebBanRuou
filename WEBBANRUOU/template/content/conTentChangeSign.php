@@ -17,17 +17,17 @@
 #main #container #contentleft{
     float: left;
     height: 100vh;;
-    width: 15%;
+    width: 0%;
 
 }
 #main #container #contentcenter{
     float:left;
     min-height: 100vh;
-    width: 70%;  
+    width: 100%;  
 }
 #main #container #contentright {
     float:right;
     height: 100vh;
-    width: 15%;
+    width: 0%;
 }
 </style>

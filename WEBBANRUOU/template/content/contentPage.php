@@ -6,3 +6,6 @@
             </br>TRƯỜNG</div>
         <a class="link" href="#">XEM THÊM</a>
     </div>
+<?php
+        include("./template/footer/fooTer.php");
+?>
