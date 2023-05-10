@@ -17,7 +17,7 @@
     $TimePaymentEnd  = $_GET['End'];
 
     // Prepare statement
-    $stmt = $conn->prepare("SELECT SUM(Total) AS SumTotal FROM $table_name WHERE TimePayment >= ? AND TimePayment <= ?");
+    $stmt = $conn->prepare("SELECT SUM(Total) AS SumTotal FROM $table_name WHERE Status = 2 AND TimePayment >= ? AND TimePayment <= ?");
     $stmt->bind_param("ss", $TimePaymentStart, $TimePaymentEnd);
     // Execute statement
     $stmt->execute();
@@ -32,4 +32,3 @@
 
     $stmt->close();
     $conn->close();
-?>

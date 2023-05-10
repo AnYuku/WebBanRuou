@@ -13,7 +13,7 @@
     }
 // -----------------------Lưu sản phẩm-------------------------
     // Check if the form has been submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" &&$_POST['action'] == 'save' ) {
         // Get data from form        
         $json_data = $_POST['data_insert'];
         $data_insert = json_decode($json_data, true);
@@ -29,7 +29,7 @@
         `CatId` = '{$data_insert['CatId']}', 
         `ImageSource` = '{$data_insert['ImageSource']}' 
         WHERE `ProductNum` = '{$data_insert['ProductNum']}'";
-        echo $sql;
+        // echo $sql;
         if ($conn->query($sql) === TRUE) {
             $affected_rows = $conn->affected_rows;
             if ($affected_rows > 0) {
@@ -45,9 +45,9 @@
         $conn->close();
     }
 // ------------------------------------LấY thông tin sản phẩm để edit-----------------------------
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
-    $table_name = $_GET['table_name'];
-    $id = $_GET['productId'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'getData' ){
+    $table_name = $_POST['table_name'];
+    $id = $_POST['productId'];
     
     // Get data from table
     $sql = "SELECT product.*, category.CatName FROM $table_name JOIN category on product.CatId = category.CatId WHERE ProductNum = '" . $id . "'";
@@ -68,6 +68,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
     }
     else echo"Khong tim thay san pham";
     echo json_encode($data);
+
+    $conn->close();
+}
+// -------------------------------------- "Xóa sản phẩm" --------------------------------------------------------
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete' ){
+    $table_name = $_POST['table_name'];
+    $id = $_POST['id_object'];
+    
+    // Get data from table
+    $sql = "UPDATE $table_name SET `IsActive` = 0 WHERE ProductNum = '" . $id . "'";
+
+    if ($conn->query($sql)){
+        echo json_encode("success");
+    }
+    else
+        echo json_encode("failed");
 
     $conn->close();
 }

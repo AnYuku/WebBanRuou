@@ -1,8 +1,6 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$Whopay = $_SESSION["userId"];
+
+$Whopay = $_POST["userID"];
 
 $servername = "localhost";
 $username = "admin";

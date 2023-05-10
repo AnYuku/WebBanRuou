@@ -144,7 +144,7 @@
                     <th>Product Name</th>
                     <!-- <th>Description</th> -->
                     <th>Price</th>
-                    <th>Active</th>
+                    <!-- <th>Active</th> -->
                     <th>Category</th>
                     <th>Stock</th>
                     <th>Action</th>
@@ -562,10 +562,11 @@
         // Gửi yêu cầu AJAX để truy vấn thông tin sản phẩm từ server
         $.ajax({
             url: './template/dbconnection_EDIT_PRODUCT.php',
-            type: 'GET',
+            type: 'POST',
             data: {
                 table_name: "product",
-                productId: productId
+                productId: productId,
+                action: "getData"
             },
             success: function(response) {
                 // Giải mã dữ liệu JSON trả về từ server
@@ -595,21 +596,6 @@
     }
     // --------------------------------------XÓA SẢN PHẨM-----------------------------
     function openDeleteConfirm(button) {
-        // var deleteForm = document.getElementById('content-admin-product-delete-product-window');
-        // var closeDeleteProductButton = document.getElementById('delete-product-cancel')
-        // // Nếu form chỉnh sửa đang ẩn, hiển thị nó
-        // if (deleteForm.style.display === 'none') {
-        //     deleteForm.style.display = 'block';
-        // }
-        // // Nếu form chỉnh sửa đang hiển thị, ẩn nó
-        // else {
-        //     deleteForm.style.display = 'none';
-        // }
-        // closeDeleteProductButton.addEventListener('click', function() {
-        //     var DeleteProductWindow = document.getElementById('content-admin-product-delete-product-window');
-        //     DeleteProductWindow.style.display = 'none';
-        // });
-        // var id = button.getAttribute('data-id');
         var productId = button.getAttribute('data-id');
         swal({
                 title: "Bạn có chắc chắn xóa sản phẩm " + productId,
@@ -621,15 +607,16 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: './template/dbconnection_DELETE.php',
+                        url: './template/dbconnection_EDIT_PRODUCT.php',
                         type: 'POST',
                         data: {
+                            action: 'delete',
                             table_name: "product",
                             id_object: productId
                         },
                         success: function(response) {
                             console.log(response);
-                            if (response) {
+                            if (response.indexOf("success") >= 0) {
                                 swal("Thành công", "Sản phẩm đã bị xóa", "success")
                                     .then((value) => {
                                         location.reload();
@@ -695,32 +682,30 @@
                             CatName: catName
                         }
                     });
-                    // console.log(newPro);
+                    console.log(newPro);
                     $.each(newPro, function(i, item) {
                         // NếU số lượng = 0 thì không Active
-                        if (item.Quan == 0) {
-                            item.IsActive = 0
+                        if (item.IsActive !== "0") {
+                            // var activeIcon = item.IsActive == 1 ?
+                            //     '<button class="IconActive" value=1 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-on"></i></button>' :
+                            //     '<button class="IconDeactive" value=0 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-off"></i></button>';
+                            var priceFormatted = Number(item.Price).toLocaleString("vi-VN");
+                            var id = item.ProductNum;
+                            $("#content_admin_product_table tbody").append(
+                                "<tr>" +
+                                "<td>" + item.ProductNum + "</td>" +
+                                "<td>" + item.ProductName + "</td>" +
+                                "<td>" + priceFormatted + "</td>" +
+                                // "<td>" + activeIcon + "</td>" +
+                                "<td>" + item.CatName + "</td>" +
+                                "<td>" + item.Quan + "</td>" +
+                                "<td>" + '<button class="btn-edit" data-id=' + item.ProductNum + ' onclick="openEditForm(this)">Edit</button> | <button class="btn-del" data-id=' + item.ProductNum + ' onclick="openDeleteConfirm(this)">Delete</button>' + "</td>" +
+                                "</tr>"
+                            );
+                            Count_number_of_product++;
                         };
-
-                        var activeIcon = item.IsActive == 1 ?
-                            '<button class="IconActive" value=1 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-on"></i></button>' :
-                            '<button class="IconDeactive" value=0 data-id=' + item.ProductNum + ' onclick="switchActive(this)"><i class="fas fa-toggle-off"></i></button>';
-                        var priceFormatted = Number(item.Price).toLocaleString("vi-VN");
-                        var id = item.ProductNum;
-                        $("#content_admin_product_table tbody").append(
-                            "<tr>" +
-                            "<td>" + item.ProductNum + "</td>" +
-                            "<td>" + item.ProductName + "</td>" +
-                            "<td>" + priceFormatted + "</td>" +
-                            "<td>" + activeIcon + "</td>" +
-                            "<td>" + item.CatName + "</td>" +
-                            "<td>" + item.Quan + "</td>" +
-                            "<td>" + '<button class="btn-edit" data-id=' + item.ProductNum + ' onclick="openEditForm(this)">Edit</button> | <button class="btn-del" data-id=' + item.ProductNum + ' onclick="openDeleteConfirm(this)">Delete</button>' + "</td>" +
-                            "</tr>"
-                        );
-                        Count_number_of_product++;
                     });
-                    console.log("Số lượng sản phẩm đã thêm: " + Count_number_of_product);
+                    // console.log("Số lượng sản phẩm đã thêm: " + Count_number_of_product);
                 }
             })
         });
@@ -902,6 +887,7 @@
                 url: './template/dbconnection_EDIT_PRODUCT.php',
                 type: 'POST',
                 data: {
+                    action: 'save',
                     // table_name: 'product',
                     data_insert: JSON.stringify(
                         data_insert
@@ -950,9 +936,9 @@
             });
             if (rowCount === 0) {
                 swal("Thất bại", "Không tìm thấy sản phẩm yêu cầu", "error")
-                            .then((value) => {
-                                location.reload();
-                            });
+                    .then((value) => {
+                        location.reload();
+                    });
             }
         });
     });

@@ -1,3 +1,9 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$Whopay = $_SESSION["userId"];
+?>
 <div id="orders-confirmed-container">
     <h1>Đơn hàng đã xử lý </h1>
     <br>
@@ -20,13 +26,19 @@
 <!-- HTML chi tiết modal -->
 <div id="order-detail-modal" class="order-detail-modal">
     <div class="order-detail-modal-content">
-        
+
         <span class="order-detail-modal-close">&times;</span>
         <p id="order-detail"></p>
     </div>
 </div>
 
 <script>
+    var userID = '0';
+    try {
+        userID = '<?php echo $Whopay; ?>';
+    } catch (e) {
+        console.log(e);
+    };
     // Gửi yêu cầu lấy danh sách đơn hàng từ máy chủ
     $(document).ready(function() {
         $.ajax({
@@ -34,10 +46,10 @@
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
+                userID: userID,
                 action: "getConfirmedList"
             },
-            success: function(data) {
-                console.log(data);
+            success: function(data) {                
                 var orderList = document.getElementById("order-list");
                 for (var i = 0; i < data.length; i++) {
                     var order = data[i];
@@ -50,7 +62,7 @@
                     row += "<td>" + formattedDate + "</td>";
                     row += "<td>" + formatNumber(order.Total) + " đ" + "</td>";
                     row += "<td>" + status + "</td>";
-                    row += "<td><button class='btn-detail' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";     
+                    row += "<td><button class='btn-detail button-23' data-transact-id='" + order.TransactId + "'>Chi tiết</button></td>";
                     row += "</tr>";
                     orderList.innerHTML += row;
                 }
@@ -63,7 +75,7 @@
     }
 
     // Chi tiết sản phẩm
-    
+
     // var productId = $(this).data('product-id');
     $(document).on('click', '.btn-detail', function() {
         const orderDetailModal = document.getElementById('order-detail-modal');
@@ -73,6 +85,7 @@
             url: "./template/dbconnection_Orders_Processing.php",
             dataType: "json",
             data: {
+                userID: userID,
                 action: 'getConfirmedDetails',
                 transactId: transactId
             },
@@ -82,35 +95,35 @@
                 let formattedDate = dateObj.toLocaleTimeString('en-GB') + ' ' + dateObj.toLocaleDateString('en-GB');
                 let orderDetail = ""
                 orderDetail += "<table>";
-                orderDetail += "<p>Chi tiết đơn hàng: " + transactId +"</p>";
-                orderDetail += "<p>Tổng cộng: " + formatNumber(response[0].Total) + " đ" + "</p>" ;
-                orderDetail += "<p>Thời gian: " + formattedDate +"</p>" ;
+                orderDetail += "<p>Chi tiết đơn hàng: <span>" + transactId + "</span></p>";
+                orderDetail += "<p>Tổng cộng: <span>" + formatNumber(response[0].Total) + " đ" + "</span></p>";
+                orderDetail += "<p>Thời gian: <span>" + formattedDate + "</span></p>";
                 orderDetail += "<thead>";
                 orderDetail += "<tr>";
                 orderDetail += "<th>Tên sản phẩm</th>";
                 orderDetail += "<th>Số lượng</th>";
-                orderDetail += "<th>Đơn giá</th>";                
+                orderDetail += "<th>Đơn giá</th>";
                 orderDetail += "</tr>";
                 orderDetail += "</thead>";
                 orderDetail += "<tbody>";
-                
+
                 for (var i = 0; i < response.length; i++) {
-                    orderDetail += "<tr>";                    
-                    orderDetail += "<td>" + response[i].ProductName +"</td>";
-                    orderDetail += "<td>" + response[i].Quan +"</td>";
-                    orderDetail += "<td>" + formatNumber(response[i].CostEach) + " đ" +"</td>";
+                    orderDetail += "<tr>";
+                    orderDetail += "<td>" + response[i].ProductName + "</td>";
+                    orderDetail += "<td>" + response[i].Quan + "</td>";
+                    orderDetail += "<td>" + formatNumber(response[i].CostEach) + " đ" + "</td>";
                     orderDetail += "</tr>";
                 }
                 orderDetail += "</tbody>";
                 orderDetail += "</table>";
                 // Hiển thị cửa sổ chi tiết đơn hàng
-                
+
                 const orderDetailContent = document.getElementById('order-detail');
                 orderDetailContent.innerHTML = orderDetail;
                 orderDetailModal.style.display = 'block';
             }
         })
-        
+
         const orderDetailClose = document.getElementsByClassName('order-detail-modal-close')[0];
         orderDetailClose.addEventListener('click', () => {
             orderDetailModal.style.display = 'none';
@@ -125,8 +138,7 @@
         margin: 10px auto;
         margin-left: 300px;
         padding: 1rem;
-        
-        font-weight: bold;
+
         display: flex;
         flex-direction: column;
         font-family: 'OpenSans-regular';
@@ -208,5 +220,13 @@
         color: black;
         text-decoration: none;
         cursor: pointer;
+    }
+
+    .order-detail-modal-content p {
+        padding: 5px;
+    }
+
+    .order-detail-modal-content span {
+        font-weight: bold;
     }
 </style>

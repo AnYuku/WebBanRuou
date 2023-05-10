@@ -1,8 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$Whopay = $_SESSION["userId"];
+$Whopay = $_POST['userID'];
 
 // Kết nối với cơ sở dữ liệu MySQL
 $servername = "localhost";
@@ -77,4 +74,3 @@ if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedDetails'){
         
         echo json_encode($data);
 }
-?>

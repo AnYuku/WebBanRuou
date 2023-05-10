@@ -2,43 +2,113 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
 <div class="main_view_chart">
-    <div>
-        <a>
-            Thống kê
-        </a>
+    <div class="trangPhanTich_line1">
+        <div class="view_chart_line_3">
+            <div class="border_View">
+                <div class="title-Phantich">
+                    <a>Phân tích cửa hàng</a>
+                </div>
+                <div>
+                    <div></div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/product_208px.png" alt="Image description" class="icon-trangPhanTich">
+                        <a>Tổng số lượng sản phẩm hiện có:&nbsp;</a>
+                        <a id="TongSoLuongSanPham">0</a>
+                    </div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/Sales Performance Balance_500px.png" alt="Image description" class="icon-trangPhanTich">
+                        <a>Doanh thu quý này:&nbsp;</a>
+                        <a id="DoanhThuQuyNay">0</a>
+                        <a>&nbsp;VND</a>
+                    </div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/Deliver Food_144px.png" alt="Image description" class="icon-trangPhanTich">
+                        <a>Số lượng đơn hàng đã giao:&nbsp;</a>
+                        <a id="SoLuongDonHangDaGiao">0</a>
+                    </div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/cancel_subscription_512px.png" alt="Image description" class="icon-trangPhanTich">
+                        <a>Số lượng đơn hàng đã hủy:&nbsp;</a>
+                        <a id="SoLuongDonHangDaHuy">0</a>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="title-Phantich">
+                    <a>Phân tích tài khoản</a>
+                </div>
+                <div>
+                    <div></div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/user_shield_512px.png" alt="Image description" class="icon-trangPhanTich">
+                        <div>
+                            <div>
+                                <a>Số lượng tài khoản admin đang hoạt động:&nbsp;</a>
+                                <a id="TotalAdminActive">0</a>
+                            </div>
+                            <div>
+                                <a>Số lượng tài khoản admin bị vô hiệu hóa:&nbsp;</a>
+                                <a id="TotalAdminInactive">0</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text_view-trangPhanTich">
+                        <img src="././image/male_user_480px.png" alt="Image description" class="icon-trangPhanTich">
+                        <div>
+                            <div>
+                                <a>Số lượng tài khoản client đang hoạt động:&nbsp;</a>
+                                <a id="TotalClientActive">0</a>
+                            </div>
+                            <div>
+                                <a>Số lượng tài khoản client bị vô hiệu hóa:&nbsp;</a>
+                                <a id="TotalClientInactive">0</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="view_chart">
-        <div class="view_chart_left">
-            <select id="yearSelect_myChart1"></select>
+    <div class="bieuDoView">
+        <div class="bieuDoView-title">
+            <a>Biểu đồ phân tích cửa hàng</a>
         </div>
-        <canvas id="myChart1"></canvas>
-        <div class="view_chart_center">
-            <a>
-                Thống kế doanh thu theo quý
-            </a>
+        <div class="view_chart_line_1">
+            <div class="view_chart view_chart_line_1_marginLeft">
+                <div class="view_chart_left">
+                    <select id="yearSelect_myChart1" class="my-select"></select>
+                </div>
+                <canvas id="myChart1"></canvas>
+                <div class="view_chart_center">
+                    <a>
+                        Thống kế doanh thu theo quý
+                    </a>
+                </div>
+            </div>
+            <div class="view_chart">
+                <div class="    ">
+                    <select id="yearSelect_myChart2" class="my-select"></select>
+                </div>
+                <canvas id="myChart2"></canvas>
+                <div class="view_chart_center">
+                    <a>
+                        Thống kê số lượng đơn hàng trong quý
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="view_chart">
-        <div class="view_chart_left">
-            <select id="yearSelect_myChart2"></select>
-        </div>
-        <canvas id="myChart2"></canvas>
-        <div class="view_chart_center">
-            <a>
-                Thống kê số lượng đơn hàng trong quý
-            </a>
-        </div>
-    </div>
-    <div class="view_chart">
-        <div class="view_chart_left">
-            <select id="quarterSelect_myChart3"></select>
-            <select id="yearSelect_myChart3"></select>
-        </div>
-        <canvas id="myChart3"></canvas>
-        <div class="view_chart_center">
-            <a>
-                Thống kê sản phẩm đã bán
-            </a>
+        <div class="view_chart_line_1">
+            <div class="view_chart_1 view_chart_line_1_marginLeft">
+                <div class="view_chart_left">
+                    <select id="quarterSelect_myChart3" class="my-select"></select>
+                    <select id="yearSelect_myChart3" class="my-select"></select>
+                </div>
+                <canvas id="myChart3"></canvas>
+                <div class="view_chart_center">
+                    <a>
+                        Thống kê sản phẩm đã bán
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -140,10 +210,13 @@
         };
     };
 
-    function toCurrency(number) {
-        let formattedNumber = number.toLocaleString('en-US');
-        return formattedNumber;
-    }
+    function toCurrency(totalCash) {
+        return new Intl.NumberFormat('en-US').format(totalCash);
+    };
+
+    function formatNumberDisplay(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    };
 
     function getTransactIdByTime(time) {
         return new Promise(function(resolve, reject) {
@@ -166,7 +239,6 @@
     };
 
     function getDoanhThuByTime(time) {
-        console.log('time: ', time);
         return new Promise(function(resolve, reject) {
             $.ajax({
                 url: "./template/db_GET_doanhThuByTime.php",
@@ -554,7 +626,6 @@
                     .then(function(allTransDetails) {
                         initDataChar1(yearChart1)
                             .then(function(dataChart1) {
-                                console.log('dataChart1: ', dataChart1);
                                 initChart1(dataQuy, dataChart1);
                             })
                             .catch(function(error) {
@@ -607,7 +678,141 @@
             .catch(function(error) {
                 alert(error);
             });
+    };
+
+    function getCurrentTime() {
+        const currentTime = new Date();
+
+        const year = currentTime.getFullYear();
+        const month = String(currentTime.getMonth() + 1).padStart(2, '0');
+        const day = String(currentTime.getDate()).padStart(2, '0');
+        const hours = String(currentTime.getHours()).padStart(2, '0');
+        const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+        const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+        const milliseconds = String(currentTime.getMilliseconds()).padStart(6, '0');
+
+        const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+        return {
+            Day: day,
+            Month: month,
+            Year: year,
+            TimeSql: formattedTime
+        };
+    };
+
+    function checkTimeInWhichQuarter(inputTime) {
+        const year = inputTime.Year;
+        const TimeQuy1 = getQuarterTime(year, 1);
+        const TimeQuy2 = getQuarterTime(year, 2);
+        const TimeQuy3 = getQuarterTime(year, 3);
+        const TimeQuy4 = getQuarterTime(year, 4);
+
+        function checkTimeBelongsToQuarter(time) {
+            const quarters = [{
+                    quarter: 1,
+                    timeStart: TimeQuy1.timeStart,
+                    timeEnd: TimeQuy1.timeEnd
+                },
+                {
+                    quarter: 2,
+                    timeStart: TimeQuy2.timeStart,
+                    timeEnd: TimeQuy2.timeEnd
+                },
+                {
+                    quarter: 3,
+                    timeStart: TimeQuy3.timeStart,
+                    timeEnd: TimeQuy3.timeEnd
+                },
+                {
+                    quarter: 4,
+                    timeStart: TimeQuy4.timeStart,
+                    timeEnd: TimeQuy4.timeEnd
+                }
+            ];
+
+            const inputTime = new Date(time);
+
+            for (const quarter of quarters) {
+                const startTime = new Date(quarter.timeStart);
+                const endTime = new Date(quarter.timeEnd);
+
+                if (inputTime >= startTime && inputTime <= endTime) {
+                    return quarter.quarter;
+                }
+            }
+
+            return null; // Return null if the time doesn't belong to any quarter
+        };
+        const quarterNumber = checkTimeBelongsToQuarter(inputTime.TimeSql);
+        switch (quarterNumber) {
+            case 1:
+                return TimeQuy1;
+                break;
+            case 2:
+                return TimeQuy2;
+                break;
+            case 3:
+                return TimeQuy3;
+                break;
+            case 4:
+                return TimeQuy4;
+                break;
+        };
     }
+
+    function loadDataPhanTich() {
+        return new Promise(function(resolve, reject) {
+            const ThoiGianQuyHienTai = checkTimeInWhichQuarter(getCurrentTime());
+            $.ajax({
+                url: "./template/db_GET_thongtinphantich.php",
+                type: "GET",
+                data: {
+                    Quy_TimeStart: ThoiGianQuyHienTai.timeStart,
+                    Quy_TimeEnd: ThoiGianQuyHienTai.timeEnd
+                },
+                dataType: "json",
+                success: function(result) {
+                    resolve(result);
+                },
+                error: function(xhr, status, error) {
+                    reject(error);
+                }
+            });
+        })
+    };
+
+    loadDataPhanTich()
+        .then(function(data) {
+            const TotalProduct = data[0].TotalNumProduct;
+            const TotalDoanhThu = data[1].TotalDoanhThu;
+            const TotalOrderConfirm = data[2].TotalOrderConfirm;
+            const TotalOrderCancel = data[3].TotalOrderCancel;
+            const TotalAdminActive = data[4].TotalAdminActive;
+            const TotalAdminInactive = data[5].TotalAdminInactive;
+            const TotalClientActive = data[6].TotalClientActive;
+            const TotalClientInactive = data[7].TotalClientInactive;
+            console.log('Total Admin Active:', TotalAdminActive);
+            console.log('Total Admin Inactive:', TotalAdminInactive);
+            const TongSoLuongSanPham = document.getElementById('TongSoLuongSanPham');
+            TongSoLuongSanPham.textContent = formatNumberDisplay(TotalProduct);
+            const DoanhThuQuyNay = document.getElementById('DoanhThuQuyNay');
+            DoanhThuQuyNay.textContent = toCurrency(TotalDoanhThu);
+            const SoLuongDonHangDaGiao = document.getElementById('SoLuongDonHangDaGiao');
+            SoLuongDonHangDaGiao.textContent = formatNumberDisplay(TotalOrderConfirm);
+            const SoLuongDonHangDaHuy = document.getElementById('SoLuongDonHangDaHuy');
+            SoLuongDonHangDaHuy.textContent = formatNumberDisplay(TotalOrderCancel);
+            const TotalAdminActiveText = document.getElementById('TotalAdminActive');
+            TotalAdminActiveText.textContent = formatNumberDisplay(TotalAdminActive);
+            const TotalAdminInactiveText = document.getElementById('TotalAdminInactive');
+            TotalAdminInactiveText.textContent = formatNumberDisplay(TotalAdminInactive);
+            const TotalClientActiveText = document.getElementById('TotalClientActive');
+            TotalClientActiveText.textContent = formatNumberDisplay(TotalClientActive);
+            const TotalClientInactiveText = document.getElementById('TotalClientInactive');
+            TotalClientInactiveText.textContent = formatNumberDisplay(TotalClientInactive);
+        })
+        .catch(function(error) {
+            console.log('error: ', error);
+        });;
 
     // Những thứ sẽ khởi tạo đầu tiên
     initSelectYears();

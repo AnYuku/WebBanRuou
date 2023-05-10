@@ -17,7 +17,7 @@
     $TimePaymentEnd  = $_GET['End'];
 
     // Prepare statement
-    $stmt = $conn->prepare("SELECT * FROM $table_name WHERE TimePayment BETWEEN '$TimePaymentStart' AND '$TimePaymentEnd';");
+    $stmt = $conn->prepare("SELECT * FROM $table_name WHERE Status = 2 AND TimePayment BETWEEN '$TimePaymentStart' AND '$TimePaymentEnd';");
 
     // Execute statement
     $stmt->execute();
@@ -34,4 +34,3 @@
 
     $stmt->close();
     $conn->close();
-?>

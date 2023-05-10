@@ -96,10 +96,15 @@
 					)
 				},
 				success: function(response) {
-					console.log(response);				
-					if (response) {
+					console.log(response);	
+					if(response.indexOf("SL") >= 0)	{
 						Swal.fire({
-							position: 'top-end',
+						icon: 'error',
+						title: 'Số lượng không hợp lệ',						
+						})						
+					}		
+					else {
+						Swal.fire({							
 							icon: 'success',
 							title: 'Sản phẩm đã được thêm vào giỏ hàng',
 							showConfirmButton: false,

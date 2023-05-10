@@ -1,9 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$UserId = $_SESSION["userId"];
-
+$UserId = $_POST['userID'];
 // Kết nối với cơ sở dữ liệu MySQL
 $servername = "localhost";
 $username = "root";

@@ -341,6 +341,10 @@
                             alert("Giá trị nhập vào trống")
                             signal = false;
                         }
+                        if (Number(min) < 0 || Number(max) < 0) {
+                            alert("Giá trị phải lớn hơn 0")
+                            signal = false;
+                        }
                         if (signal) {
                             if (min != "" && max == "") {
                                 // Chỉ có min

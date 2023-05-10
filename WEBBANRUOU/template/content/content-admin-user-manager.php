@@ -663,13 +663,19 @@ if (session_status() == PHP_SESSION_NONE) {
         const pw = document.getElementById("content_admin_form_input_edit_password").value;
         const email = document.getElementById("content_admin_form_input_edit_email").value;
         const address = document.getElementById("content_admin_form_input_edit_addresss").value;
+        const isActiveValue = document.getElementById("content_admin_form_input_edit_status").checked;
+        let isActive = 0;
+        if (isActiveValue === true) {
+            isActive = 1;
+        }
         const isOk = checkDataChange(pw, email).status;
         if (isOk) {
             return {
                 UserId: id,
                 UserPassword: pw,
                 Email: email,
-                Address: address
+                Address: address,
+                IsActive: isActive
             }
         } else {
             alert(checkDataChange(pw, email).message);
@@ -696,7 +702,6 @@ if (session_status() == PHP_SESSION_NONE) {
             },
             dataType: "json",
             success: function(result) {
-                console.log('result: ', result);
                 alert("Xóa tài khoản thành công!");
                 hideModal();
                 loadData();
@@ -710,26 +715,37 @@ if (session_status() == PHP_SESSION_NONE) {
     document.getElementById("content_admin_edit_form_saveBtn").addEventListener("click", function(event) {
         event.preventDefault();
         const contentChange = getDataFromCreateForm();
-        if (contentChange !== null) {
-            $.ajax({
-                url: "./template/dbconnection_PUT.php",
-                type: "POST",
-                data: {
-                    table_name: "useraccount",
-                    data_update: JSON.stringify(contentChange)
-                },
-                dataType: "json",
-                success: function(result) {
-                    console.log('result: ', result);
-                    alert("Cập nhật tài khoản thành công!");
-                    hideModal();
-                    loadData();
-                },
-                error: function(xhr, status, error) {
-                    alert("Cập nhật tài khoản thất bại!");
-                    console.log(xhr.responseText);
-                }
-            });
+        let userID = "";
+        try {
+            userID = '<?php echo $_SESSION['userId'] ?>';
+        } catch (e) {
+            console.log(e);
+        }
+        const isActiveValue = document.getElementById("content_admin_form_input_edit_status").checked;
+        if (contentChange.UserId === userID && isActiveValue === false) {
+            alert("Không thể vô hiệu quá tài khoản của bản thân");
+        } else {
+            if (contentChange !== null) {
+                $.ajax({
+                    url: "./template/dbconnection_PUT.php",
+                    type: "POST",
+                    data: {
+                        table_name: "useraccount",
+                        data_update: JSON.stringify(contentChange)
+                    },
+                    dataType: "json",
+                    success: function(result) {
+                        console.log('result: ', result);
+                        alert("Cập nhật tài khoản thành công!");
+                        hideModal();
+                        loadData();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Cập nhật tài khoản thất bại!");
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
         }
     });
     document.getElementById("content_admin_edit_form_cancelBtn").addEventListener("click", function(event) {
