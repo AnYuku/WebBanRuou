@@ -349,6 +349,7 @@ if (session_status() == PHP_SESSION_NONE) {
     }
 
     $(document).ready(function() {
+        // window.location.reload();
         loadData();
         const roleCombobox = document.getElementById('content_admin_form_input_accesslevel');
         roleCombobox.addEventListener('change', function() {

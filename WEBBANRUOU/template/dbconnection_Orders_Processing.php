@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 if (isset($_POST['action']) && $_POST['action'] == 'getList') {
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
-        WHERE WhoPay = '$Whopay' AND `Status` = 1 ";
+        WHERE WhoPay = '$Whopay' AND `Status` = 1 ORDER BY TimePayment DESC;";
     $result = $conn->query($sql);
 
     $data = array();
@@ -28,7 +28,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'getList') {
 if (isset($_POST['action']) && $_POST['action'] == 'getConfirmedList') {
     $sql = "SELECT TransactId, TimePayment, Total, `Status`
         FROM transactheader 
-        WHERE WhoPay = '$Whopay' AND (`Status` = 2 OR `Status` = 4)";
+        WHERE WhoPay = '$Whopay' AND (`Status` = 2 OR `Status` = 4) ORDER BY TimePayment DESC;";
     $result = $conn->query($sql);
 
     $data = array();

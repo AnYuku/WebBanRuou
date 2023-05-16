@@ -58,7 +58,7 @@
 <div id="content-admin-product-edit-product-window" class="content-admin-product-product-window" style="display:none;">
     <button id="close-edit-product-window" class="content-admin-product-close-btn" style="margin:10px">&times;</button>
     <form method="POST" class='content-admin-product-product-form' action="manageProduct.php">
-        <img id="edit_previewImage" src="no_image.jpg" alt="Preview Image">
+        <img id="edit_previewImage" src="" alt="Preview Image">
         <div class="field">
             <label for="">Đường dẫn ảnh</label>
             <input type="url" id="edit_imageInput" required onchange="addImage('edit_previewImage','edit_imageInput')">
@@ -127,7 +127,7 @@
         <div class="search-container">
             <form action="manageProduct.php">
                 <input type="text" placeholder="Search" name="search" id="search-input">
-                <button type="button" id="search-button"><i class="fa fa-search"></i></button>
+                <button type="button" id="search-button" class=""><i class="fa fa-search"></i></button>
             </form>
         </div>
         <div class="add-product">
@@ -531,7 +531,7 @@
         }
         if (imageUrl == "") {
             document.getElementById(imageLocation).innerHTML = "";
-            document.getElementById(imageLocation).src = "no_image.jpg";
+            document.getElementById(imageLocation).src = "./image/no_image.jpg";
         }
     }
 

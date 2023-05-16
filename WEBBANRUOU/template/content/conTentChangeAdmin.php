@@ -14,12 +14,10 @@
                     case 'payment_management':
                         # code...
                         // include('./template/content/conTentChangeLogin.php');
-                        echo 'Quản lý thanh toán';
                         break;
                     case 'product_management':
                         # code..   
                         include('./template/content/manageProduct.php');
-                        echo 'Quản lý sản phẩm';
                         break;
                     case 'tax_administration':
                         # code..   
@@ -36,17 +34,14 @@
                     case 'info':
                         # code...
                         // include('./template/content/content-admin-tax-manager.php');
-                        echo 'Thông tin cá nhân';
                         break;
                     case 'order':
                         # code...
                         // include('./template/content/conTentChangeLogin.php');
-                        echo 'Lịch sử mua hàng';
                         break;
                     case 'giohang':
                         # code..   
                         // include('./template/content/content-admin-tax-manager.php');
-                        echo 'Giỏ hàng';
                         break;
                     case 'confirm_order_administratio':
                         include('./template/content/content-admin_confirm_order.php');

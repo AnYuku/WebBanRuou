@@ -176,6 +176,7 @@
     } catch (e) {
         console.log(e);
     };
+    console.log('catId: ', catId);
     if (catId == "") {
         addFunctionToPageBtn();
         loadData({

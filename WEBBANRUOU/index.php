@@ -70,7 +70,7 @@
     } catch (e) {
         console.log(e);
     };
-    if (userID !== "" && !sessionStorage.getItem("codeExecuted")) {
+    if (userID !== "" && sessionStorage.getItem("codeExecuted") !== "true") {
         const pw = decryptString(storedValue, '123654789');
         $.ajax({
             url: 'template/db_LOGIN.php',
@@ -81,6 +81,7 @@
                 password: pw,
             },
             success: function(response) {
+                console.log('response: ', response);
                 if (response == 'admin') {
                     window.location = 'index.php?user=admin';
                 } else if (response == 'client') {
