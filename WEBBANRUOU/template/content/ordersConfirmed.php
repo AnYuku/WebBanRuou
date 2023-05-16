@@ -18,7 +18,7 @@ $Whopay = $_SESSION["userId"];
                         <th>Ngày đặt hàng</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái</th>
-                        <th>Chi tiết</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody id="order-list">
@@ -339,5 +339,11 @@ $Whopay = $_SESSION["userId"];
 
     .order-detail-modal-content span {
         font-weight: bold;
+    }
+
+    .btn-detail {
+        width: 100px !important;
+        padding: 5px !important;
+        background-color: #f2f2f2;
     }
 </style>

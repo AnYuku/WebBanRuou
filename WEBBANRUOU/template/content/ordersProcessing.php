@@ -20,7 +20,7 @@ $Whopay = $_SESSION["userId"];
                         <th>Ngày đặt hàng</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái</th>
-                        <th>Chi tiết</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody id="order-list">

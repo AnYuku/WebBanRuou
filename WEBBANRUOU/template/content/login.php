@@ -32,7 +32,7 @@ if (isset($_SESSION['logged_in'])) {
         </form>
         <div>
             <small>
-                Bạn chưa có tài khoản? <a href="./template/content/signup.php">Đăng ký</a>
+                Bạn chưa có tài khoản? <a href="index.php?chon=t&id=dangky">Đăng ký</a>
             </small>
         </div>
     </div>

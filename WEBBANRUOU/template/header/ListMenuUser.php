@@ -178,7 +178,7 @@
     let userRole = "";
 
     try {
-        user1 = "<?php if (isset($_SESSION['userRole'])) {
+        userRole = "<?php if (isset($_SESSION['userRole'])) {
                         echo $_SESSION['userRole'];
                     } else {
                         echo "";
@@ -194,7 +194,6 @@
     } else {
         const MenuUser_ThongTinCaNhan = document.getElementById('MenuUser-ThongTinCaNhan');
         MenuUser_ThongTinCaNhan.addEventListener("click", function() {
-            console.log('click: ');
             window.location.href = "index.php?chon=t&id=sanpham&user=client&data=info";
         });
         const MenuUser_LichSuMuaHang = document.getElementById('MenuUser-LichSuMuaHang');

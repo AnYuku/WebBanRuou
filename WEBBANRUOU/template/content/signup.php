@@ -311,7 +311,7 @@ if (password.validity.valueMissing) {
 
             if (checkUsername() && checkPassword() && checkRePassWord() && checkEmail() ) {
                 $.ajax({
-                    url: '../../template/dbconnection_SIGNUP.php',
+                    url: './template/dbconnection_SIGNUP.php',
                     method: 'POST',
                     dataType: 'json',
                     data: {
@@ -324,7 +324,7 @@ if (password.validity.valueMissing) {
                         if (response.indexOf("success") >= 0) {
                             swal("Thành công", "Đăng ký thành công", "success")
                                 .then((value) => {
-                                    window.location = 'login.php';
+                                    window.location = 'index.php?chon=t&id=dangnhap';
                                 });
                         } else if (response.indexOf("error1") >= 0) {
                             swal("Thất bại", "Tên đăng nhập đã được sử dụng, vui lòng chọn tên đăng nhập khác", "error");

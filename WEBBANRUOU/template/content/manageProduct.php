@@ -2,7 +2,7 @@
 <div id="content-admin-product-add-product-window" class="content-admin-product-product-window" style="display:none;">
     <button id="close-add-product-button" class="content-admin-product-close-btn" style="margin:10px">&times;</button>
     <form method="POST" class='content-admin-product-product-form' action="manageProduct.php">
-        <img id="previewImage" src="no_image.jpg" alt="Preview Image">
+        <img id="previewImage" src="./image/no_image.jpg" alt="Preview Image">
         <div class="field">
             <label for="">Đường dẫn ảnh</label>
             <input type="url" id="add_imageInput" required onchange="addImage('previewImage','add_imageInput')">
@@ -682,7 +682,6 @@
                             CatName: catName
                         }
                     });
-                    console.log(newPro);
                     $.each(newPro, function(i, item) {
                         // NếU số lượng = 0 thì không Active
                         if (item.IsActive !== "0") {

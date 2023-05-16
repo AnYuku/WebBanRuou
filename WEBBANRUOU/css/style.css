@@ -9,6 +9,7 @@
     flex-direction: column;
     min-height: 100vh;
     padding-bottom: 50px;
+    background-color: #f4f4f4;
 }
 
 #content_admin_button_add {
@@ -414,6 +415,8 @@
     background-color: #A92F2F;
     margin: 10px;
     cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 
 .client_product_item img {
@@ -470,6 +473,8 @@
     font-weight: bold;
     color: white;
     background-color: #ED6262;
+    border-radius: 5px;
+    border: 1px solid black;
 }
 
 /* css content left client all product */
@@ -553,13 +558,13 @@
 }
 
 .content_left_client_all_product_checkbox_view input[type="checkbox"]:checked::after {
+    margin-left: 2px;
     content: "\2713";
-    /* Add tick symbol */
     font-size: 16px;
     color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: relative;
+    top: 0;
+    right: 0;
     transform: translate(-50%, -50%);
 }
 
